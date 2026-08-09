@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Our Wedding Day - 이민우 🤍 김지현</title>
+    <title>Our Wedding Day - 고용건 🤍 정선애</title>
+
+    <!-- 카카오톡·SNS 공유 미리보기 (og:image 는 실제 사진 확정 후 교체) -->
+    <meta name="description" content="고용건 · 정선애 결혼합니다. 2026년 9월 5일 토요일 오전 11시, 중림동 약현성당.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="고용건 🤍 정선애 결혼합니다">
+    <meta property="og:description" content="2026년 9월 5일 토요일 오전 11시 · 중림동 약현성당">
+    <meta property="og:image" content="https://allenhyde2.github.io/wedd_inv/assets/og-cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://allenhyde2.github.io/wedd_inv/">
+    <meta property="og:locale" content="ko_KR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="고용건 🤍 정선애 결혼합니다">
+    <meta name="twitter:description" content="2026년 9월 5일 토요일 오전 11시 · 중림동 약현성당">
+    <meta name="twitter:image" content="https://allenhyde2.github.io/wedd_inv/assets/og-cover.jpg">
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@200;300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -25,7 +41,7 @@
         }
         .font-serif { font-family: 'Noto Serif KR', serif; }
         .font-cinzel { font-family: 'Cinzel', serif; }
-        
+
         .phone-frame {
             width: 100%;
             max-width: 420px;
@@ -50,11 +66,10 @@
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
+
         .slide-up {
             transform: translateY(100%);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform;
         }
         .slide-up.open {
             transform: translateY(0);
@@ -67,25 +82,20 @@
         }
         .floating-btn {
             animation: subtle-float 4.5s ease-in-out infinite;
-            will-change: transform;
         }
 
-        /* =======================================================
-           [수정] 텍스트 색상 및 굵기 수정
-           ======================================================= */
         .cinematic-text {
-            color: #8c7355; /* [수정] 원하시는 고급스러운 골드 브라운 색상으로 수정 */
-            font-weight: 400; /* [수정] 너무 두껍지 않고 우아하게 400(Regular) 굵기로 조정 */
+            color: #8c7355;
+            font-weight: 400;
             opacity: 0;
-            transform: translate3d(0, 20px, 0); 
+            transform: translate3d(0, 20px, 0);
             filter: blur(10px);
             transition: opacity 1.3s cubic-bezier(0.22, 1, 0.36, 1),
                         transform 1.3s cubic-bezier(0.22, 1, 0.36, 1),
                         filter 1.3s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform, opacity, filter;
-            
-            /* 8방향 아이보리(#F4F1EA) 외곽선 완벽 복원 + 딥 섀도우 */
-            text-shadow: 
+
+            text-shadow:
                 -1.5px -1.5px 0 #F4F1EA,
                  0     -1.5px 0 #F4F1EA,
                  1.5px -1.5px 0 #F4F1EA,
@@ -107,7 +117,6 @@
             filter: blur(10px);
         }
 
-        /* 점멸 텍스트 버튼 */
         @keyframes text-glow-pulse {
             0% { opacity: 0.5; transform: scale(0.98); text-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
             50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 25px rgba(197, 160, 89, 0.8), 0 0 5px rgba(197, 160, 89, 0.5); }
@@ -115,28 +124,21 @@
         }
         .glowing-text-btn {
             animation: text-glow-pulse 2.5s ease-in-out infinite;
-            will-change: transform, opacity, text-shadow;
             background: transparent;
             border: none;
         }
 
-        .title-shadow {
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6);
-        }
-
-        .antique-shadow {
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.6);
-        }
+        .title-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6); }
+        .antique-shadow { text-shadow: 0 2px 5px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.6); }
 
         .vignette-mask {
             -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 48%, black 35%, transparent 100%);
             mask-image: radial-gradient(ellipse 75% 65% at 50% 48%, black 35%, transparent 100%);
         }
 
-        /* 차분한 화면전환 트랜지션 */
         #splash-layer {
-            transition: opacity 2.6s cubic-bezier(0.22, 1, 0.36, 1), 
-                        transform 2.6s cubic-bezier(0.22, 1, 0.36, 1), 
+            transition: opacity 2.6s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 2.6s cubic-bezier(0.22, 1, 0.36, 1),
                         filter 2.6s cubic-bezier(0.22, 1, 0.36, 1);
             transform: scale(1);
             filter: blur(0px);
@@ -150,11 +152,11 @@
         }
         #main-layer {
             opacity: 0;
-            transform: scale(1.15); 
+            transform: scale(1.15);
             filter: blur(20px);
             pointer-events: none;
-            transition: opacity 3s cubic-bezier(0.22, 1, 0.36, 1), 
-                        transform 3s cubic-bezier(0.22, 1, 0.36, 1), 
+            transition: opacity 3s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 3s cubic-bezier(0.22, 1, 0.36, 1),
                         filter 3s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform, opacity, filter;
         }
@@ -164,18 +166,32 @@
             filter: blur(0px) !important;
             pointer-events: auto !important;
         }
+
+        /* [FIX] 감소 모션 설정을 존중 — 무한 애니메이션 정지 */
+        @media (prefers-reduced-motion: reduce) {
+            .floating-btn,
+            .glowing-text-btn {
+                animation: none !important;
+            }
+            .cinematic-text,
+            #splash-layer,
+            #main-layer,
+            .slide-up {
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="phone-frame">
-        
+
         <div id="splash-layer" class="absolute inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-between py-16">
-            
+
             <canvas id="splash-canvas" class="absolute inset-0 w-full h-full cursor-pointer touch-none z-0"></canvas>
 
             <div class="text-center mt-6 select-none pointer-events-none relative z-30 flex flex-col items-center">
-                <span id="view-monogram" class="font-cinzel text-xs tracking-[0.5em] text-[#c5a059] mb-1 drop-shadow-md">M 🤍 J</span>
+                <span id="view-monogram" class="font-cinzel text-xs tracking-[0.5em] text-[#c5a059] mb-1 drop-shadow-md">Y 🤍 S</span>
                 <span class="h-[1px] w-8 bg-[#c5a059]/40"></span>
             </div>
 
@@ -198,22 +214,22 @@
 
 
         <main id="main-layer" class="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#F4F1EA]">
-            
-            <div id="main-bg-image" class="absolute inset-0 w-full h-full bg-cover bg-center vignette-mask z-0" 
-                 style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200');">
+
+            <div id="main-bg-image" class="absolute inset-0 w-full h-full bg-cover bg-center vignette-mask z-0">
                 <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50 pointer-events-none"></div>
             </div>
-            
+
             <div class="absolute inset-4 border border-[#c5a059]/30 pointer-events-none z-10"></div>
             <div class="absolute inset-5 border border-[#c5a059]/10 pointer-events-none z-10"></div>
 
             <header class="w-full flex justify-between items-center px-8 pt-10 z-20 relative">
                 <div class="text-white relative text-left">
                     <p class="font-cinzel text-[10px] tracking-[0.4em] text-[#e0cfb3] mb-1 font-bold title-shadow">THE WEDDING DAY</p>
-                    <h1 id="view-couple-names" class="font-serif text-lg font-light tracking-widest title-shadow">지현 🤍 민우</h1>
+                    <h1 id="view-couple-names" class="font-serif text-lg font-light tracking-widest title-shadow">정선애 🤍 고용건</h1>
                 </div>
-                <button onclick="openSettings()" class="bg-black/30 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-black/50 border border-white/10 transition cursor-pointer shadow-lg relative z-20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31(2.37)-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <!-- [FIX] 관리자 전용: ?admin=1 로 접속했을 때만 노출된다 -->
+                <button id="admin-gear" onclick="openSettings()" class="hidden bg-black/30 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-black/50 border border-white/10 transition cursor-pointer shadow-lg relative z-20" aria-label="관리자 설정">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </button>
             </header>
 
@@ -222,7 +238,6 @@
                 <button id="btn-menu-2" onclick="openPage('modal-gallery')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 0.6s;">📸 사진첩</button>
                 <button id="btn-menu-3" onclick="openPage('modal-map')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 1.2s;">📍 오시는 길</button>
                 <button id="btn-menu-4" onclick="openPage('modal-accounts')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 1.8s;">✉︎ 마음 전하실 곳</button>
-                <button id="btn-menu-5" onclick="openPage('modal-rsvp')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 2.4s;">💌 방명록 & RSVP</button>
             </div>
 
             <div class="w-full text-center z-20 px-8 mb-4">
@@ -232,8 +247,8 @@
             </div>
 
             <footer class="w-full text-center pb-12 z-20 relative">
-                <p id="view-date" class="font-cinzel text-[#e0cfb3] drop-shadow-2xl text-[13px] tracking-[0.3em] mb-2 font-medium antique-shadow">2026. 10. 24. SATURDAY PM 1:00</p>
-                <p id="view-venue" class="font-serif text-[#fcf9f2] drop-shadow-2xl text-[11px] tracking-[0.2em] font-light antique-shadow">아펠가모 반포, LL층 그랜드볼룸</p>
+                <p id="view-date" class="font-cinzel text-[#e0cfb3] drop-shadow-2xl text-[13px] tracking-[0.3em] mb-2 font-medium antique-shadow"></p>
+                <p id="view-venue" class="font-serif text-[#fcf9f2] drop-shadow-2xl text-[11px] tracking-[0.2em] font-light antique-shadow"></p>
             </footer>
         </main>
 
@@ -250,20 +265,9 @@
                     </svg>
                 </div>
                 <h3 class="font-serif text-[11px] text-[#c5a059] tracking-[0.3em] mb-10 font-bold">우리, 하나 되는 날</h3>
-                <p id="view-greeting-text" class="font-serif text-xs md:text-sm leading-8 text-stone-600 font-light mb-14">
-                    서로 다른 두 길을 걸어오던 우리가<br>
-                    이제 하나의 마음이 되어<br>
-                    동행을 시작하려 합니다.<br><br>
-                    서로를 귀하게 아끼며 보듬고<br>
-                    행복한 삶을 정성껏 가꾸어 가겠습니다.<br><br>
-                    저희들의 아름다운 약속의 첫 날에<br>
-                    함께 자리하여 축복해주시면 고맙겠습니다.
-                </p>
+                <p id="view-greeting-text" class="font-serif text-xs md:text-sm leading-8 text-stone-600 font-light mb-14"></p>
                 <hr class="border-[#c5a059]/20 max-w-[120px] mx-auto my-12">
-                <div class="font-serif text-xs md:text-sm text-stone-600 leading-9 space-y-3">
-                    <p><strong>김철수 · 이영희</strong> <span class="text-[10px] text-stone-400">의 차남</span> <strong id="view-groom" class="text-stone-800 text-sm">민우</strong></p>
-                    <p><strong>박호진 · 최은경</strong> <span class="text-[10px] text-stone-400">의 장녀</span> <strong id="view-bride" class="text-stone-800 text-sm">지현</strong></p>
-                </div>
+                <div id="view-family" class="font-serif text-xs md:text-sm text-stone-600 leading-9 space-y-3"></div>
             </div>
         </div>
 
@@ -274,20 +278,8 @@
             </div>
             <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6]">
                 <p class="text-center font-serif text-[10px] text-stone-400 tracking-widest mb-8 font-bold">우리들의 찬란한 약속</p>
-                <div class="grid grid-cols-2 gap-3" id="gallery-grid">
-                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(0)">
-                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600" class="w-full h-full object-cover">
-                    </div>
-                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(1)">
-                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600" class="w-full h-full object-cover">
-                    </div>
-                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(2)">
-                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200" class="w-full h-full object-cover">
-                    </div>
-                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(3)">
-                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600" class="w-full h-full object-cover">
-                    </div>
-                </div>
+                <!-- [FIX] 썸네일은 config.gallery 에서 렌더링 — HTML/JS 이중 정의 제거 -->
+                <div class="grid grid-cols-2 gap-3" id="gallery-grid"></div>
             </div>
         </div>
 
@@ -298,15 +290,15 @@
             </div>
             <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 bg-[#FAF9F6]">
                 <div class="text-center">
-                    <h4 class="font-serif text-sm text-stone-800 font-medium font-bold" id="map-venue-name">아펠가모 반포</h4>
-                    <p class="text-xs text-stone-500 mt-1.5" id="map-venue-address">서울특별시 서초구 반포대로 235, LL층</p>
+                    <h4 class="font-serif text-sm text-stone-800 font-bold" id="map-venue-name"></h4>
+                    <p class="text-xs text-stone-500 mt-1.5" id="map-venue-address"></p>
                 </div>
                 <div class="w-full h-48 bg-sky-50/20 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center border border-stone-200/50 p-4">
                     <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a059_1.5px,transparent_1.5px)] [background-size:20px_20px]"></div>
                     <div class="z-10 text-center space-y-2">
-                        <span class="text-3xl filter drop-shadow-md">🏰</span>
+                        <span class="text-3xl filter drop-shadow-md">⛪</span>
                         <div class="bg-white/90 backdrop-blur-md border border-[#c5a059]/30 rounded-xl py-1.5 px-3.5 shadow-md">
-                            <p class="text-[10px] font-bold text-[#8c7355] tracking-wide">아펠가모 반포 (효성빌딩)</p>
+                            <p class="text-[10px] font-bold text-[#8c7355] tracking-wide" id="map-pin-label"></p>
                         </div>
                     </div>
                 </div>
@@ -314,19 +306,21 @@
                     <button onclick="copyAddress()" class="w-full bg-white border border-stone-200/80 hover:border-stone-300 text-stone-600 text-xs py-3 rounded-xl font-bold shadow-xs transition cursor-pointer">
                         도로명 주소 복사하기
                     </button>
+                    <!-- [FIX] 실제 지도 딥링크 (API 키 불필요) -->
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="#" onclick="showCustomToast('카카오맵으로 연결됩니다.')" class="bg-amber-100/80 text-amber-950 text-[11px] py-3.5 rounded-xl text-center font-bold block">카카오맵 연동</a>
-                        <a href="#" onclick="showCustomToast('네이버 지도로 연결됩니다.')" class="bg-emerald-50 text-emerald-950 text-[11px] py-3.5 rounded-xl text-center font-bold block">네이버 지도 연동</a>
+                        <a id="link-kakaomap" href="#" target="_blank" rel="noopener" class="bg-amber-100/80 hover:bg-amber-200/80 text-amber-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">카카오맵으로 보기</a>
+                        <a id="link-navermap" href="#" target="_blank" rel="noopener" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">네이버 지도로 보기</a>
                     </div>
                 </div>
                 <div class="space-y-4 pt-6 border-t border-stone-200/50 text-[11px] leading-relaxed text-stone-600 font-light">
                     <div>
-                        <p class="font-bold text-stone-800 mb-1">🚇 대중교통 지하철</p>
-                        <p>3, 7, 9호선 고속터미널역 5번 출구 (도보 약 5분)</p>
+                        <p class="font-bold text-stone-800 mb-1">🚇 지하철</p>
+                        <p id="map-transit"></p>
                     </div>
                     <div>
-                        <p class="font-bold text-stone-800 mb-1">🚗 승용차 주차 시</p>
-                        <p>효성빌딩 하객 전용 지하 주차장 무료 주차 2시간 제공.</p>
+                        <p class="font-bold text-stone-800 mb-1">🚗 주차 안내</p>
+                        <p id="map-parking"></p>
+                        <a id="link-parking" href="#" target="_blank" rel="noopener" class="inline-block mt-2 text-[10px] text-[#8c7355] underline font-bold">주차장 위치 지도로 보기</a>
                     </div>
                 </div>
             </div>
@@ -342,96 +336,28 @@
                     <h4 class="font-serif text-xs text-stone-700 mb-1.5 font-bold">마음 전하실 곳</h4>
                     <p class="text-[10px] text-stone-400">참석이 어려우신 분들을 위해 비대면 축의금 계좌를 안내해 드립니다.</p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-stone-200/60 shadow-sm flex justify-between items-center">
-                    <div class="space-y-1">
-                        <span class="text-[8px] text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full font-bold">신랑측</span>
-                        <p class="text-xs font-bold text-stone-700">국민은행 <span id="view-groom-acc" class="font-mono">123456-01-123456</span></p>
-                        <p class="text-[10px] text-stone-400">예금주: <span id="view-groom-holder">이민우</span></p>
-                    </div>
-                    <button onclick="copyAccount('12345601123456')" class="bg-stone-50 border border-stone-200 text-stone-600 text-[10px] px-3 py-1.5 rounded-lg hover:bg-stone-100 cursor-pointer font-bold">복사</button>
-                </div>
-                <div class="bg-white p-5 rounded-2xl border border-stone-200/60 shadow-sm flex justify-between items-center">
-                    <div class="space-y-1">
-                        <span class="text-[8px] text-rose-800 bg-rose-50 px-2.5 py-0.5 rounded-full font-bold">신부측</span>
-                        <p class="text-xs font-bold text-stone-700">신한은행 <span id="view-bride-acc" class="font-mono">987-654-321012</span></p>
-                        <p class="text-[10px] text-stone-400">예금주: <span id="view-bride-holder">김지현</span></p>
-                    </div>
-                    <button onclick="copyAccount('987654321012')" class="bg-stone-50 border border-stone-200 text-stone-600 text-[10px] px-3 py-1.5 rounded-lg hover:bg-stone-100 cursor-pointer font-bold">복사</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="modal-rsvp" class="absolute inset-0 bg-white z-40 slide-up flex flex-col">
-            <div class="h-16 flex justify-between items-center px-6 border-b border-stone-100 flex-shrink-0 bg-[#FAF9F6]">
-                <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">RSVP & GUESTBOOK</span>
-                <button onclick="closePage('modal-rsvp')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
-            </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6] space-y-6">
-                <div class="flex bg-stone-200/60 p-1 rounded-xl">
-                    <button onclick="switchTab('rsvp')" id="tab-btn-rsvp" class="flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer bg-white text-[#8c7355] shadow-xs">참석 여부 전달 (RSVP)</button>
-                    <button onclick="switchTab('guestbook')" id="tab-btn-guestbook" class="flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer text-stone-500">축하 방명록</button>
-                </div>
-
-                <div id="tab-content-rsvp" class="space-y-4">
-                    <form id="rsvp-form" class="space-y-3 text-xs text-stone-600" onsubmit="handleRSVPSubmit(event)">
-                        <div>
-                            <label class="block font-bold text-stone-700 mb-1">구분</label>
-                            <div class="grid grid-cols-2 gap-2">
-                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-groom-guest">
-                                    <input type="radio" name="rsvp_relation" value="groom" required class="hidden" onclick="highlightRsvLabel('groom')"> 신랑측 하객
-                                </label>
-                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-bride-guest">
-                                    <input type="radio" name="rsvp_relation" value="bride" required class="hidden" onclick="highlightRsvLabel('bride')"> 신부측 하객
-                                </label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block font-bold text-stone-700 mb-1">참석자 성함</label>
-                            <input type="text" id="rsvp-name" required class="w-full p-2.5 border border-stone-200 rounded-lg bg-white" placeholder="성함을 입력해주세요">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-stone-700 mb-1">식사 여부</label>
-                            <div class="grid grid-cols-3 gap-2">
-                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-meal-y">
-                                    <input type="radio" name="rsvp_meal" value="yes" required class="hidden" onclick="highlightMealLabel('yes')"> 예정
-                                </label>
-                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-meal-n">
-                                    <input type="radio" name="rsvp_meal" value="no" required class="hidden" onclick="highlightMealLabel('no')"> 불가
-                                </label>
-                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-meal-u">
-                                    <input type="radio" name="rsvp_meal" value="undecided" required class="hidden" onclick="highlightMealLabel('undecided')"> 미정
-                                </label>
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full py-3.5 bg-[#8c7355] hover:bg-[#7a6448] text-white rounded-xl font-bold tracking-widest mt-6 cursor-pointer transition">의사 전달하기</button>
-                    </form>
-                </div>
-
-                <div id="tab-content-guestbook" class="hidden space-y-5">
-                    <form id="guestbook-form" class="space-y-2 text-xs" onsubmit="handleGuestbookSubmit(event)">
-                        <div class="flex gap-2">
-                            <input type="text" id="gb-name" required class="w-1/3 p-2.5 border border-stone-200 rounded-lg bg-white" placeholder="작성자">
-                            <input type="text" id="gb-msg" required class="w-2/3 p-2.5 border border-stone-200 rounded-lg bg-white" placeholder="축하 메세지">
-                        </div>
-                        <button type="submit" class="w-full py-2.5 bg-stone-700 text-white rounded-lg font-bold tracking-wide">등록하기</button>
-                    </form>
-                    <div id="guestbook-list-container" class="space-y-2.5 max-h-[340px] overflow-y-auto no-scrollbar"></div>
-                </div>
+                <!-- [FIX] 계좌도 config.accounts 에서 렌더링 -->
+                <div id="accounts-list" class="space-y-4"></div>
             </div>
         </div>
 
         <div id="settings-panel" class="absolute inset-0 bg-black/60 z-50 flex items-end justify-center slide-up" onclick="closeSettingsIfBackdrop(event)">
             <div class="bg-white w-full rounded-t-3xl max-h-[85%] flex flex-col" onclick="event.stopPropagation()">
                 <div class="flex justify-between items-center px-6 py-5 border-b border-stone-100 flex-shrink-0">
-                    <span class="font-bold text-stone-800 text-xs">청첩장 종합 튜닝 패널</span>
+                    <span class="font-bold text-stone-800 text-xs">청첩장 종합 튜닝 패널 <span class="text-[9px] text-rose-500 font-normal">(관리자 전용)</span></span>
                     <button onclick="closeSettings()" class="text-stone-400 hover:text-stone-700 p-1 cursor-pointer transition">완료</button>
                 </div>
-                
+
                 <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 text-[11px] text-stone-600">
-                    
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-[10px] leading-relaxed text-amber-900">
+                        여기서 바꾼 값은 <b>이 브라우저에만</b> 저장됩니다. 하객에게 반영하려면 아래
+                        <b>「설정값 내보내기」</b>로 복사한 뒤 <code>index.html</code>의 <code>DEFAULT_CONFIG</code>에 붙여넣고 커밋하세요.
+                    </div>
+
                     <div class="space-y-4 border-b border-stone-100 pb-5">
                         <h4 class="font-bold text-stone-800 text-xs">🌊 인트로 수면 투영 이미지 설정</h4>
-                        
+
                         <div class="bg-stone-50 p-4 rounded-xl space-y-3">
                             <span class="font-bold text-[#8c7355]">Intro 1번 이미지 (첫 번째 멘트 시)</span>
                             <input type="text" id="cfg-intro-1-url" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()">
@@ -483,34 +409,93 @@
                         <input type="text" id="cfg-bg-url" class="w-full p-2.5 border border-stone-200 rounded-xl text-stone-800 outline-none bg-stone-50" onchange="updateInviteRealtime()">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">📸 갤러리 사진 (한 줄에 하나씩)</h4>
+                        <p class="text-[10px] text-stone-400">썸네일과 확대 이미지가 같은 주소를 씁니다. 순서대로 표시됩니다.</p>
+                        <textarea id="cfg-gallery" rows="5" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px] font-mono" onchange="updateInviteRealtime()"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 border-t border-stone-100 pt-5">
+                        <div class="col-span-2">
                             <label class="block font-bold text-stone-700 mb-1">상단 이니셜(모노그램)</label>
                             <input type="text" id="cfg-monogram" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-cinzel" oninput="updateInviteRealtime()">
                         </div>
-                        <div class="col-span-2 grid grid-cols-2 gap-3 mt-2">
-                            <div>
-                                <label class="block font-bold text-stone-700 mb-1">신랑 성명</label>
-                                <input type="text" id="cfg-groom-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-stone-700 mb-1">신부 성명</label>
-                                <input type="text" id="cfg-bride-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
-                            </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">신랑 성명</label>
+                            <input type="text" id="cfg-groom-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">신부 성명</label>
+                            <input type="text" id="cfg-bride-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">신랑 혼주 (예: 홍길동 · 김영희)</label>
+                            <input type="text" id="cfg-groom-parents" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">신부 혼주</label>
+                            <input type="text" id="cfg-bride-parents" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">신랑 관계 (장남/차남/아들)</label>
+                            <input type="text" id="cfg-groom-order" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">신부 관계 (장녀/차녀/딸)</label>
+                            <input type="text" id="cfg-bride-order" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
                         </div>
                     </div>
-                    <div>
-                        <label class="block font-bold text-stone-700 mb-1">예식 위치 및 식장 홀</label>
-                        <input type="text" id="cfg-venue" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">📍 예식 정보</h4>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">예식 날짜/시각 (D-day·표시문구 공용)</label>
+                            <input type="text" id="cfg-date" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-mono" oninput="updateInviteRealtime()" placeholder="YYYY/MM/DD HH:MM:SS">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">식장명</label>
+                            <input type="text" id="cfg-venue-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">식장 홀 (없으면 비워두세요)</label>
+                            <input type="text" id="cfg-venue-hall" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">도로명 주소</label>
+                            <input type="text" id="cfg-venue-address" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">지하철 안내</label>
+                            <input type="text" id="cfg-transit" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">주차 안내</label>
+                            <input type="text" id="cfg-parking-note" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">주차장 주소</label>
+                            <input type="text" id="cfg-parking-address" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block font-bold text-stone-700 mb-1">예식 날짜 (디데이 카운트용)</label>
-                        <input type="text" id="cfg-date" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-mono" oninput="updateInviteRealtime()" placeholder="YYYY/MM/DD HH:MM">
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">✉︎ 계좌 (한 줄에 하나: 구분|은행|계좌번호|예금주)</h4>
+                        <textarea id="cfg-accounts" rows="3" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px] font-mono" onchange="updateInviteRealtime()"></textarea>
+                    </div>
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">✨ 인트로 멘트 (한 줄에 하나, 줄바꿈은 &lt;br&gt;)</h4>
+                        <textarea id="cfg-intro-texts" rows="4" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()"></textarea>
+                    </div>
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">초대의 글 본문 (줄바꿈은 &lt;br&gt;)</h4>
+                        <textarea id="cfg-greeting" rows="7" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()"></textarea>
                     </div>
 
                     <div class="space-y-4 border-t border-stone-100 pt-5">
                         <h4 class="font-bold text-stone-800 text-xs">메인화면 메뉴 버튼 위치조정 (%)</h4>
-                        
+
                         <div class="bg-stone-50 p-4 rounded-xl space-y-2">
                             <span class="font-bold text-stone-700">✨ 초대의 글</span>
                             <div class="flex items-center gap-3">
@@ -538,7 +523,7 @@
                                 <span id="val-m2-y" class="w-8 text-right font-mono">0%</span>
                             </div>
                         </div>
-                        
+
                         <div class="bg-stone-50 p-4 rounded-xl space-y-2">
                             <span class="font-bold text-stone-700">📍 오시는 길</span>
                             <div class="flex items-center gap-3">
@@ -552,7 +537,7 @@
                                 <span id="val-m3-y" class="w-8 text-right font-mono">0%</span>
                             </div>
                         </div>
-                        
+
                         <div class="bg-stone-50 p-4 rounded-xl space-y-2">
                             <span class="font-bold text-stone-700">✉︎ 마음 전하실 곳</span>
                             <div class="flex items-center gap-3">
@@ -566,23 +551,15 @@
                                 <span id="val-m4-y" class="w-8 text-right font-mono">0%</span>
                             </div>
                         </div>
-                        
-                        <div class="bg-stone-50 p-4 rounded-xl space-y-2">
-                            <span class="font-bold text-[#c5a059]">💌 방명록 & RSVP</span>
-                            <div class="flex items-center gap-3">
-                                <span>가로(X):</span>
-                                <input type="range" id="cfg-m5-x" min="0" max="80" class="flex-grow accent-[#c5a059]" oninput="updateInviteRealtime()">
-                                <span id="val-m5-x" class="w-8 text-right font-mono">0%</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <span>세로(Y):</span>
-                                <input type="range" id="cfg-m5-y" min="15" max="80" class="flex-grow accent-[#c5a059]" oninput="updateInviteRealtime()">
-                                <span id="val-m5-y" class="w-8 text-right font-mono">0%</span>
-                            </div>
-                        </div>
                     </div>
 
-                    <button onclick="replaySplash()" class="w-full py-4 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl font-bold transition cursor-pointer shadow-sm mt-6">
+                    <button onclick="exportConfig()" class="w-full py-4 bg-[#8c7355] hover:bg-[#7a6448] text-white rounded-xl font-bold transition cursor-pointer shadow-sm mt-6">
+                        📋 설정값 내보내기 (DEFAULT_CONFIG 복사)
+                    </button>
+                    <button onclick="resetConfig()" class="w-full py-3 bg-white border border-stone-200 hover:bg-stone-50 text-stone-500 rounded-xl font-bold transition cursor-pointer">
+                        ↺ 이 브라우저의 임시 설정 초기화
+                    </button>
+                    <button onclick="replaySplash()" class="w-full py-4 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl font-bold transition cursor-pointer shadow-sm">
                         🌊 스플래시 인트로 다시 재생하기
                     </button>
 
@@ -592,10 +569,10 @@
 
         <div id="lightbox-overlay" class="absolute inset-0 bg-black/95 z-[100] flex flex-col justify-between py-10 opacity-0 pointer-events-none transition-opacity duration-300">
             <div class="w-full flex justify-between items-center px-6 text-white flex-shrink-0">
-                <span id="lightbox-index" class="font-serif text-[11px] tracking-widest text-white/70">1 / 4</span>
+                <span id="lightbox-index" class="font-serif text-[11px] tracking-widest text-white/70">1 / 1</span>
                 <button onclick="closeLightbox()" class="text-white/60 hover:text-white p-2 text-sm cursor-pointer font-bold">✕ CLOSE</button>
             </div>
-            
+
             <div class="flex-grow flex items-center justify-center relative w-full overflow-hidden" id="lightbox-swipe-area">
                 <button onclick="changeLightboxSlide(-1)" class="absolute left-4 bg-white/10 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/20 transition cursor-pointer z-10 text-xs">◀</button>
                 <img id="lightbox-img" src="" class="max-w-[90%] max-h-[80vh] object-contain rounded-md shadow-2xl select-none" alt="Wedding Snapshot">
@@ -614,26 +591,77 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURATION ---
+        // =====================================================================
+        // 1. CONFIGURATION — 단일 진실 공급원(Single Source of Truth)
+        //    화면에 보이는 모든 텍스트·이미지는 여기서 나온다.
+        //    관리자 패널에서 조정한 뒤 「설정값 내보내기」로 이 객체를 갱신할 것.
+        // =====================================================================
         const DEFAULT_CONFIG = {
+            monogramText: 'Y 🤍 S',
+
+            groomName: '고용건',
+            brideName: '정선애',
+            // TODO: 양가 혼주 성함 확정 후 입력 (비워두면 초대의 글에서 자동으로 숨겨짐)
+            groomParents: '',
+            brideParents: '',
+            groomOrder: '아들',
+            brideOrder: '딸',
+
+            // D-day 계산과 푸터 표시 문구가 이 값 하나를 공유한다
+            weddingDate: '2026/09/05 11:00:00',
+
+            venueName: '중림동 약현성당',
+            venueHall: '',
+            venueAddress: '서울특별시 중구 청파로 447-1',
+            transit: '지하철 1·4호선 서울역 또는 2·5호선 충정로역에서 도보 이동',
+            parkingNote: '서소문역사공원 주차장 이용 (2시간 무료 주차권 제공)',
+            parkingAddress: '서울특별시 중구 칠패로 5',
+
+            greetingText:
+                '서로 다른 두 길을 걸어오던 우리가<br>' +
+                '이제 하나의 마음이 되어<br>' +
+                '동행을 시작하려 합니다.<br><br>' +
+                '서로를 귀하게 아끼며 보듬고<br>' +
+                '행복한 삶을 정성껏 가꾸어 가겠습니다.<br><br>' +
+                '저희들의 아름다운 약속의 첫 날에<br>' +
+                '함께 자리하여 축복해주시면 고맙겠습니다.',
+
+            introTexts: [
+                '서로 다른 길을 걸어온 두 사람이<br>같은 곳을 바라보게 되었습니다.',
+                '여름의 끝자락, 볕이 가장 다정한 날에',
+                '서로의 햇살과 그늘이 되어 주기로<br>약속했습니다.'
+            ],
+
+            accounts: [
+                { side: '신랑측', bank: '국민은행', number: '506102-01-279842', holder: '고용건' },
+                { side: '신부측', bank: '하나은행', number: '620-22-1730-651', holder: '정선애' }
+            ],
+
+            // TODO: 실제 웨딩 사진 확정 후 assets/ 경로로 교체
             bgUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
-            monogramText: 'M 🤍 J',
-            groomName: '이민우',
-            brideName: '김지현',
-            venue: '아펠가모 반포, LL층 그랜드볼룸',
-            weddingDate: '2026/10/24 13:00:00',
+            gallery: [
+                'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
+                'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200',
+                'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
+                'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1200'
+            ],
+
             intro1Url: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
             intro1Pos: { x: 30, y: 35 },
             intro2Url: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600',
             intro2Pos: { x: 70, y: 55 },
             intro3Url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600',
             intro3Pos: { x: 35, y: 68 },
-            menu1: { x: 8, y: 22 },
-            menu2: { x: 65, y: 35 },
-            menu3: { x: 10, y: 53 },
-            menu4: { x: 60, y: 68 },
-            menu5: { x: 15, y: 82 }
+
+            menu1: { x: 8, y: 24 },
+            menu2: { x: 62, y: 40 },
+            menu3: { x: 10, y: 58 },
+            menu4: { x: 56, y: 74 }
         };
+
+        const STORAGE_KEY = 'wedding_final_config';
+        // 관리자 모드: ?admin=1 로 접속했을 때만 톱니 버튼과 설정 저장이 활성화된다
+        const IS_ADMIN = new URLSearchParams(location.search).has('admin');
 
         let activeConfig = {};
         function mergeConfig(target, source) {
@@ -647,32 +675,25 @@
             }
         }
 
+        // 하객은 항상 DEFAULT_CONFIG 를 본다. 저장된 설정은 관리자 모드에서만 불러온다.
         try {
-            // [FIX] 로컬 스토리지 키를 고정하여 위치 초기화 버그 해결
-            const loaded = JSON.parse(localStorage.getItem('wedding_final_config'));
-            if (loaded) activeConfig = loaded;
-        } catch(e) {}
-        mergeConfig(activeConfig, DEFAULT_CONFIG); 
+            if (IS_ADMIN) {
+                const loaded = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                if (loaded) activeConfig = loaded;
+            }
+        } catch (e) {}
+        mergeConfig(activeConfig, DEFAULT_CONFIG);
 
-        const introTexts = [
-            "두 사람이 소중한 믿음으로<br>하나의 길을 딛습니다.",
-            "그대의 가장 찬란한 가을에,",
-            "서로의 햇살과 그늘이 되어 주기로<br>약속했습니다."
-        ];
+        let introTexts = activeConfig.introTexts.slice();
         let introIndex = 0;
         let isIntroFinished = false;
-
-        const galleryImages = [
-            "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200",
-            "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200",
-            "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200",
-            "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1200"
-        ];
         let lightboxCurrentIndex = 0;
 
         const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
         const safeGetVal = (id, fallback) => { const el = document.getElementById(id); return el ? el.value : fallback; };
         const safeSetText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+        const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) =>
+            ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
         // --- 2. CANVAS ---
         const canvas = document.getElementById('splash-canvas');
@@ -738,11 +759,11 @@
                 this.y = y;
                 this.img = imgObj;
                 this.alpha = 0;
-                this.targetAlpha = 0.85; 
-                this.scale = 0.85; 
+                this.targetAlpha = 0.85;
+                this.scale = 0.85;
                 this.state = 'fadein';
                 this.timer = 0;
-                this.size = 360; 
+                this.size = 360;
                 this.offCanvas = null;
             }
             initOffCanvas() {
@@ -751,12 +772,12 @@
                 this.offCanvas.width = this.size;
                 this.offCanvas.height = this.size;
                 const offCtx = this.offCanvas.getContext('2d');
-                
+
                 const minDim = Math.min(this.img.naturalWidth, this.img.naturalHeight);
                 const sx = (this.img.naturalWidth - minDim) / 2;
                 const sy = (this.img.naturalHeight - minDim) / 2;
                 offCtx.drawImage(this.img, sx, sy, minDim, minDim, 0, 0, this.size, this.size);
-                
+
                 offCtx.globalCompositeOperation = 'destination-in';
                 const gradient = offCtx.createRadialGradient(
                     this.size/2, this.size/2, this.size * 0.15,
@@ -768,7 +789,7 @@
                 gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
                 offCtx.fillStyle = gradient;
                 offCtx.fillRect(0, 0, this.size, this.size);
-                
+
                 offCtx.globalCompositeOperation = 'source-atop';
                 const shimmer = offCtx.createRadialGradient(
                     this.size/2, this.size/2, 0,
@@ -791,7 +812,7 @@
                     }
                 } else if (this.state === 'hold') {
                     this.timer++;
-                    this.scale += 0.0006; 
+                    this.scale += 0.0006;
                     if (this.timer > 150) this.state = 'fadeout';
                 } else if (this.state === 'fadeout') {
                     this.alpha -= 0.01;
@@ -826,16 +847,16 @@
                 this.rotation = Math.random() * Math.PI * 2;
                 this.rotSpeed = Math.random() * 0.06 - 0.03;
                 this.alpha = 1.0;
-                this.decay = Math.random() * 0.004 + 0.002; 
-                this.color = Math.random() > 0.3 
-                    ? `rgba(${Math.floor(Math.random()*20+215)}, ${Math.floor(Math.random()*20+175)}, 65, ` 
+                this.decay = Math.random() * 0.004 + 0.002;
+                this.color = Math.random() > 0.3
+                    ? `rgba(${Math.floor(Math.random()*20+215)}, ${Math.floor(Math.random()*20+175)}, 65, `
                     : `rgba(255, ${Math.floor(Math.random()*30+210)}, ${Math.floor(Math.random()*30+210)}, `;
             }
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                this.vy += 0.04; 
-                this.vx *= 0.98; 
+                this.vy += 0.04;
+                this.vx *= 0.98;
                 this.rotation += this.rotSpeed;
                 this.alpha -= this.decay;
                 return this.alpha > 0;
@@ -906,19 +927,19 @@
             ctx.clearRect(0, 0, rect.width, rect.height);
 
             ambientSparkles.forEach(s => { s.update(rect.width, rect.height); s.draw(ctx); });
-            
+
             activeReflections = activeReflections.filter(ref => {
                 let isAlive = ref.update();
                 if (isAlive) ref.draw(ctx);
                 return isAlive;
             });
-            
+
             activeWaves = activeWaves.filter(w => {
                 let isAlive = w.update();
                 if (isAlive) w.draw(ctx);
                 return isAlive;
             });
-            
+
             activePetals = activePetals.filter(p => {
                 let isAlive = p.update();
                 if (isAlive) p.draw(ctx);
@@ -937,7 +958,7 @@
         function emitImpactEnergy(x, y, isTransition = false) {
             const rect = canvas.getBoundingClientRect();
             activeWaves.push(new Wave(x, y, Math.max(rect.width, rect.height) * 1.3, isTransition));
-            
+
             const petalCount = isTransition ? 75 : 18;
             for (let i = 0; i < petalCount; i++) {
                 activePetals.push(new GoldPetal(x, y, isTransition ? 1.6 : 1.0));
@@ -957,7 +978,7 @@
 
             const splashLayer = document.getElementById('splash-layer');
             const mainLayer = document.getElementById('main-layer');
-            
+
             splashLayer.classList.remove('fade-out');
             mainLayer.classList.remove('fade-in');
             splashLayer.style.display = 'flex';
@@ -965,8 +986,8 @@
 
             const textContainer = document.getElementById('intro-text-element');
             textContainer.classList.remove('active', 'exit');
-            textContainer.innerHTML = ''; 
-            
+            textContainer.innerHTML = '';
+
             document.getElementById('action-prompt-container').style.opacity = '0';
             document.getElementById('action-prompt-container').style.pointerEvents = 'none';
 
@@ -979,7 +1000,7 @@
 
             resizeCanvas();
             setupAmbient();
-            cancelAnimationFrame(animationFrameId); 
+            cancelAnimationFrame(animationFrameId);
             drawLoop();
 
             introSequenceTimeout = setTimeout(showNextIntroText, 600);
@@ -990,13 +1011,13 @@
             const rect = canvas.getBoundingClientRect();
 
             if (introIndex < introTexts.length) {
-                
+
                 textContainer.classList.remove('active', 'exit');
                 textContainer.innerHTML = introTexts[introIndex];
-                
+
                 void textContainer.offsetWidth;
                 textContainer.classList.add('active');
-                
+
                 let targetX = rect.width / 2;
                 let targetY = rect.height / 2;
                 let imgKey = 'intro1';
@@ -1021,10 +1042,10 @@
                 introSequenceTimeout = setTimeout(() => {
                     textContainer.classList.remove('active');
                     textContainer.classList.add('exit');
-                    
+
                     introSequenceTimeout = setTimeout(showNextIntroText, 1200);
-                }, 2800); 
-                
+                }, 2800);
+
             } else {
                 isIntroFinished = true;
                 const actionBtn = document.getElementById('action-prompt-container');
@@ -1040,17 +1061,17 @@
 
         document.getElementById('celebrate-btn').addEventListener('pointerdown', function(event) {
             event.stopPropagation();
-            
+
             const rect = canvas.getBoundingClientRect();
             emitImpactEnergy(rect.width / 2, rect.height / 2, true);
-            
+
             this.style.pointerEvents = 'none';
             this.style.opacity = '0.3';
             this.style.transform = 'scale(0.95)';
 
             setTimeout(() => {
                 startCinematicTransition();
-            }, 1600); 
+            }, 1600);
         });
 
         function startCinematicTransition() {
@@ -1084,14 +1105,130 @@
             runIntroSequence();
         }
 
-        // --- 4. DATA SYNC & EDITOR ---
+        // --- 4. 날짜 포맷 (D-day 와 표시 문구가 같은 값을 공유) ---
+        const WEEKDAY_EN = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+
+        function parseWeddingDate(str) {
+            return new Date(String(str).replace(/-/g, '/'));
+        }
+
+        function formatDateLabel(str) {
+            const d = parseWeddingDate(str);
+            if (isNaN(d.getTime())) return '';
+            const pad = (n) => String(n).padStart(2, '0');
+            const h24 = d.getHours();
+            const ampm = h24 < 12 ? 'AM' : 'PM';
+            const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+            return `${d.getFullYear()}. ${pad(d.getMonth() + 1)}. ${pad(d.getDate())}. ` +
+                   `${WEEKDAY_EN[d.getDay()]} ${ampm} ${h12}:${pad(d.getMinutes())}`;
+        }
+
+        function venueFullText() {
+            return activeConfig.venueHall
+                ? `${activeConfig.venueName}, ${activeConfig.venueHall}`
+                : activeConfig.venueName;
+        }
+
+        // --- 5. 렌더링 ---
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            activeConfig.gallery.forEach((url, i) => {
+                const cell = document.createElement('div');
+                cell.className = 'aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]';
+                cell.addEventListener('click', () => openLightbox(i));
+                const img = document.createElement('img');
+                img.src = url;
+                img.loading = 'lazy';
+                img.alt = `웨딩 사진 ${i + 1}`;
+                img.className = 'w-full h-full object-cover';
+                cell.appendChild(img);
+                grid.appendChild(cell);
+            });
+        }
+
+        function renderAccounts() {
+            const wrap = document.getElementById('accounts-list');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            activeConfig.accounts.forEach((acc) => {
+                const isGroom = acc.side.indexOf('신랑') === 0;
+                const card = document.createElement('div');
+                card.className = 'bg-white p-5 rounded-2xl border border-stone-200/60 shadow-sm flex justify-between items-center';
+
+                const info = document.createElement('div');
+                info.className = 'space-y-1';
+                const badge = document.createElement('span');
+                badge.className = isGroom
+                    ? 'text-[8px] text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full font-bold'
+                    : 'text-[8px] text-rose-800 bg-rose-50 px-2.5 py-0.5 rounded-full font-bold';
+                badge.textContent = acc.side;
+                const line = document.createElement('p');
+                line.className = 'text-xs font-bold text-stone-700';
+                line.textContent = `${acc.bank} ${acc.number}`;
+                const holder = document.createElement('p');
+                holder.className = 'text-[10px] text-stone-400';
+                holder.textContent = `예금주: ${acc.holder}`;
+                info.append(badge, line, holder);
+
+                const btn = document.createElement('button');
+                btn.className = 'bg-stone-50 border border-stone-200 text-stone-600 text-[10px] px-3 py-1.5 rounded-lg hover:bg-stone-100 cursor-pointer font-bold';
+                btn.textContent = '복사';
+                // [FIX] 표시값에서 직접 파생 — 별도 리터럴 관리로 인한 불일치 제거
+                btn.addEventListener('click', () => copyAccount(acc.number.replace(/[^0-9]/g, '')));
+
+                card.append(info, btn);
+                wrap.appendChild(card);
+            });
+        }
+
+        function renderFamily() {
+            const wrap = document.getElementById('view-family');
+            if (!wrap) return;
+            const rows = [
+                { parents: activeConfig.groomParents, order: activeConfig.groomOrder, name: activeConfig.groomName },
+                { parents: activeConfig.brideParents, order: activeConfig.brideOrder, name: activeConfig.brideName }
+            ];
+            wrap.innerHTML = rows.map((r) => {
+                const nameHtml = `<strong class="text-stone-800 text-sm">${escapeHtml(r.name)}</strong>`;
+                if (!r.parents) return `<p>${nameHtml}</p>`;
+                return `<p><strong>${escapeHtml(r.parents)}</strong> ` +
+                       `<span class="text-[10px] text-stone-400">의 ${escapeHtml(r.order)}</span> ${nameHtml}</p>`;
+            }).join('');
+        }
+
+        function renderMapLinks() {
+            const q = encodeURIComponent(`${activeConfig.venueName} ${activeConfig.venueAddress}`);
+            const pq = encodeURIComponent(activeConfig.parkingAddress);
+            const set = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
+            set('link-kakaomap', `https://map.kakao.com/link/search/${q}`);
+            set('link-navermap', `https://map.naver.com/p/search/${q}`);
+            set('link-parking', `https://map.kakao.com/link/search/${pq}`);
+        }
+
+        // --- 6. DATA SYNC & EDITOR ---
         function loadConfigToInputs() {
             safeSetVal('cfg-bg-url', activeConfig.bgUrl);
             safeSetVal('cfg-monogram', activeConfig.monogramText);
             safeSetVal('cfg-groom-name', activeConfig.groomName);
             safeSetVal('cfg-bride-name', activeConfig.brideName);
-            safeSetVal('cfg-venue', activeConfig.venue);
+            safeSetVal('cfg-groom-parents', activeConfig.groomParents);
+            safeSetVal('cfg-bride-parents', activeConfig.brideParents);
+            safeSetVal('cfg-groom-order', activeConfig.groomOrder);
+            safeSetVal('cfg-bride-order', activeConfig.brideOrder);
             safeSetVal('cfg-date', activeConfig.weddingDate);
+            safeSetVal('cfg-venue-name', activeConfig.venueName);
+            safeSetVal('cfg-venue-hall', activeConfig.venueHall);
+            safeSetVal('cfg-venue-address', activeConfig.venueAddress);
+            safeSetVal('cfg-transit', activeConfig.transit);
+            safeSetVal('cfg-parking-note', activeConfig.parkingNote);
+            safeSetVal('cfg-parking-address', activeConfig.parkingAddress);
+            safeSetVal('cfg-greeting', activeConfig.greetingText);
+            safeSetVal('cfg-gallery', activeConfig.gallery.join('\n'));
+            safeSetVal('cfg-intro-texts', activeConfig.introTexts.join('\n'));
+            safeSetVal('cfg-accounts', activeConfig.accounts
+                .map((a) => `${a.side}|${a.bank}|${a.number}|${a.holder}`).join('\n'));
 
             safeSetVal('cfg-intro-1-url', activeConfig.intro1Url);
             safeSetVal('cfg-intro-1-x', activeConfig.intro1Pos.x);
@@ -1103,25 +1240,52 @@
             safeSetVal('cfg-intro-3-x', activeConfig.intro3Pos.x);
             safeSetVal('cfg-intro-3-y', activeConfig.intro3Pos.y);
 
-            safeSetVal('cfg-m1-x', activeConfig.menu1.x);
-            safeSetVal('cfg-m1-y', activeConfig.menu1.y);
-            safeSetVal('cfg-m2-x', activeConfig.menu2.x);
-            safeSetVal('cfg-m2-y', activeConfig.menu2.y);
-            safeSetVal('cfg-m3-x', activeConfig.menu3.x);
-            safeSetVal('cfg-m3-y', activeConfig.menu3.y);
-            safeSetVal('cfg-m4-x', activeConfig.menu4.x);
-            safeSetVal('cfg-m4-y', activeConfig.menu4.y);
-            safeSetVal('cfg-m5-x', activeConfig.menu5.x);
-            safeSetVal('cfg-m5-y', activeConfig.menu5.y);
+            for (let i = 1; i <= 4; i++) {
+                safeSetVal(`cfg-m${i}-x`, activeConfig[`menu${i}`].x);
+                safeSetVal(`cfg-m${i}-y`, activeConfig[`menu${i}`].y);
+            }
         }
 
-        function updateInviteRealtime() {
+        function readInputsIntoConfig() {
             activeConfig.bgUrl = safeGetVal('cfg-bg-url', activeConfig.bgUrl);
-            activeConfig.monogramText = safeGetVal('cfg-monogram', activeConfig.monogramText || 'M 🤍 J');
+            activeConfig.monogramText = safeGetVal('cfg-monogram', activeConfig.monogramText);
             activeConfig.groomName = safeGetVal('cfg-groom-name', activeConfig.groomName);
             activeConfig.brideName = safeGetVal('cfg-bride-name', activeConfig.brideName);
-            activeConfig.venue = safeGetVal('cfg-venue', activeConfig.venue);
+            activeConfig.groomParents = safeGetVal('cfg-groom-parents', activeConfig.groomParents);
+            activeConfig.brideParents = safeGetVal('cfg-bride-parents', activeConfig.brideParents);
+            activeConfig.groomOrder = safeGetVal('cfg-groom-order', activeConfig.groomOrder);
+            activeConfig.brideOrder = safeGetVal('cfg-bride-order', activeConfig.brideOrder);
             activeConfig.weddingDate = safeGetVal('cfg-date', activeConfig.weddingDate);
+            activeConfig.venueName = safeGetVal('cfg-venue-name', activeConfig.venueName);
+            activeConfig.venueHall = safeGetVal('cfg-venue-hall', activeConfig.venueHall);
+            activeConfig.venueAddress = safeGetVal('cfg-venue-address', activeConfig.venueAddress);
+            activeConfig.transit = safeGetVal('cfg-transit', activeConfig.transit);
+            activeConfig.parkingNote = safeGetVal('cfg-parking-note', activeConfig.parkingNote);
+            activeConfig.parkingAddress = safeGetVal('cfg-parking-address', activeConfig.parkingAddress);
+            activeConfig.greetingText = safeGetVal('cfg-greeting', activeConfig.greetingText);
+
+            const galleryRaw = safeGetVal('cfg-gallery', null);
+            if (galleryRaw !== null) {
+                const list = galleryRaw.split('\n').map((s) => s.trim()).filter(Boolean);
+                if (list.length) activeConfig.gallery = list;
+            }
+
+            const introRaw = safeGetVal('cfg-intro-texts', null);
+            if (introRaw !== null) {
+                const list = introRaw.split('\n').map((s) => s.trim()).filter(Boolean);
+                if (list.length) activeConfig.introTexts = list;
+            }
+
+            const accRaw = safeGetVal('cfg-accounts', null);
+            if (accRaw !== null) {
+                const list = accRaw.split('\n').map((s) => s.trim()).filter(Boolean)
+                    .map((line) => {
+                        const [side, bank, number, holder] = line.split('|').map((s) => (s || '').trim());
+                        return { side, bank, number, holder };
+                    })
+                    .filter((a) => a.side && a.bank && a.number);
+                if (list.length) activeConfig.accounts = list;
+            }
 
             activeConfig.intro1Url = safeGetVal('cfg-intro-1-url', activeConfig.intro1Url);
             activeConfig.intro1Pos.x = parseInt(safeGetVal('cfg-intro-1-x', activeConfig.intro1Pos.x));
@@ -1133,20 +1297,21 @@
             activeConfig.intro3Pos.x = parseInt(safeGetVal('cfg-intro-3-x', activeConfig.intro3Pos.x));
             activeConfig.intro3Pos.y = parseInt(safeGetVal('cfg-intro-3-y', activeConfig.intro3Pos.y));
 
-            activeConfig.menu1.x = safeGetVal('cfg-m1-x', activeConfig.menu1.x);
-            activeConfig.menu1.y = safeGetVal('cfg-m1-y', activeConfig.menu1.y);
-            activeConfig.menu2.x = safeGetVal('cfg-m2-x', activeConfig.menu2.x);
-            activeConfig.menu2.y = safeGetVal('cfg-m2-y', activeConfig.menu2.y);
-            activeConfig.menu3.x = safeGetVal('cfg-m3-x', activeConfig.menu3.x);
-            activeConfig.menu3.y = safeGetVal('cfg-m3-y', activeConfig.menu3.y);
-            activeConfig.menu4.x = safeGetVal('cfg-m4-x', activeConfig.menu4.x);
-            activeConfig.menu4.y = safeGetVal('cfg-m4-y', activeConfig.menu4.y);
-            activeConfig.menu5.x = safeGetVal('cfg-m5-x', activeConfig.menu5.x);
-            activeConfig.menu5.y = safeGetVal('cfg-m5-y', activeConfig.menu5.y);
+            for (let i = 1; i <= 4; i++) {
+                activeConfig[`menu${i}`].x = parseInt(safeGetVal(`cfg-m${i}-x`, activeConfig[`menu${i}`].x));
+                activeConfig[`menu${i}`].y = parseInt(safeGetVal(`cfg-m${i}-y`, activeConfig[`menu${i}`].y));
+            }
+        }
 
-            // [FIX] 버튼 위치 저장소 고정
-            localStorage.setItem('wedding_final_config', JSON.stringify(activeConfig));
+        function updateInviteRealtime() {
+            readInputsIntoConfig();
 
+            // 하객 브라우저에는 아무것도 저장하지 않는다 (관리자 모드에서만 임시 저장)
+            if (IS_ADMIN) {
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(activeConfig)); } catch (e) {}
+            }
+
+            introTexts = activeConfig.introTexts.slice();
             preloadIntroAssets();
 
             const mainBgLayer = document.getElementById('main-bg-image');
@@ -1154,36 +1319,39 @@
 
             safeSetText('view-monogram', activeConfig.monogramText);
             safeSetText('view-couple-names', `${activeConfig.brideName} 🤍 ${activeConfig.groomName}`);
-            safeSetText('view-venue', activeConfig.venue);
-            
-            safeSetText('view-groom', activeConfig.groomName);
-            safeSetText('view-bride', activeConfig.brideName);
-            
-            const venueName = activeConfig.venue.split(',')[0];
-            const venueAddr = activeConfig.venue.split(',')[1] || activeConfig.venue;
-            safeSetText('map-venue-name', venueName);
-            safeSetText('map-venue-address', venueAddr);
-            
-            safeSetText('view-groom-holder', activeConfig.groomName);
-            safeSetText('view-bride-holder', activeConfig.brideName);
+            safeSetText('view-venue', venueFullText());
+            // [FIX] 푸터 날짜를 weddingDate 에서 파생 — D-day 와 불일치할 수 없다
+            safeSetText('view-date', formatDateLabel(activeConfig.weddingDate));
+            document.title = `Our Wedding Day - ${activeConfig.groomName} 🤍 ${activeConfig.brideName}`;
 
+            const greetingEl = document.getElementById('view-greeting-text');
+            if (greetingEl) greetingEl.innerHTML = activeConfig.greetingText;
+
+            safeSetText('map-venue-name', activeConfig.venueName);
+            safeSetText('map-venue-address', activeConfig.venueAddress);
+            safeSetText('map-pin-label', venueFullText());
+            safeSetText('map-transit', activeConfig.transit);
+            safeSetText('map-parking', `${activeConfig.parkingNote} · ${activeConfig.parkingAddress}`);
+
+            renderFamily();
+            renderGallery();
+            renderAccounts();
+            renderMapLinks();
             applyButtonPositions();
             initCountdown();
         }
 
         function applyButtonPositions() {
-            const btns = ['btn-menu-1', 'btn-menu-2', 'btn-menu-3', 'btn-menu-4', 'btn-menu-5'];
-            const configs = [activeConfig.menu1, activeConfig.menu2, activeConfig.menu3, activeConfig.menu4, activeConfig.menu5];
-
-            btns.forEach((id, idx) => {
-                const btn = document.getElementById(id);
+            for (let i = 1; i <= 4; i++) {
+                const cfg = activeConfig[`menu${i}`];
+                const btn = document.getElementById(`btn-menu-${i}`);
                 if (btn) {
-                    btn.style.left = `${configs[idx].x}%`;
-                    btn.style.top = `${configs[idx].y}%`;
+                    btn.style.left = `${cfg.x}%`;
+                    btn.style.top = `${cfg.y}%`;
                 }
-                safeSetText(`val-m${idx+1}-x`, `${configs[idx].x}%`);
-                safeSetText(`val-m${idx+1}-y`, `${configs[idx].y}%`);
-            });
+                safeSetText(`val-m${i}-x`, `${cfg.x}%`);
+                safeSetText(`val-m${i}-y`, `${cfg.y}%`);
+            }
 
             safeSetText('val-intro-1-x', `${activeConfig.intro1Pos.x}%`);
             safeSetText('val-intro-1-y', `${activeConfig.intro1Pos.y}%`);
@@ -1193,149 +1361,80 @@
             safeSetText('val-intro-3-y', `${activeConfig.intro3Pos.y}%`);
         }
 
-        // --- 5. TIMER ---
+        // 관리자 패널에서 조정한 값을 DEFAULT_CONFIG 형태로 뽑아낸다
+        function exportConfig() {
+            readInputsIntoConfig();
+            const ordered = {
+                monogramText: activeConfig.monogramText,
+                groomName: activeConfig.groomName,
+                brideName: activeConfig.brideName,
+                groomParents: activeConfig.groomParents,
+                brideParents: activeConfig.brideParents,
+                groomOrder: activeConfig.groomOrder,
+                brideOrder: activeConfig.brideOrder,
+                weddingDate: activeConfig.weddingDate,
+                venueName: activeConfig.venueName,
+                venueHall: activeConfig.venueHall,
+                venueAddress: activeConfig.venueAddress,
+                transit: activeConfig.transit,
+                parkingNote: activeConfig.parkingNote,
+                parkingAddress: activeConfig.parkingAddress,
+                greetingText: activeConfig.greetingText,
+                introTexts: activeConfig.introTexts,
+                accounts: activeConfig.accounts,
+                bgUrl: activeConfig.bgUrl,
+                gallery: activeConfig.gallery,
+                intro1Url: activeConfig.intro1Url, intro1Pos: activeConfig.intro1Pos,
+                intro2Url: activeConfig.intro2Url, intro2Pos: activeConfig.intro2Pos,
+                intro3Url: activeConfig.intro3Url, intro3Pos: activeConfig.intro3Pos,
+                menu1: activeConfig.menu1, menu2: activeConfig.menu2,
+                menu3: activeConfig.menu3, menu4: activeConfig.menu4
+            };
+            const text = 'const DEFAULT_CONFIG = ' + JSON.stringify(ordered, null, 4) + ';';
+            copyText(text, '설정값이 복사되었습니다. index.html에 붙여넣으세요.');
+            console.log(text);
+        }
+
+        function resetConfig() {
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+            location.reload();
+        }
+
+        // --- 7. TIMER ---
         let ddayInterval;
         function initCountdown() {
             clearInterval(ddayInterval);
             const counterElement = document.getElementById('dday-count-element');
             if (!counterElement) return;
 
-            const targetTime = new Date(activeConfig.weddingDate.replace(/-/g, '/')).getTime();
+            const targetTime = parseWeddingDate(activeConfig.weddingDate).getTime();
+            if (isNaN(targetTime)) {
+                counterElement.textContent = '예식 일시를 확인해 주세요.';
+                return;
+            }
 
-            ddayInterval = setInterval(() => {
-                const now = new Date().getTime();
-                const diff = targetTime - now;
-
+            const tick = () => {
+                const diff = targetTime - Date.now();
                 if (diff <= 0) {
-                    counterElement.innerHTML = `저희들의 결혼을 함께 축복해 주셔서 감사합니다.`;
+                    counterElement.innerHTML = '저희들의 결혼을 함께 축복해 주셔서 감사합니다.';
                     clearInterval(ddayInterval);
                     return;
                 }
                 const d = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 counterElement.innerHTML = `본 예식까지 <span class="font-bold text-[#e0cfb3]">${d}일 ${h}시간</span> 남았습니다.`;
-            }, 1000);
+            };
+            tick();
+            ddayInterval = setInterval(tick, 1000);
         }
 
-        // --- 6. RSVP & GUESTBOOK ---
-        function switchTab(tabId) {
-            const rsvpBtn = document.getElementById('tab-btn-rsvp');
-            const gbBtn = document.getElementById('tab-btn-guestbook');
-            const rsvpContent = document.getElementById('tab-content-rsvp');
-            const gbContent = document.getElementById('tab-content-guestbook');
-
-            if (tabId === 'rsvp') {
-                if (rsvpBtn) rsvpBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer bg-white text-[#8c7355] shadow-xs";
-                if (gbBtn) gbBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer text-stone-500";
-                if (rsvpContent) rsvpContent.classList.remove('hidden');
-                if (gbContent) gbContent.classList.add('hidden');
-            } else {
-                if (rsvpBtn) rsvpBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer text-stone-500";
-                if (gbBtn) gbBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer bg-white text-[#8c7355] shadow-xs";
-                if (rsvpContent) rsvpContent.classList.add('hidden');
-                if (gbContent) gbContent.classList.remove('hidden');
-                renderGuestbook();
-            }
-        }
-
-        function handleRSVPSubmit(e) {
-            e.preventDefault();
-            showCustomToast("참석 등록이 완료되었습니다. 🤍");
-            const rsvpForm = document.getElementById('rsvp-form');
-            if (rsvpForm) rsvpForm.reset();
-            resetRsvpStyles();
-        }
-
-        function highlightRsvLabel(type) {
-            const groomLbl = document.getElementById('lbl-groom-guest');
-            const brideLbl = document.getElementById('lbl-bride-guest');
-            if (type === 'groom') {
-                if (groomLbl) groomLbl.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
-                if (brideLbl) brideLbl.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
-            } else {
-                if (brideLbl) brideLbl.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
-                if (groomLbl) groomLbl.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
-            }
-        }
-
-        function highlightMealLabel(type) {
-            const mealY = document.getElementById('lbl-meal-y');
-            const mealN = document.getElementById('lbl-meal-n');
-            const mealU = document.getElementById('lbl-meal-u');
-
-            [mealY, mealN, mealU].forEach(l => {
-                if (l) l.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
-            });
-
-            if (type === 'yes' && mealY) mealY.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
-            else if (type === 'no' && mealN) mealN.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
-            else if (type === 'undecided' && mealU) mealU.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
-        }
-
-        function resetRsvpStyles() {
-            const ids = ['lbl-groom-guest', 'lbl-bride-guest', 'lbl-meal-y', 'lbl-meal-n', 'lbl-meal-u'];
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
-            });
-        }
-
-        function getGuestbookData() {
-            const defaultMsgs = [
-                { name: "장선하", msg: "지현아 결혼 너무 축하해! 세상에서 가장 예쁜 신부가 될 거야 🤍", date: "2026.06.01" },
-                { name: "윤진우", msg: "민우 형님 드디어 장가가시는군요! 진심으로 축하드립니다!", date: "2026.05.29" }
-            ];
-            return JSON.parse(localStorage.getItem('wedding_guestbook')) || defaultMsgs;
-        }
-
-        function handleGuestbookSubmit(e) {
-            e.preventDefault();
-            const nameEl = document.getElementById('gb-name');
-            const msgEl = document.getElementById('gb-msg');
-            if (!nameEl || !msgEl) return;
-
-            const name = nameEl.value.trim();
-            const msg = msgEl.value.trim();
-            const date = new Date().toLocaleDateString('ko-KR').replace(/\. /g, '.').slice(0, -1);
-
-            const list = getGuestbookData();
-            list.unshift({ name, msg, date });
-            localStorage.setItem('wedding_guestbook', JSON.stringify(list));
-
-            const gbForm = document.getElementById('guestbook-form');
-            if (gbForm) gbForm.reset();
-            
-            renderGuestbook();
-            showCustomToast("축하 한마디가 공유되었습니다.");
-        }
-
-        function renderGuestbook() {
-            const container = document.getElementById('guestbook-list-container');
-            if (!container) return;
-            container.innerHTML = '';
-            const list = getGuestbookData();
-
-            list.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-3.5 rounded-xl border border-stone-100 shadow-xs text-xs space-y-1.5 text-left";
-                card.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <strong class="text-stone-700">${item.name}</strong>
-                        <span class="text-[9px] text-stone-400">${item.date}</span>
-                    </div>
-                    <p class="text-stone-500 font-light leading-relaxed">${item.msg}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // --- 7. CAROUSEL ---
+        // --- 8. CAROUSEL ---
         function openLightbox(index) {
             lightboxCurrentIndex = index;
             const imgEl = document.getElementById('lightbox-img');
-            if (imgEl) imgEl.src = galleryImages[lightboxCurrentIndex];
-            safeSetText('lightbox-index', `${lightboxCurrentIndex + 1} / ${galleryImages.length}`);
-            
+            if (imgEl) imgEl.src = activeConfig.gallery[lightboxCurrentIndex];
+            safeSetText('lightbox-index', `${lightboxCurrentIndex + 1} / ${activeConfig.gallery.length}`);
+
             const overlay = document.getElementById('lightbox-overlay');
             if (overlay) {
                 overlay.classList.remove('pointer-events-none');
@@ -1352,13 +1451,12 @@
         }
 
         function changeLightboxSlide(direction) {
-            lightboxCurrentIndex += direction;
-            if (lightboxCurrentIndex < 0) lightboxCurrentIndex = galleryImages.length - 1;
-            if (lightboxCurrentIndex >= galleryImages.length) lightboxCurrentIndex = 0;
+            const n = activeConfig.gallery.length;
+            lightboxCurrentIndex = (lightboxCurrentIndex + direction + n) % n;
 
             const imgEl = document.getElementById('lightbox-img');
-            if (imgEl) imgEl.src = galleryImages[lightboxCurrentIndex];
-            safeSetText('lightbox-index', `${lightboxCurrentIndex + 1} / ${galleryImages.length}`);
+            if (imgEl) imgEl.src = activeConfig.gallery[lightboxCurrentIndex];
+            safeSetText('lightbox-index', `${lightboxCurrentIndex + 1} / ${n}`);
         }
 
         let touchStartX = 0, touchEndX = 0;
@@ -1372,25 +1470,38 @@
             }, { passive: true });
         }
 
-        // --- 8. UTILS ---
+        // --- 9. UTILS ---
+        // [FIX] navigator.clipboard 우선, 실패 시 폴백 — 실패하면 실패 토스트를 띄운다
+        function copyText(text, successMsg) {
+            const fallback = () => {
+                try {
+                    const temp = document.createElement('textarea');
+                    temp.value = text;
+                    temp.style.position = 'fixed';
+                    temp.style.opacity = '0';
+                    document.body.appendChild(temp);
+                    temp.select();
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(temp);
+                    showCustomToast(ok ? successMsg : '복사에 실패했습니다. 길게 눌러 복사해 주세요.');
+                } catch (e) {
+                    showCustomToast('복사에 실패했습니다. 길게 눌러 복사해 주세요.');
+                }
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => showCustomToast(successMsg)).catch(fallback);
+            } else {
+                fallback();
+            }
+        }
+
         function copyAccount(accNo) {
-            const temp = document.createElement('input');
-            temp.value = accNo;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
-            showCustomToast("계좌번호가 정상적으로 복사되었습니다. 💳");
+            copyText(accNo, '계좌번호가 복사되었습니다. 💳');
         }
 
         function copyAddress() {
-            const temp = document.createElement('input');
-            temp.value = "서울특별시 서초구 반포대로 235";
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
-            showCustomToast("식장 주소가 복사되었습니다. 🏰");
+            copyText(activeConfig.venueAddress, '식장 주소가 복사되었습니다. ⛪');
         }
 
         let toastTimeout;
@@ -1400,7 +1511,7 @@
             toast.textContent = msg;
             toast.style.opacity = '1';
             toast.style.transform = 'translate(-50%, -8px)';
-            
+
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.style.opacity = '0';
@@ -1416,6 +1527,11 @@
 
         window.addEventListener('resize', () => { resizeCanvas(); setupAmbient(); });
         window.onload = function() {
+            // 관리자 모드에서만 톱니 버튼 노출
+            if (IS_ADMIN) {
+                const gear = document.getElementById('admin-gear');
+                if (gear) gear.classList.remove('hidden');
+            }
             preloadIntroAssets();
             loadConfigToInputs();
             updateInviteRealtime();
