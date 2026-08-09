@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- viewport-fit=cover 가 있어야 env(safe-area-inset-*) 값이 실제로 들어온다 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Our Wedding Day - 고용건 🤍 정선애</title>
 
     <!-- 카카오톡·SNS 공유 미리보기 (og:image 는 실제 사진 확정 후 교체) -->
@@ -26,6 +27,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* 홈 인디케이터 / 노치 영역 확보 */
+        :root {
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .pad-safe-bottom { padding-bottom: calc(3rem + var(--safe-bottom)); }
+        .pad-safe-bottom-sm { padding-bottom: calc(1.5rem + var(--safe-bottom)); }
+        .pad-safe-top { padding-top: calc(2.5rem + var(--safe-top)); }
+        .splash-safe {
+            padding-top: calc(4rem + var(--safe-top));
+            padding-bottom: calc(4rem + var(--safe-bottom));
+        }
+
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #e8e6e1;
@@ -167,6 +181,163 @@
             pointer-events: auto !important;
         }
 
+        /* =====================================================================
+           커버 텍스트 가독성 (coverTextStyle)
+           핵심: 어둡게 깔아주는 스크림을 vignette-mask 바깥(#cover-scrim)에 둔다.
+           마스크 안에 있으면 정작 글자가 놓인 상·하단에서 함께 지워진다.
+           ===================================================================== */
+        #cover-scrim { transition: background .3s ease; }
+        /* 블록 + fit-content 여야 음수 마진 상쇄가 정확히 동작한다
+           (inline-block 은 라인박스 때문에 높이가 완전히 상쇄되지 않는다) */
+        .cover-plate { display: block; width: fit-content; }
+        footer .cover-plate { margin-left: auto; margin-right: auto; }
+
+        /* base — 기존(문제) 상태 재현용 */
+        #main-layer.covfx-base #cover-scrim {
+            background: linear-gradient(to bottom, rgba(0,0,0,.4), transparent 50%, rgba(0,0,0,.5));
+            -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 48%, black 35%, transparent 100%);
+            mask-image: radial-gradient(ellipse 75% 65% at 50% 48%, black 35%, transparent 100%);
+        }
+
+        /* A — 마스크 밖 그라디언트 (구조 수정만) */
+        #main-layer.covfx-a #cover-scrim {
+            background: linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,.15) 22%, transparent 42%,
+                        transparent 58%, rgba(0,0,0,.2) 78%, rgba(0,0,0,.62) 100%);
+        }
+
+        /* B — 상하단 스크림 밴드 (밝은 배경에 가장 확실) */
+        #main-layer.covfx-b #cover-scrim {
+            background: linear-gradient(to bottom, rgba(20,16,12,.78) 0%, rgba(20,16,12,.35) 14%, transparent 26%,
+                        transparent 68%, rgba(20,16,12,.45) 84%, rgba(20,16,12,.85) 100%);
+        }
+        #main-layer.covfx-b #view-date, #main-layer.covfx-b #view-venue,
+        #main-layer.covfx-b header .font-cinzel, #main-layer.covfx-b #view-couple-names {
+            text-shadow: 0 1px 3px rgba(0,0,0,.7);
+        }
+
+        /* C — 아이보리 8방향 외곽선 (인트로 멘트와 동일 기법) */
+        #main-layer.covfx-c #cover-scrim { background: none; }
+        #main-layer.covfx-c header .font-cinzel, #main-layer.covfx-c #view-date {
+            color: #7d6440;
+            text-shadow: -1px -1px 0 #F4F1EA, 0 -1px 0 #F4F1EA, 1px -1px 0 #F4F1EA, 1px 0 0 #F4F1EA,
+                          1px 1px 0 #F4F1EA, 0 1px 0 #F4F1EA, -1px 1px 0 #F4F1EA, -1px 0 0 #F4F1EA,
+                          0 3px 8px rgba(0,0,0,.3);
+        }
+        #main-layer.covfx-c #view-couple-names, #main-layer.covfx-c #view-venue {
+            color: #3f3428;
+            text-shadow: -1px -1px 0 #F4F1EA, 0 -1px 0 #F4F1EA, 1px -1px 0 #F4F1EA, 1px 0 0 #F4F1EA,
+                          1px 1px 0 #F4F1EA, 0 1px 0 #F4F1EA, -1px 1px 0 #F4F1EA, -1px 0 0 #F4F1EA,
+                          0 3px 8px rgba(0,0,0,.3);
+        }
+
+        /* D — 반투명 플레이트 (D-day 뱃지와 같은 톤) */
+        #main-layer.covfx-d #cover-scrim { background: none; }
+        #main-layer.covfx-d .cover-plate {
+            background: rgba(0,0,0,.45);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197,160,89,.32);
+            border-radius: 16px;
+            padding: 11px 17px;
+            /* 패딩+보더만큼 음수 마진으로 상쇄 — 처리를 바꿔도 메뉴 버튼 좌표가 밀리지 않는다 */
+            margin-top: -12px; margin-bottom: -12px;
+        }
+        #main-layer.covfx-d header .font-cinzel, #main-layer.covfx-d #view-couple-names,
+        #main-layer.covfx-d #view-date, #main-layer.covfx-d #view-venue { text-shadow: none; }
+
+        /* E — A + 글자 보강 */
+        #main-layer.covfx-e #cover-scrim {
+            background: linear-gradient(to bottom, rgba(0,0,0,.5) 0%, rgba(0,0,0,.12) 20%, transparent 40%,
+                        transparent 60%, rgba(0,0,0,.18) 80%, rgba(0,0,0,.58) 100%);
+        }
+        #main-layer.covfx-e header .font-cinzel { color: #eddcc0; text-shadow: 0 1px 2px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.7); }
+        #main-layer.covfx-e #view-couple-names { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 0 14px rgba(0,0,0,.7); }
+        #main-layer.covfx-e #view-date { color: #f0e0c4; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 0 14px rgba(0,0,0,.75); }
+        #main-layer.covfx-e #view-venue { color: #fff; font-weight: 400; text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 0 14px rgba(0,0,0,.75); }
+
+        /* F — 하단 정보 블록 강조 */
+        #main-layer.covfx-f #cover-scrim {
+            background: linear-gradient(to bottom, rgba(0,0,0,.5) 0%, transparent 30%,
+                        transparent 55%, rgba(12,10,8,.55) 76%, rgba(12,10,8,.92) 100%);
+        }
+        #main-layer.covfx-f header .font-cinzel, #main-layer.covfx-f #view-couple-names {
+            text-shadow: 0 2px 6px rgba(0,0,0,.9);
+        }
+        #main-layer.covfx-f #view-date { color: #f2e4ca; font-weight: 600; letter-spacing: .22em; text-shadow: none; }
+        #main-layer.covfx-f #view-venue { color: #efe9de; text-shadow: none; }
+
+        /* G — 리퀴드 글래스 (iOS 26 스타일)
+           반투명 유리 위에 스펙큘러 하이라이트 + 렌즈 림을 얹어 사진과 분리한다.
+           밝은 사진에서도 읽히도록 유리에 살짝 어두운 틴트를 넣었다. */
+        #main-layer.covfx-g #cover-scrim { background: none; }
+        #main-layer.covfx-g .cover-plate {
+            position: relative;
+            padding: 13px 19px;
+            /* 패딩+보더만큼 음수 마진으로 상쇄 — 처리를 바꿔도 메뉴 버튼 좌표가 밀리지 않는다 */
+            margin-top: -14px; margin-bottom: -14px;
+            border-radius: 22px;
+            background: rgba(28, 24, 20, .26);
+            -webkit-backdrop-filter: blur(24px) saturate(185%);
+            backdrop-filter: blur(24px) saturate(185%);
+            border: 1px solid rgba(255, 255, 255, .26);
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, .55),
+                inset 0 -1px 1px rgba(255, 255, 255, .12),
+                inset 0 0 24px rgba(255, 255, 255, .07),
+                0 8px 30px rgba(0, 0, 0, .3);
+            overflow: hidden;
+            isolation: isolate;
+        }
+        /* 위쪽에서 들어오는 스펙큘러 반사 */
+        #main-layer.covfx-g .cover-plate::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+            background: linear-gradient(158deg,
+                        rgba(255,255,255,.40) 0%, rgba(255,255,255,.10) 30%,
+                        transparent 54%, rgba(255,255,255,.07) 100%);
+        }
+        /* 가장자리 굴절(렌즈 림) */
+        #main-layer.covfx-g .cover-plate::after {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+            background: radial-gradient(130% 85% at 50% -25%, rgba(255,255,255,.30), transparent 62%);
+            mix-blend-mode: screen; opacity: .75;
+        }
+        #main-layer.covfx-g .cover-plate > * { position: relative; z-index: 1; }
+        #main-layer.covfx-g header .font-cinzel { color: #f3e7d2; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
+        #main-layer.covfx-g #view-couple-names { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+        #main-layer.covfx-g #view-date { color: #f6e9d2; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+        #main-layer.covfx-g #view-venue { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+        /* 메뉴 버튼·D-day 뱃지도 같은 유리 재질로 통일 */
+        /* 주의: .floating-btn 은 Tailwind .absolute 로 배치된다.
+           여기서 position 을 덮어쓰면 좌표 설정이 통째로 무너지므로 건드리지 않는다. */
+        #main-layer.covfx-g .floating-btn,
+        #main-layer.covfx-g #dday-count-element {
+            background: rgba(28, 24, 20, .26) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(185%);
+            backdrop-filter: blur(20px) saturate(185%);
+            border: 1px solid rgba(255, 255, 255, .24) !important;
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, .5),
+                inset 0 -1px 1px rgba(255, 255, 255, .1),
+                0 6px 22px rgba(0, 0, 0, .28) !important;
+            /* overflow:hidden 을 주면 inline-block 의 baseline 이 바뀌어
+               D-day 줄 높이가 달라지고 메뉴 버튼 좌표가 밀린다.
+               ::before 는 border-radius: inherit 로 이미 둥글게 잘리므로 불필요. */
+        }
+        #main-layer.covfx-g .floating-btn::before,
+        #main-layer.covfx-g #dday-count-element::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+            background: linear-gradient(158deg, rgba(255,255,255,.38) 0%, rgba(255,255,255,.08) 32%, transparent 58%);
+        }
+        #main-layer.covfx-g #dday-count-element { position: relative; }
+        #main-layer.covfx-g #dday-count-element > span { position: relative; z-index: 1; }
+
+        /* backdrop-filter 미지원 브라우저 폴백 */
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+            #main-layer.covfx-g .cover-plate,
+            #main-layer.covfx-g .floating-btn,
+            #main-layer.covfx-g #dday-count-element { background: rgba(28, 24, 20, .62) !important; }
+        }
+
         /* [FIX] 감소 모션 설정을 존중 — 무한 애니메이션 정지 */
         @media (prefers-reduced-motion: reduce) {
             .floating-btn,
@@ -186,7 +357,7 @@
 
     <div class="phone-frame">
 
-        <div id="splash-layer" class="absolute inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-between py-16">
+        <div id="splash-layer" class="absolute inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-between splash-safe">
 
             <canvas id="splash-canvas" class="absolute inset-0 w-full h-full cursor-pointer touch-none z-0"></canvas>
 
@@ -215,17 +386,19 @@
 
         <main id="main-layer" class="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#F4F1EA]">
 
-            <div id="main-bg-image" class="absolute inset-0 w-full h-full bg-cover bg-center vignette-mask z-0">
-                <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50 pointer-events-none"></div>
-            </div>
+            <div id="main-bg-image" class="absolute inset-0 w-full h-full bg-cover bg-center vignette-mask z-0"></div>
+            <!-- [FIX] 어둡게 깔아주는 스크림은 vignette-mask 바깥에 둔다 -->
+            <div id="cover-scrim" class="absolute inset-0 pointer-events-none z-[1]"></div>
 
             <div class="absolute inset-4 border border-[#c5a059]/30 pointer-events-none z-10"></div>
             <div class="absolute inset-5 border border-[#c5a059]/10 pointer-events-none z-10"></div>
 
-            <header class="w-full flex justify-between items-center px-8 pt-10 z-20 relative">
+            <header class="w-full flex justify-between items-center px-8 pt-10 pad-safe-top z-20 relative">
                 <div class="text-white relative text-left">
-                    <p class="font-cinzel text-[10px] tracking-[0.4em] text-[#e0cfb3] mb-1 font-bold title-shadow">THE WEDDING DAY</p>
-                    <h1 id="view-couple-names" class="font-serif text-lg font-light tracking-widest title-shadow">정선애 🤍 고용건</h1>
+                    <span class="cover-plate">
+                        <p class="font-cinzel text-[10px] tracking-[0.4em] text-[#e0cfb3] mb-1 font-bold title-shadow">THE WEDDING DAY</p>
+                        <h1 id="view-couple-names" class="font-serif text-lg font-light tracking-widest title-shadow">정선애 🤍 고용건</h1>
+                    </span>
                 </div>
                 <!-- [FIX] 관리자 전용: ?admin=1 로 접속했을 때만 노출된다 -->
                 <button id="admin-gear" onclick="requestAdminAccess()" class="hidden bg-black/30 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-black/50 border border-white/10 transition cursor-pointer shadow-lg relative z-20" aria-label="관리자 설정">
@@ -246,9 +419,11 @@
                 </div>
             </div>
 
-            <footer class="w-full text-center pb-12 z-20 relative">
-                <p id="view-date" class="font-cinzel text-[#e0cfb3] drop-shadow-2xl text-[13px] tracking-[0.3em] mb-2 font-medium antique-shadow"></p>
-                <p id="view-venue" class="font-serif text-[#fcf9f2] drop-shadow-2xl text-[11px] tracking-[0.2em] font-light antique-shadow"></p>
+            <footer class="w-full text-center pb-12 pad-safe-bottom z-20 relative">
+                <span class="cover-plate">
+                    <p id="view-date" class="font-cinzel text-[#e0cfb3] drop-shadow-2xl text-[13px] tracking-[0.3em] mb-2 font-medium antique-shadow"></p>
+                    <p id="view-venue" class="font-serif text-[#fcf9f2] drop-shadow-2xl text-[11px] tracking-[0.2em] font-light antique-shadow"></p>
+                </span>
             </footer>
         </main>
 
@@ -258,7 +433,7 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">GREETING</span>
                 <button onclick="closePage('modal-greeting')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar py-14 px-10 text-center bg-[#FAF9F6]">
+            <div class="flex-grow overflow-y-auto no-scrollbar py-14 px-10 pad-safe-bottom-sm text-center bg-[#FAF9F6]">
                 <div class="flex justify-center mb-10 text-[#c5a059]">
                     <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9s2.015-9 4.5-9m0 0a9.003 9.003 0 018.716 2.253M12 3a9.003 9.003 0 00-8.716 2.253" />
@@ -276,7 +451,7 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">GALLERY</span>
                 <button onclick="closePage('modal-gallery')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6]">
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 pad-safe-bottom-sm bg-[#FAF9F6]">
                 <p class="text-center font-serif text-[10px] text-stone-400 tracking-widest mb-8 font-bold">우리들의 찬란한 약속</p>
                 <!-- [FIX] 썸네일은 config.gallery 에서 렌더링 — HTML/JS 이중 정의 제거 -->
                 <div class="grid grid-cols-2 gap-3" id="gallery-grid"></div>
@@ -288,7 +463,7 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">LOCATION</span>
                 <button onclick="closePage('modal-map')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 bg-[#FAF9F6]">
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 pad-safe-bottom-sm bg-[#FAF9F6]">
                 <div class="text-center">
                     <h4 class="font-serif text-sm text-stone-800 font-bold" id="map-venue-name"></h4>
                     <p class="text-xs text-stone-500 mt-1.5" id="map-venue-address"></p>
@@ -331,7 +506,7 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">ACCOUNTS</span>
                 <button onclick="closePage('modal-accounts')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6] space-y-4">
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 pad-safe-bottom-sm bg-[#FAF9F6] space-y-4">
                 <div class="text-center mb-8">
                     <h4 class="font-serif text-xs text-stone-700 mb-1.5 font-bold">마음 전하실 곳</h4>
                     <p class="text-[10px] text-stone-400">참석이 어려우신 분들을 위해 비대면 축의금 계좌를 안내해 드립니다.</p>
@@ -348,7 +523,7 @@
                     <button onclick="closeSettings()" class="text-stone-400 hover:text-stone-700 p-1 cursor-pointer transition">완료</button>
                 </div>
 
-                <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 text-[11px] text-stone-600">
+                <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 pad-safe-bottom-sm text-[11px] text-stone-600">
 
                     <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-[10px] leading-relaxed text-amber-900">
                         여기서 바꾼 값은 <b>이 브라우저에만</b> 저장됩니다. 하객에게 반영하려면 아래
@@ -402,6 +577,21 @@
                                 <span id="val-intro-3-y" class="w-8 text-right font-mono">0%</span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-stone-700">커버 텍스트 가독성 처리</label>
+                        <select id="cfg-cover-fx" class="w-full p-2.5 border border-stone-200 rounded-xl text-stone-800 bg-stone-50" onchange="updateInviteRealtime()">
+                            <option value="base">현재(기존) — 스크림이 마스크에 지워짐</option>
+                            <option value="a">A · 그라디언트를 마스크 밖으로</option>
+                            <option value="b">B · 상하단 스크림 밴드 (밝은 사진에 강함)</option>
+                            <option value="c">C · 아이보리 외곽선</option>
+                            <option value="d">D · 반투명 플레이트</option>
+                            <option value="e">E · A + 글자 보강</option>
+                            <option value="f">F · 하단 정보 블록</option>
+                            <option value="g">G · 리퀴드 글래스 (iOS 26 스타일)</option>
+                        </select>
+                        <p class="text-[10px] text-stone-400">커버 사진 밝기에 따라 골라주세요. 흰 배경 스튜디오 사진은 B 또는 D가 확실합니다.</p>
                     </div>
 
                     <div class="space-y-1.5">
@@ -570,7 +760,7 @@
             </div>
         </div>
 
-        <div id="lightbox-overlay" class="absolute inset-0 bg-black/95 z-[100] flex flex-col justify-between py-10 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="lightbox-overlay" class="absolute inset-0 bg-black/95 z-[100] flex flex-col justify-between py-10 pad-safe-bottom-sm opacity-0 pointer-events-none transition-opacity duration-300">
             <div class="w-full flex justify-between items-center px-6 text-white flex-shrink-0">
                 <span id="lightbox-index" class="font-serif text-[11px] tracking-widest text-white/70">1 / 1</span>
                 <button onclick="closeLightbox()" class="text-white/60 hover:text-white p-2 text-sm cursor-pointer font-bold">✕ CLOSE</button>
@@ -618,6 +808,9 @@
         //    관리자 패널에서 조정한 뒤 「설정값 내보내기」로 이 객체를 갱신할 것.
         // =====================================================================
         const DEFAULT_CONFIG = {
+            // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f  (관리자 패널에서 전환)
+            coverTextStyle: 'g',
+
             monogramText: 'Y 🤍 S',
 
             groomName: '고용건',
@@ -659,19 +852,21 @@
             ],
 
             // TODO: 실제 웨딩 사진 확정 후 assets/ 경로로 교체
-            bgUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
+            // 커버 사진은 아직 확정 전 — 관리자 패널에서 photo-a/b/c/d 로 바꿔가며 고르면 된다
+            bgUrl: 'assets/photo-d-cover.jpg',
             gallery: [
-                'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200',
-                'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200',
-                'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
-                'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1200'
+                'assets/photo-d-cover.jpg',
+                'assets/photo-a-cover.jpg',
+                'assets/photo-b-cover.jpg',
+                'assets/photo-c-cover.jpg'
             ],
 
+            // 인트로 3장은 원래(기본) 이미지로 되돌려 둠 — 지정해주시면 assets/photo-*-intro.jpg 로 교체
             intro1Url: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
             intro1Pos: { x: 30, y: 35 },
             intro2Url: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600',
             intro2Pos: { x: 70, y: 55 },
-            intro3Url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600',
+            intro3Url: 'assets/photo-h-intro.jpg',
             intro3Pos: { x: 35, y: 68 },
 
             menu1: { x: 8, y: 24 },
@@ -1230,6 +1425,7 @@
 
         // --- 6. DATA SYNC & EDITOR ---
         function loadConfigToInputs() {
+            safeSetVal('cfg-cover-fx', activeConfig.coverTextStyle);
             safeSetVal('cfg-bg-url', activeConfig.bgUrl);
             safeSetVal('cfg-monogram', activeConfig.monogramText);
             safeSetVal('cfg-groom-name', activeConfig.groomName);
@@ -1268,6 +1464,7 @@
         }
 
         function readInputsIntoConfig() {
+            activeConfig.coverTextStyle = safeGetVal('cfg-cover-fx', activeConfig.coverTextStyle);
             activeConfig.bgUrl = safeGetVal('cfg-bg-url', activeConfig.bgUrl);
             activeConfig.monogramText = safeGetVal('cfg-monogram', activeConfig.monogramText);
             activeConfig.groomName = safeGetVal('cfg-groom-name', activeConfig.groomName);
@@ -1338,6 +1535,8 @@
             const mainBgLayer = document.getElementById('main-bg-image');
             if (mainBgLayer) mainBgLayer.style.backgroundImage = `url('${activeConfig.bgUrl}')`;
 
+            applyCoverTextStyle();
+
             safeSetText('view-monogram', activeConfig.monogramText);
             safeSetText('view-couple-names', `${activeConfig.brideName} 🤍 ${activeConfig.groomName}`);
             safeSetText('view-venue', venueFullText());
@@ -1360,6 +1559,15 @@
             renderMapLinks();
             applyButtonPositions();
             initCountdown();
+        }
+
+        const COVER_FX = ['base', 'a', 'b', 'c', 'd', 'e', 'f', 'g'];
+        function applyCoverTextStyle() {
+            const layer = document.getElementById('main-layer');
+            if (!layer) return;
+            const fx = COVER_FX.includes(activeConfig.coverTextStyle) ? activeConfig.coverTextStyle : 'e';
+            COVER_FX.forEach((k) => layer.classList.remove('covfx-' + k));
+            layer.classList.add('covfx-' + fx);
         }
 
         function applyButtonPositions() {
@@ -1386,6 +1594,7 @@
         function exportConfig() {
             readInputsIntoConfig();
             const ordered = {
+                coverTextStyle: activeConfig.coverTextStyle,
                 monogramText: activeConfig.monogramText,
                 groomName: activeConfig.groomName,
                 brideName: activeConfig.brideName,
