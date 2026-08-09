@@ -182,6 +182,40 @@
         }
 
         /* =====================================================================
+           공통 디자인 토큰 — 모든 모달이 같은 언어를 쓰도록
+           ===================================================================== */
+        /* 금선 오너먼트: 메인 커버의 이중 금선 프레임을 축소한 모티프 */
+        .orn { display:flex; align-items:center; justify-content:center; gap:9px; margin:2px 0 16px; }
+        .orn .l { height:1px; width:34px; background:linear-gradient(90deg,transparent,rgba(197,160,89,.75)); }
+        .orn .r { height:1px; width:34px; background:linear-gradient(270deg,transparent,rgba(197,160,89,.75)); }
+        .orn .d { width:5px; height:5px; transform:rotate(45deg); background:#c5a059; }
+
+        .eyebrow  { font-family:'Cinzel',serif; font-size:9px; letter-spacing:.34em;
+                    color:#b99f6e; font-weight:700; text-align:center; }
+        .sect-t   { font-family:'Noto Serif KR',serif; font-size:13px; font-weight:600;
+                    color:#3f3428; text-align:center; margin:5px 0 0; }
+        .sect-s   { font-size:10.5px; color:#8a827a; text-align:center; margin:5px 0 0; line-height:1.7; }
+
+        /* 카드 2단 위계 — 골드 이중선 = 누를 수 있는 것 / 회색 단선 = 읽는 것 */
+        .card-gold {
+            position:relative; border:1px solid rgba(197,160,89,.6); background:#FFFDF8;
+            border-radius:15px; box-shadow:0 3px 12px rgba(197,160,89,.13);
+        }
+        .card-gold::after {
+            content:''; position:absolute; inset:4px; border:1px solid rgba(197,160,89,.28);
+            border-radius:11px; pointer-events:none;
+        }
+        .card-gold:active { background:#FCF8EF; }
+        .card-gray {
+            border:1px solid rgba(214,211,203,.95); background:#fff;
+            border-radius:15px; box-shadow:0 2px 10px rgba(0,0,0,.05);
+        }
+
+        /* 오시는 길 — 주차/지하철 카드
+           주차는 메인 커버의 이중 금선 프레임 모티프를 축소해 썼다(G3). */
+        .parking-card { /* 하위호환 별칭 */ }
+
+        /* =====================================================================
            커버 텍스트 가독성 (coverTextStyle)
            핵심: 어둡게 깔아주는 스크림을 vignette-mask 바깥(#cover-scrim)에 둔다.
            마스크 안에 있으면 정작 글자가 놓인 상·하단에서 함께 지워진다.
@@ -433,16 +467,25 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">GREETING</span>
                 <button onclick="closePage('modal-greeting')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar py-14 px-10 pad-safe-bottom-sm text-center bg-[#FAF9F6]">
-                <div class="flex justify-center mb-10 text-[#c5a059]">
-                    <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9s2.015-9 4.5-9m0 0a9.003 9.003 0 018.716 2.253M12 3a9.003 9.003 0 00-8.716 2.253" />
-                    </svg>
+            <div class="flex-grow overflow-y-auto no-scrollbar pt-8 pb-6 px-6 pad-safe-bottom-sm bg-[#FAF9F6]">
+                <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+                <p class="eyebrow">INVITATION</p>
+                <p class="sect-t">우리, 하나 되는 날</p>
+                <p id="view-greeting-text" class="font-serif text-[11.5px] leading-8 text-stone-600 font-light text-center mt-6 mb-7"></p>
+
+                <div class="card-gray px-4 py-4 text-center">
+                    <p class="eyebrow" style="font-size:8.5px">FAMILY</p>
+                    <div id="view-family" class="text-[11px] text-stone-600 leading-8 mt-2.5"></div>
                 </div>
-                <h3 class="font-serif text-[11px] text-[#c5a059] tracking-[0.3em] mb-10 font-bold">우리, 하나 되는 날</h3>
-                <p id="view-greeting-text" class="font-serif text-xs md:text-sm leading-8 text-stone-600 font-light mb-14"></p>
-                <hr class="border-[#c5a059]/20 max-w-[120px] mx-auto my-12">
-                <div id="view-family" class="font-serif text-xs md:text-sm text-stone-600 leading-9 space-y-3"></div>
+
+                <a href="#" id="link-calendar" onclick="downloadIcs(event)" class="card-gold block px-4 py-4 mt-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-stone-800">📅 캘린더에 저장</span>
+                        <span class="text-[12px] font-bold text-[#8c7355] whitespace-nowrap">추가 ›</span>
+                    </div>
+                    <p id="cal-summary" class="text-[11px] font-light text-stone-600 leading-relaxed mt-2"></p>
+                    <span id="cal-dday" class="inline-block mt-2.5 text-[10px] font-bold text-[#7a6448] bg-[#c5a059]/20 rounded-full px-2.5 py-1"></span>
+                </a>
             </div>
         </div>
 
@@ -451,10 +494,15 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">GALLERY</span>
                 <button onclick="closePage('modal-gallery')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 pad-safe-bottom-sm bg-[#FAF9F6]">
-                <p class="text-center font-serif text-[10px] text-stone-400 tracking-widest mb-8 font-bold">우리들의 찬란한 약속</p>
-                <!-- [FIX] 썸네일은 config.gallery 에서 렌더링 — HTML/JS 이중 정의 제거 -->
-                <div class="grid grid-cols-2 gap-3" id="gallery-grid"></div>
+            <div class="flex-grow overflow-y-auto no-scrollbar pt-8 pb-6 px-6 pad-safe-bottom-sm bg-[#FAF9F6]">
+                <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+                <p class="eyebrow">GALLERY</p>
+                <p class="sect-t">우리들의 찬란한 약속</p>
+                <p class="sect-s">사진을 누르면 크게 볼 수 있어요</p>
+                <!-- 첫 장은 히어로, 나머지는 3열 서브그리드 (config.gallery 단일 정의) -->
+                <div id="gallery-hero" class="mt-4"></div>
+                <div class="grid grid-cols-3 gap-2 mt-2.5" id="gallery-grid"></div>
+                <p id="gallery-count" class="text-center text-[9.5px] text-stone-400 mt-3"></p>
             </div>
         </div>
 
@@ -463,10 +511,12 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">LOCATION</span>
                 <button onclick="closePage('modal-map')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 pad-safe-bottom-sm bg-[#FAF9F6]">
-                <div class="text-center">
-                    <h4 class="font-serif text-sm text-stone-800 font-bold" id="map-venue-name"></h4>
-                    <p class="text-xs text-stone-500 mt-1.5" id="map-venue-address"></p>
+            <div class="flex-grow overflow-y-auto no-scrollbar pt-8 pb-6 px-6 space-y-5 pad-safe-bottom-sm bg-[#FAF9F6]">
+                <div>
+                    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+                    <p class="eyebrow">LOCATION</p>
+                    <p class="sect-t" id="map-venue-name"></p>
+                    <p class="sect-s" id="map-venue-address"></p>
                 </div>
                 <div class="w-full h-60 bg-sky-50/20 rounded-2xl relative overflow-hidden border border-stone-200/50">
                     <!-- 카카오맵 JavaScript 키가 설정되면 여기에 실제 지도가 그려진다 -->
@@ -492,15 +542,20 @@
                         <a id="link-navermap" href="#" target="_blank" rel="noopener" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[12px] py-4 rounded-xl text-center font-bold block transition">네이버 지도</a>
                     </div>
                 </div>
-                <div class="space-y-4 pt-6 border-t border-stone-200/50 text-[11px] leading-relaxed text-stone-600 font-light">
-                    <div>
-                        <p class="font-bold text-stone-800 mb-1">🚇 지하철</p>
-                        <p id="map-transit"></p>
-                    </div>
-                    <div>
-                        <p class="font-bold text-stone-800 mb-1">🚗 주차 안내</p>
-                        <p id="map-parking"></p>
-                        <a id="link-parking" href="#" target="_blank" rel="noopener" class="inline-block mt-2 text-[10px] text-[#8c7355] underline font-bold">주차장 위치 지도로 보기</a>
+                <div class="space-y-3 pt-6 border-t border-stone-200/50">
+                    <!-- 주차: 카드 전체가 지도 링크 -->
+                    <a id="link-parking" href="#" target="_blank" rel="noopener" class="card-gold block px-4 py-4 transition">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[11.5px] font-bold text-stone-800">🚗 주차 안내</span>
+                            <span class="text-[12px] font-bold text-[#8c7355] whitespace-nowrap">지도 보기 ›</span>
+                        </div>
+                        <p id="map-parking" class="text-[11.5px] font-light text-stone-600 leading-relaxed mt-2"></p>
+                        <span id="map-parking-benefit" class="inline-block mt-2.5 text-[10px] font-bold text-[#7a6448] bg-[#c5a059]/20 rounded-full px-2.5 py-1"></span>
+                    </a>
+                    <!-- 지하철: 같은 카드 형태, 회색 테두리 -->
+                    <div id="transit-card" class="card-gray px-4 py-4">
+                        <p class="text-[11.5px] font-bold text-stone-800">🚇 지하철</p>
+                        <p id="map-transit" class="text-[11.5px] font-light text-stone-600 leading-relaxed mt-2"></p>
                     </div>
                 </div>
             </div>
@@ -511,13 +566,16 @@
                 <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">ACCOUNTS</span>
                 <button onclick="closePage('modal-accounts')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
             </div>
-            <div class="flex-grow overflow-y-auto no-scrollbar p-6 pad-safe-bottom-sm bg-[#FAF9F6] space-y-4">
-                <div class="text-center mb-8">
-                    <h4 class="font-serif text-xs text-stone-700 mb-1.5 font-bold">마음 전하실 곳</h4>
-                    <p class="text-[10px] text-stone-400">참석이 어려우신 분들을 위해 비대면 축의금 계좌를 안내해 드립니다.</p>
+            <div class="flex-grow overflow-y-auto no-scrollbar pt-8 pb-6 px-6 pad-safe-bottom-sm bg-[#FAF9F6]">
+                <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+                <p class="eyebrow">ACCOUNTS</p>
+                <p class="sect-t">마음 전하실 곳</p>
+                <p class="sect-s">참석이 어려우신 분들을 위해<br>계좌를 안내해 드립니다</p>
+                <div id="accounts-list" class="space-y-2.5 mt-5"></div>
+                <div class="card-gray px-4 py-4 text-center mt-2.5">
+                    <p id="view-thanks" class="font-serif text-[10.5px] font-light text-stone-500 leading-8"></p>
+                    <div class="orn" style="margin:10px 0 0"><span class="l"></span><span class="d"></span><span class="r"></span></div>
                 </div>
-                <!-- [FIX] 계좌도 config.accounts 에서 렌더링 -->
-                <div id="accounts-list" class="space-y-4"></div>
             </div>
         </div>
 
@@ -687,8 +745,12 @@
                             <input type="text" id="cfg-transit" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
                         </div>
                         <div>
-                            <label class="block font-bold text-stone-700 mb-1">주차 안내</label>
-                            <input type="text" id="cfg-parking-note" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                            <label class="block font-bold text-stone-700 mb-1">주차장 이름</label>
+                            <input type="text" id="cfg-parking-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">주차 혜택 (배지, 비우면 숨김)</label>
+                            <input type="text" id="cfg-parking-benefit" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
                         </div>
                         <div>
                             <label class="block font-bold text-stone-700 mb-1">주차장 주소</label>
@@ -704,6 +766,16 @@
                     <div class="space-y-3 border-t border-stone-100 pt-5">
                         <h4 class="font-bold text-stone-800 text-xs">✨ 인트로 멘트 (한 줄에 하나, 줄바꿈은 &lt;br&gt;)</h4>
                         <textarea id="cfg-intro-texts" rows="4" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()"></textarea>
+                    </div>
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">📸 사진첩 대표사진 캡션 (비우면 숨김)</h4>
+                        <input type="text" id="cfg-hero-caption" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()">
+                    </div>
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">✉︎ 계좌 하단 감사 문구 (줄바꿈은 &lt;br&gt;)</h4>
+                        <textarea id="cfg-thanks" rows="3" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()"></textarea>
                     </div>
 
                     <div class="space-y-3 border-t border-stone-100 pt-5">
@@ -837,7 +909,7 @@
         // =====================================================================
         const DEFAULT_CONFIG = {
             // 배포본이 바뀔 때마다 올린다. 저장된 로컬 설정의 버전이 다르면 자동으로 폐기된다.
-            configVersion: '2026-08-09-e',
+            configVersion: '2026-08-09-g',
 
             // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f | g  (관리자 패널에서 전환)
             coverTextStyle: 'g',
@@ -866,8 +938,12 @@
             venueHall: '',
             venueAddress: '서울특별시 중구 청파로 447-1',
             transit: '지하철 1·4호선 서울역 또는 2·5호선 충정로역에서 도보 이동',
-            parkingNote: '서소문역사공원 주차장 이용 (2시간 무료 주차권 제공)',
+            parkingName: '서소문역사공원 주차장',
             parkingAddress: '서울특별시 중구 칠패로 5',
+            parkingBenefit: '2시간 무료 주차권 제공',
+
+            heroCaption: 'Milano, Duomo',
+            thanksText: '보내주시는 마음 하나하나<br>깊이 새기겠습니다.',
 
             greetingText:
                 '서로 다른 두 길을 걸어오던 우리가<br>' +
@@ -1394,55 +1470,88 @@
         }
 
         // --- 5. 렌더링 ---
-        function renderGallery() {
-            const grid = document.getElementById('gallery-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            activeConfig.gallery.forEach((url, i) => {
-                const cell = document.createElement('div');
-                cell.className = 'aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]';
-                cell.addEventListener('click', () => openLightbox(i));
-                const img = document.createElement('img');
-                img.src = url;
-                img.loading = 'lazy';
-                img.alt = `웨딩 사진 ${i + 1}`;
-                img.className = 'w-full h-full object-cover';
-                cell.appendChild(img);
-                grid.appendChild(cell);
-            });
+        function makeThumb(url, i, cls) {
+            const cell = document.createElement('div');
+            cell.className = cls;
+            cell.addEventListener('click', () => openLightbox(i));
+            const img = document.createElement('img');
+            img.src = url;
+            img.loading = 'lazy';
+            img.alt = `웨딩 사진 ${i + 1}`;
+            img.className = 'w-full h-full object-cover';
+            cell.appendChild(img);
+            return cell;
         }
+
+        function renderGallery() {
+            const hero = document.getElementById('gallery-hero');
+            const grid = document.getElementById('gallery-grid');
+            if (!hero || !grid) return;
+            hero.innerHTML = '';
+            grid.innerHTML = '';
+
+            const list = activeConfig.gallery || [];
+            if (!list.length) { safeSetText('gallery-count', ''); return; }
+
+            // 첫 장 = 히어로 (4:3) + 장소 캡션
+            const h = makeThumb(list[0], 0,
+                'relative aspect-[4/3] bg-stone-100 rounded-[15px] overflow-hidden shadow-md cursor-pointer');
+            const shade = document.createElement('div');
+            shade.className = 'absolute inset-0 pointer-events-none';
+            shade.style.background = 'linear-gradient(to top, rgba(0,0,0,.5), transparent 45%)';
+            h.appendChild(shade);
+            if (activeConfig.heroCaption) {
+                const cap = document.createElement('p');
+                cap.className = 'absolute left-3.5 bottom-3 m-0 text-white font-serif text-[11px] font-light tracking-wider pointer-events-none';
+                cap.style.textShadow = '0 1px 4px rgba(0,0,0,.8)';
+                cap.textContent = activeConfig.heroCaption;
+                h.appendChild(cap);
+            }
+            hero.appendChild(h);
+
+            // 나머지 = 3열 서브그리드
+            list.slice(1).forEach((url, k) => {
+                grid.appendChild(makeThumb(url, k + 1,
+                    'aspect-[3/4] bg-stone-100 rounded-xl overflow-hidden shadow-sm cursor-pointer transition hover:scale-[1.02]'));
+            });
+
+            safeSetText('gallery-count', `사진 ${list.length}장`);
+        }
+
+        const SIDE_EN = { '신랑측': 'GROOM', '신부측': 'BRIDE' };
 
         function renderAccounts() {
             const wrap = document.getElementById('accounts-list');
             if (!wrap) return;
             wrap.innerHTML = '';
             activeConfig.accounts.forEach((acc) => {
-                const isGroom = acc.side.indexOf('신랑') === 0;
-                const card = document.createElement('div');
-                card.className = 'bg-white p-5 rounded-2xl border border-stone-200/60 shadow-sm flex justify-between items-center';
+                // 카드 전체가 복사 버튼 — 어디를 눌러도 계좌번호가 복사된다
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = 'card-gold block w-full text-left px-4 py-4 cursor-pointer';
+                card.addEventListener('click', () => copyAccount(acc.number.replace(/[^0-9]/g, '')));
 
-                const info = document.createElement('div');
-                info.className = 'space-y-1';
-                const badge = document.createElement('span');
-                badge.className = isGroom
-                    ? 'text-[8px] text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full font-bold'
-                    : 'text-[8px] text-rose-800 bg-rose-50 px-2.5 py-0.5 rounded-full font-bold';
-                badge.textContent = acc.side;
-                const line = document.createElement('p');
-                line.className = 'text-xs font-bold text-stone-700';
-                line.textContent = `${acc.bank} ${acc.number}`;
+                const head = document.createElement('div');
+                head.className = 'flex items-center justify-between gap-2';
+                const side = document.createElement('span');
+                side.className = 'eyebrow';
+                side.style.cssText = 'font-size:8.5px;text-align:left';
+                side.textContent = acc.side + (SIDE_EN[acc.side] ? '  ' + SIDE_EN[acc.side] : '');
+                const copy = document.createElement('span');
+                copy.className = 'text-[12px] font-bold text-[#8c7355] whitespace-nowrap';
+                copy.textContent = '복사 \u29c9';
+                head.append(side, copy);
+
+                // 하객이 확인하는 건 "누구에게 보내는가" — 예금주를 가장 크게
                 const holder = document.createElement('p');
-                holder.className = 'text-[10px] text-stone-400';
-                holder.textContent = `예금주: ${acc.holder}`;
-                info.append(badge, line, holder);
+                holder.className = 'font-serif text-[12.5px] font-semibold text-stone-800 mt-2';
+                holder.textContent = acc.holder;
 
-                const btn = document.createElement('button');
-                btn.className = 'bg-stone-50 border border-stone-200 text-stone-600 text-[10px] px-3 py-1.5 rounded-lg hover:bg-stone-100 cursor-pointer font-bold';
-                btn.textContent = '복사';
-                // [FIX] 표시값에서 직접 파생 — 별도 리터럴 관리로 인한 불일치 제거
-                btn.addEventListener('click', () => copyAccount(acc.number.replace(/[^0-9]/g, '')));
+                const line = document.createElement('p');
+                line.className = 'text-[11px] font-light text-stone-600 mt-0.5';
+                line.textContent = acc.bank + ' ' + acc.number;
 
-                card.append(info, btn);
+                card.append(head, holder, line);
                 wrap.appendChild(card);
             });
         }
@@ -1486,6 +1595,101 @@
             }
             set('link-navermap', `https://map.naver.com/p/search/${q}`);
             set('link-parking', `https://map.kakao.com/link/search/${pq}`);
+        }
+
+        // --- 5-0. 캘린더 저장 (.ics) ---
+        function pad2(n) { return String(n).padStart(2, '0'); }
+
+        function icsStampUtc(d) {
+            return d.getUTCFullYear() + pad2(d.getUTCMonth() + 1) + pad2(d.getUTCDate()) + 'T' +
+                   pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + 'Z';
+        }
+
+        // 예식 시각은 '한국 시간 11시'로 고정되어야 한다.
+        // Z(UTC)로 적으면 해외에 계신 하객의 브라우저 시간대에 따라 엉뚱한 시각으로 저장된다.
+        // 그래서 TZID=Asia/Seoul 을 명시하고 시각은 벽시계 그대로 적는다.
+        function icsStampLocal(str) {
+            const m = String(str).replace(/-/g, '/').match(/(\d{4})\/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
+            if (!m) return null;
+            return m[1] + m[2] + m[3] + 'T' + m[4] + m[5] + '00';
+        }
+
+        function addHoursToStamp(stamp, hours) {
+            const y = +stamp.slice(0, 4), mo = +stamp.slice(4, 6) - 1, d = +stamp.slice(6, 8);
+            const h = +stamp.slice(9, 11), mi = +stamp.slice(11, 13);
+            const t = new Date(Date.UTC(y, mo, d, h + hours, mi));
+            return t.getUTCFullYear() + pad2(t.getUTCMonth() + 1) + pad2(t.getUTCDate()) + 'T' +
+                   pad2(t.getUTCHours()) + pad2(t.getUTCMinutes()) + '00';
+        }
+
+        function buildIcs() {
+            const start = parseWeddingDate(activeConfig.weddingDate);
+            if (isNaN(start.getTime())) return null;
+            const s0 = icsStampLocal(activeConfig.weddingDate);
+            if (!s0) return null;
+            const s1 = addHoursToStamp(s0, 2);   // 2시간
+            const title = `${activeConfig.groomName} ♥ ${activeConfig.brideName} 결혼식`;
+            const loc = [venueFullText(), activeConfig.venueAddress].filter(Boolean).join(', ');
+            const esc = (t) => String(t).replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n');
+            return [
+                'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//wedd_inv//KO',
+                'CALSCALE:GREGORIAN',
+                'BEGIN:VTIMEZONE', 'TZID:Asia/Seoul', 'BEGIN:STANDARD',
+                'DTSTART:19700101T000000', 'TZOFFSETFROM:+0900', 'TZOFFSETTO:+0900',
+                'TZNAME:KST', 'END:STANDARD', 'END:VTIMEZONE',
+                'BEGIN:VEVENT',
+                'UID:' + start.getTime() + '@wedd-inv',
+                'DTSTAMP:' + icsStampUtc(new Date()),
+                'DTSTART;TZID=Asia/Seoul:' + s0,
+                'DTEND;TZID=Asia/Seoul:' + s1,
+                'SUMMARY:' + esc(title),
+                'LOCATION:' + esc(loc),
+                'DESCRIPTION:' + esc(title),
+                'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY',
+                'DESCRIPTION:' + esc(title + ' 하루 전'), 'END:VALARM',
+                'END:VEVENT', 'END:VCALENDAR',
+            ].join('\r\n');
+        }
+
+        function downloadIcs(e) {
+            if (e) e.preventDefault();
+            const ics = buildIcs();
+            if (!ics) { showCustomToast('예식 일시를 확인해 주세요.'); return; }
+            try {
+                const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'wedding.ics';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 3000);
+                showCustomToast('캘린더 파일을 내려받았습니다. 📅');
+            } catch (err) {
+                showCustomToast('이 브라우저에서는 저장이 어렵습니다.');
+            }
+        }
+
+        function renderCalendarCard() {
+            const d = parseWeddingDate(activeConfig.weddingDate);
+            if (isNaN(d.getTime())) { safeSetText('cal-summary', ''); safeSetText('cal-dday', ''); return; }
+            const WD = ['일', '월', '화', '수', '목', '금', '토'];
+            const h24 = d.getHours();
+            const ampm = h24 < 12 ? '오전' : '오후';
+            const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+            const time = `${ampm} ${h12}시` + (d.getMinutes() ? ` ${d.getMinutes()}분` : '');
+            safeSetText('cal-summary',
+                `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${WD[d.getDay()]}요일 ${time}`);
+            const el = document.getElementById('cal-summary');
+            if (el) el.innerHTML = el.textContent + '<br>' + escapeHtml(venueFullText());
+
+            const days = Math.ceil((d.getTime() - Date.now()) / 86400000);
+            const badge = document.getElementById('cal-dday');
+            if (badge) {
+                badge.textContent = days > 0 ? `D-${days}` : (days === 0 ? 'D-DAY' : '');
+                badge.style.display = days >= 0 ? 'inline-block' : 'none';
+            }
         }
 
         // --- 5-1. 카카오맵 ---
@@ -1622,9 +1826,12 @@
             safeSetVal('cfg-venue-lat', activeConfig.venueLat == null ? '' : activeConfig.venueLat);
             safeSetVal('cfg-venue-lng', activeConfig.venueLng == null ? '' : activeConfig.venueLng);
             safeSetVal('cfg-transit', activeConfig.transit);
-            safeSetVal('cfg-parking-note', activeConfig.parkingNote);
+            safeSetVal('cfg-parking-name', activeConfig.parkingName);
+            safeSetVal('cfg-parking-benefit', activeConfig.parkingBenefit);
             safeSetVal('cfg-parking-address', activeConfig.parkingAddress);
             safeSetVal('cfg-greeting', activeConfig.greetingText);
+            safeSetVal('cfg-hero-caption', activeConfig.heroCaption);
+            safeSetVal('cfg-thanks', activeConfig.thanksText);
             safeSetVal('cfg-gallery', activeConfig.gallery.join('\n'));
             safeSetVal('cfg-intro-texts', activeConfig.introTexts.join('\n'));
             safeSetVal('cfg-accounts', activeConfig.accounts
@@ -1666,9 +1873,12 @@
             activeConfig.venueLat = (latRaw === '' || latRaw == null) ? null : parseFloat(latRaw);
             activeConfig.venueLng = (lngRaw === '' || lngRaw == null) ? null : parseFloat(lngRaw);
             activeConfig.transit = safeGetVal('cfg-transit', activeConfig.transit);
-            activeConfig.parkingNote = safeGetVal('cfg-parking-note', activeConfig.parkingNote);
+            activeConfig.parkingName = safeGetVal('cfg-parking-name', activeConfig.parkingName);
+            activeConfig.parkingBenefit = safeGetVal('cfg-parking-benefit', activeConfig.parkingBenefit);
             activeConfig.parkingAddress = safeGetVal('cfg-parking-address', activeConfig.parkingAddress);
             activeConfig.greetingText = safeGetVal('cfg-greeting', activeConfig.greetingText);
+            activeConfig.heroCaption = safeGetVal('cfg-hero-caption', activeConfig.heroCaption);
+            activeConfig.thanksText = safeGetVal('cfg-thanks', activeConfig.thanksText);
 
             const galleryRaw = safeGetVal('cfg-gallery', null);
             if (galleryRaw !== null) {
@@ -1744,9 +1954,23 @@
             safeSetText('map-venue-address', activeConfig.venueAddress);
             safeSetText('map-pin-label', venueFullText());
             safeSetText('map-transit', activeConfig.transit);
-            safeSetText('map-parking', `${activeConfig.parkingNote} · ${activeConfig.parkingAddress}`);
+            const parkingEl = document.getElementById('map-parking');
+            if (parkingEl) {
+                parkingEl.innerHTML = `${escapeHtml(activeConfig.parkingName)}<br>${escapeHtml(activeConfig.parkingAddress)}`;
+            }
+            const benefitEl = document.getElementById('map-parking-benefit');
+            if (benefitEl) {
+                benefitEl.textContent = activeConfig.parkingBenefit || '';
+                // Tailwind 의 .hidden 과 .inline-block 은 같은 display 속성을 다투므로
+                // 클래스 토글 대신 인라인 스타일로 확실히 제어한다.
+                benefitEl.style.display = activeConfig.parkingBenefit ? 'inline-block' : 'none';
+            }
+
+            const thanksEl = document.getElementById('view-thanks');
+            if (thanksEl) thanksEl.innerHTML = activeConfig.thanksText || '';
 
             renderFamily();
+            renderCalendarCard();
             renderGallery();
             renderAccounts();
             renderMapLinks();
@@ -1763,8 +1987,10 @@
             groomName: '신랑 성명', brideName: '신부 성명', groomParents: '신랑 혼주',
             brideParents: '신부 혼주', weddingDate: '예식 일시', venueName: '식장명',
             venueHall: '홀', venueAddress: '주소', transit: '지하철 안내',
-            parkingNote: '주차 안내', parkingAddress: '주차장 주소',
+            parkingName: '주차장 이름', parkingAddress: '주차장 주소', parkingBenefit: '주차 혜택',
+            kakaoMapKey: '카카오맵 키', venueLat: '위도', venueLng: '경도',
             monogramText: '모노그램', greetingText: '초대의 글', introTexts: '인트로 멘트',
+            heroCaption: '대표사진 캡션', thanksText: '감사 문구',
             accounts: '계좌', menu1: '버튼1 위치', menu2: '버튼2 위치',
             menu3: '버튼3 위치', menu4: '버튼4 위치',
             intro1Pos: '인트로1 위치', intro2Pos: '인트로2 위치', intro3Pos: '인트로3 위치',
@@ -1836,9 +2062,12 @@
                 venueLat: activeConfig.venueLat,
                 venueLng: activeConfig.venueLng,
                 transit: activeConfig.transit,
-                parkingNote: activeConfig.parkingNote,
+                parkingName: activeConfig.parkingName,
+                parkingBenefit: activeConfig.parkingBenefit,
                 parkingAddress: activeConfig.parkingAddress,
                 greetingText: activeConfig.greetingText,
+                heroCaption: activeConfig.heroCaption,
+                thanksText: activeConfig.thanksText,
                 introTexts: activeConfig.introTexts,
                 accounts: activeConfig.accounts,
                 bgUrl: activeConfig.bgUrl,
