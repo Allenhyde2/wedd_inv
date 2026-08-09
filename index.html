@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Wedding Day - 이민우 🤍 김지현</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #e8e6e1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .font-serif { font-family: 'Noto Serif KR', serif; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        
+        .phone-frame {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 880px;
+            background: #fbfaf7;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+            border-radius: 36px;
+            border: 6px solid #f2eee8;
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-height: 880px) or (max-width: 420px) {
+            .phone-frame {
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .slide-up {
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .slide-up.open {
+            transform: translateY(0);
+        }
+
+        @keyframes subtle-float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(0.3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating-btn {
+            animation: subtle-float 4.5s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* =======================================================
+           [수정] 텍스트 색상 및 굵기 수정
+           ======================================================= */
+        .cinematic-text {
+            color: #8c7355; /* [수정] 원하시는 고급스러운 골드 브라운 색상으로 수정 */
+            font-weight: 400; /* [수정] 너무 두껍지 않고 우아하게 400(Regular) 굵기로 조정 */
+            opacity: 0;
+            transform: translate3d(0, 20px, 0); 
+            filter: blur(10px);
+            transition: opacity 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+                        filter 1.3s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity, filter;
+            
+            /* 8방향 아이보리(#F4F1EA) 외곽선 완벽 복원 + 딥 섀도우 */
+            text-shadow: 
+                -1.5px -1.5px 0 #F4F1EA,
+                 0     -1.5px 0 #F4F1EA,
+                 1.5px -1.5px 0 #F4F1EA,
+                 1.5px  0     0 #F4F1EA,
+                 1.5px  1.5px 0 #F4F1EA,
+                 0      1.5px 0 #F4F1EA,
+                -1.5px  1.5px 0 #F4F1EA,
+                -1.5px  0     0 #F4F1EA,
+                 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .cinematic-text.active {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+        }
+        .cinematic-text.exit {
+            opacity: 0;
+            transform: translate3d(0, -20px, 0);
+            filter: blur(10px);
+        }
+
+        /* 점멸 텍스트 버튼 */
+        @keyframes text-glow-pulse {
+            0% { opacity: 0.5; transform: scale(0.98); text-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+            50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 25px rgba(197, 160, 89, 0.8), 0 0 5px rgba(197, 160, 89, 0.5); }
+            100% { opacity: 0.5; transform: scale(0.98); text-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+        }
+        .glowing-text-btn {
+            animation: text-glow-pulse 2.5s ease-in-out infinite;
+            will-change: transform, opacity, text-shadow;
+            background: transparent;
+            border: none;
+        }
+
+        .title-shadow {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6);
+        }
+
+        .antique-shadow {
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.6);
+        }
+
+        .vignette-mask {
+            -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 48%, black 35%, transparent 100%);
+            mask-image: radial-gradient(ellipse 75% 65% at 50% 48%, black 35%, transparent 100%);
+        }
+
+        /* 차분한 화면전환 트랜지션 */
+        #splash-layer {
+            transition: opacity 2.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 2.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                        filter 2.6s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: scale(1);
+            filter: blur(0px);
+            opacity: 1;
+            will-change: transform, opacity, filter;
+        }
+        #splash-layer.fade-out {
+            opacity: 0 !important;
+            transform: scale(1.1) !important;
+            filter: blur(15px) !important;
+        }
+        #main-layer {
+            opacity: 0;
+            transform: scale(1.15); 
+            filter: blur(20px);
+            pointer-events: none;
+            transition: opacity 3s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 3s cubic-bezier(0.22, 1, 0.36, 1), 
+                        filter 3s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity, filter;
+        }
+        #main-layer.fade-in {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            filter: blur(0px) !important;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        
+        <div id="splash-layer" class="absolute inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-between py-16">
+            
+            <canvas id="splash-canvas" class="absolute inset-0 w-full h-full cursor-pointer touch-none z-0"></canvas>
+
+            <div class="text-center mt-6 select-none pointer-events-none relative z-30 flex flex-col items-center">
+                <span id="view-monogram" class="font-cinzel text-xs tracking-[0.5em] text-[#c5a059] mb-1 drop-shadow-md">M 🤍 J</span>
+                <span class="h-[1px] w-8 bg-[#c5a059]/40"></span>
+            </div>
+
+            <div class="w-full px-8 text-center select-none pointer-events-none relative z-30 flex items-center justify-center h-40">
+                <p id="intro-text-element" class="cinematic-text font-serif text-[16px] leading-[2.1] tracking-[0.15em]">
+                    </p>
+            </div>
+
+            <div id="action-prompt-container" class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-1500 pointer-events-none z-40">
+                <button id="celebrate-btn" class="glowing-text-btn font-serif tracking-[0.2em] px-10 py-6 cursor-pointer flex flex-col items-center gap-2 pointer-events-auto">
+                    <span class="font-semibold text-[#8c7355] text-[15px] border-b border-[#8c7355]/30 pb-1">결혼을 축하해주세요</span>
+                    <span class="text-[9px] text-[#a69785] font-sans tracking-[0.1em]">(화면을 터치하여 입장하기)</span>
+                </button>
+            </div>
+
+            <button onclick="skipSplash()" class="relative z-30 px-5 py-2 border border-stone-200/80 hover:border-stone-400 rounded-full text-[9px] text-stone-400 hover:text-stone-700 tracking-[0.2em] cursor-pointer transition bg-white/40 backdrop-blur-md shadow-xs">
+                SKIP INTRO
+            </button>
+        </div>
+
+
+        <main id="main-layer" class="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#F4F1EA]">
+            
+            <div id="main-bg-image" class="absolute inset-0 w-full h-full bg-cover bg-center vignette-mask z-0" 
+                 style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200');">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50 pointer-events-none"></div>
+            </div>
+            
+            <div class="absolute inset-4 border border-[#c5a059]/30 pointer-events-none z-10"></div>
+            <div class="absolute inset-5 border border-[#c5a059]/10 pointer-events-none z-10"></div>
+
+            <header class="w-full flex justify-between items-center px-8 pt-10 z-20 relative">
+                <div class="text-white relative text-left">
+                    <p class="font-cinzel text-[10px] tracking-[0.4em] text-[#e0cfb3] mb-1 font-bold title-shadow">THE WEDDING DAY</p>
+                    <h1 id="view-couple-names" class="font-serif text-lg font-light tracking-widest title-shadow">지현 🤍 민우</h1>
+                </div>
+                <button onclick="openSettings()" class="bg-black/30 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-black/50 border border-white/10 transition cursor-pointer shadow-lg relative z-20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31(2.37)-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                </button>
+            </header>
+
+            <div class="relative flex-grow w-full z-20">
+                <button id="btn-menu-1" onclick="openPage('modal-greeting')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow">✨ 초대의 글</button>
+                <button id="btn-menu-2" onclick="openPage('modal-gallery')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 0.6s;">📸 사진첩</button>
+                <button id="btn-menu-3" onclick="openPage('modal-map')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 1.2s;">📍 오시는 길</button>
+                <button id="btn-menu-4" onclick="openPage('modal-accounts')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 1.8s;">✉︎ 마음 전하실 곳</button>
+                <button id="btn-menu-5" onclick="openPage('modal-rsvp')" class="absolute floating-btn bg-black/40 hover:bg-black/60 text-[#fcf9f2] border border-[#c5a059]/50 backdrop-blur-md px-6 py-3 rounded-full font-serif text-[13px] tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-all cursor-pointer antique-shadow" style="animation-delay: 2.4s;">💌 방명록 & RSVP</button>
+            </div>
+
+            <div class="w-full text-center z-20 px-8 mb-4">
+                <div id="dday-count-element" class="inline-block bg-black/50 backdrop-blur-md px-5 py-2.5 rounded-full text-[#fcf9f2] text-[11px] tracking-[0.2em] border border-[#c5a059]/40 shadow-2xl antique-shadow">
+                    본 예식까지 <span class="font-bold text-[#e0cfb3]" id="dday-days">0일 0시간</span> 남았습니다.
+                </div>
+            </div>
+
+            <footer class="w-full text-center pb-12 z-20 relative">
+                <p id="view-date" class="font-cinzel text-[#e0cfb3] drop-shadow-2xl text-[13px] tracking-[0.3em] mb-2 font-medium antique-shadow">2026. 10. 24. SATURDAY PM 1:00</p>
+                <p id="view-venue" class="font-serif text-[#fcf9f2] drop-shadow-2xl text-[11px] tracking-[0.2em] font-light antique-shadow">아펠가모 반포, LL층 그랜드볼룸</p>
+            </footer>
+        </main>
+
+
+        <div id="modal-greeting" class="absolute inset-0 bg-white z-40 slide-up flex flex-col">
+            <div class="h-16 flex justify-between items-center px-6 border-b border-stone-100 flex-shrink-0 bg-[#FAF9F6]">
+                <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">GREETING</span>
+                <button onclick="closePage('modal-greeting')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
+            </div>
+            <div class="flex-grow overflow-y-auto no-scrollbar py-14 px-10 text-center bg-[#FAF9F6]">
+                <div class="flex justify-center mb-10 text-[#c5a059]">
+                    <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9s2.015-9 4.5-9m0 0a9.003 9.003 0 018.716 2.253M12 3a9.003 9.003 0 00-8.716 2.253" />
+                    </svg>
+                </div>
+                <h3 class="font-serif text-[11px] text-[#c5a059] tracking-[0.3em] mb-10 font-bold">우리, 하나 되는 날</h3>
+                <p id="view-greeting-text" class="font-serif text-xs md:text-sm leading-8 text-stone-600 font-light mb-14">
+                    서로 다른 두 길을 걸어오던 우리가<br>
+                    이제 하나의 마음이 되어<br>
+                    동행을 시작하려 합니다.<br><br>
+                    서로를 귀하게 아끼며 보듬고<br>
+                    행복한 삶을 정성껏 가꾸어 가겠습니다.<br><br>
+                    저희들의 아름다운 약속의 첫 날에<br>
+                    함께 자리하여 축복해주시면 고맙겠습니다.
+                </p>
+                <hr class="border-[#c5a059]/20 max-w-[120px] mx-auto my-12">
+                <div class="font-serif text-xs md:text-sm text-stone-600 leading-9 space-y-3">
+                    <p><strong>김철수 · 이영희</strong> <span class="text-[10px] text-stone-400">의 차남</span> <strong id="view-groom" class="text-stone-800 text-sm">민우</strong></p>
+                    <p><strong>박호진 · 최은경</strong> <span class="text-[10px] text-stone-400">의 장녀</span> <strong id="view-bride" class="text-stone-800 text-sm">지현</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-gallery" class="absolute inset-0 bg-white z-40 slide-up flex flex-col">
+            <div class="h-16 flex justify-between items-center px-6 border-b border-stone-100 flex-shrink-0 bg-[#FAF9F6]">
+                <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">GALLERY</span>
+                <button onclick="closePage('modal-gallery')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
+            </div>
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6]">
+                <p class="text-center font-serif text-[10px] text-stone-400 tracking-widest mb-8 font-bold">우리들의 찬란한 약속</p>
+                <div class="grid grid-cols-2 gap-3" id="gallery-grid">
+                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(0)">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(1)">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(2)">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden shadow-md border border-stone-200/50 cursor-pointer transition hover:scale-[1.02]" onclick="openLightbox(3)">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-map" class="absolute inset-0 bg-white z-40 slide-up flex flex-col">
+            <div class="h-16 flex justify-between items-center px-6 border-b border-stone-100 flex-shrink-0 bg-[#FAF9F6]">
+                <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">LOCATION</span>
+                <button onclick="closePage('modal-map')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
+            </div>
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 bg-[#FAF9F6]">
+                <div class="text-center">
+                    <h4 class="font-serif text-sm text-stone-800 font-medium font-bold" id="map-venue-name">아펠가모 반포</h4>
+                    <p class="text-xs text-stone-500 mt-1.5" id="map-venue-address">서울특별시 서초구 반포대로 235, LL층</p>
+                </div>
+                <div class="w-full h-48 bg-sky-50/20 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center border border-stone-200/50 p-4">
+                    <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a059_1.5px,transparent_1.5px)] [background-size:20px_20px]"></div>
+                    <div class="z-10 text-center space-y-2">
+                        <span class="text-3xl filter drop-shadow-md">🏰</span>
+                        <div class="bg-white/90 backdrop-blur-md border border-[#c5a059]/30 rounded-xl py-1.5 px-3.5 shadow-md">
+                            <p class="text-[10px] font-bold text-[#8c7355] tracking-wide">아펠가모 반포 (효성빌딩)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <button onclick="copyAddress()" class="w-full bg-white border border-stone-200/80 hover:border-stone-300 text-stone-600 text-xs py-3 rounded-xl font-bold shadow-xs transition cursor-pointer">
+                        도로명 주소 복사하기
+                    </button>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="#" onclick="showCustomToast('카카오맵으로 연결됩니다.')" class="bg-amber-100/80 text-amber-950 text-[11px] py-3.5 rounded-xl text-center font-bold block">카카오맵 연동</a>
+                        <a href="#" onclick="showCustomToast('네이버 지도로 연결됩니다.')" class="bg-emerald-50 text-emerald-950 text-[11px] py-3.5 rounded-xl text-center font-bold block">네이버 지도 연동</a>
+                    </div>
+                </div>
+                <div class="space-y-4 pt-6 border-t border-stone-200/50 text-[11px] leading-relaxed text-stone-600 font-light">
+                    <div>
+                        <p class="font-bold text-stone-800 mb-1">🚇 대중교통 지하철</p>
+                        <p>3, 7, 9호선 고속터미널역 5번 출구 (도보 약 5분)</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 mb-1">🚗 승용차 주차 시</p>
+                        <p>효성빌딩 하객 전용 지하 주차장 무료 주차 2시간 제공.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-accounts" class="absolute inset-0 bg-white z-40 slide-up flex flex-col">
+            <div class="h-16 flex justify-between items-center px-6 border-b border-stone-100 flex-shrink-0 bg-[#FAF9F6]">
+                <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">ACCOUNTS</span>
+                <button onclick="closePage('modal-accounts')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
+            </div>
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6] space-y-4">
+                <div class="text-center mb-8">
+                    <h4 class="font-serif text-xs text-stone-700 mb-1.5 font-bold">마음 전하실 곳</h4>
+                    <p class="text-[10px] text-stone-400">참석이 어려우신 분들을 위해 비대면 축의금 계좌를 안내해 드립니다.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-stone-200/60 shadow-sm flex justify-between items-center">
+                    <div class="space-y-1">
+                        <span class="text-[8px] text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full font-bold">신랑측</span>
+                        <p class="text-xs font-bold text-stone-700">국민은행 <span id="view-groom-acc" class="font-mono">123456-01-123456</span></p>
+                        <p class="text-[10px] text-stone-400">예금주: <span id="view-groom-holder">이민우</span></p>
+                    </div>
+                    <button onclick="copyAccount('12345601123456')" class="bg-stone-50 border border-stone-200 text-stone-600 text-[10px] px-3 py-1.5 rounded-lg hover:bg-stone-100 cursor-pointer font-bold">복사</button>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-stone-200/60 shadow-sm flex justify-between items-center">
+                    <div class="space-y-1">
+                        <span class="text-[8px] text-rose-800 bg-rose-50 px-2.5 py-0.5 rounded-full font-bold">신부측</span>
+                        <p class="text-xs font-bold text-stone-700">신한은행 <span id="view-bride-acc" class="font-mono">987-654-321012</span></p>
+                        <p class="text-[10px] text-stone-400">예금주: <span id="view-bride-holder">김지현</span></p>
+                    </div>
+                    <button onclick="copyAccount('987654321012')" class="bg-stone-50 border border-stone-200 text-stone-600 text-[10px] px-3 py-1.5 rounded-lg hover:bg-stone-100 cursor-pointer font-bold">복사</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-rsvp" class="absolute inset-0 bg-white z-40 slide-up flex flex-col">
+            <div class="h-16 flex justify-between items-center px-6 border-b border-stone-100 flex-shrink-0 bg-[#FAF9F6]">
+                <span class="font-cinzel text-xs text-[#8c7355] tracking-[0.3em] font-bold">RSVP & GUESTBOOK</span>
+                <button onclick="closePage('modal-rsvp')" class="text-stone-400 hover:text-stone-700 p-2 cursor-pointer transition font-bold">✕</button>
+            </div>
+            <div class="flex-grow overflow-y-auto no-scrollbar p-6 bg-[#FAF9F6] space-y-6">
+                <div class="flex bg-stone-200/60 p-1 rounded-xl">
+                    <button onclick="switchTab('rsvp')" id="tab-btn-rsvp" class="flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer bg-white text-[#8c7355] shadow-xs">참석 여부 전달 (RSVP)</button>
+                    <button onclick="switchTab('guestbook')" id="tab-btn-guestbook" class="flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer text-stone-500">축하 방명록</button>
+                </div>
+
+                <div id="tab-content-rsvp" class="space-y-4">
+                    <form id="rsvp-form" class="space-y-3 text-xs text-stone-600" onsubmit="handleRSVPSubmit(event)">
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">구분</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-groom-guest">
+                                    <input type="radio" name="rsvp_relation" value="groom" required class="hidden" onclick="highlightRsvLabel('groom')"> 신랑측 하객
+                                </label>
+                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-bride-guest">
+                                    <input type="radio" name="rsvp_relation" value="bride" required class="hidden" onclick="highlightRsvLabel('bride')"> 신부측 하객
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">참석자 성함</label>
+                            <input type="text" id="rsvp-name" required class="w-full p-2.5 border border-stone-200 rounded-lg bg-white" placeholder="성함을 입력해주세요">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">식사 여부</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-meal-y">
+                                    <input type="radio" name="rsvp_meal" value="yes" required class="hidden" onclick="highlightMealLabel('yes')"> 예정
+                                </label>
+                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-meal-n">
+                                    <input type="radio" name="rsvp_meal" value="no" required class="hidden" onclick="highlightMealLabel('no')"> 불가
+                                </label>
+                                <label class="border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white" id="lbl-meal-u">
+                                    <input type="radio" name="rsvp_meal" value="undecided" required class="hidden" onclick="highlightMealLabel('undecided')"> 미정
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-3.5 bg-[#8c7355] hover:bg-[#7a6448] text-white rounded-xl font-bold tracking-widest mt-6 cursor-pointer transition">의사 전달하기</button>
+                    </form>
+                </div>
+
+                <div id="tab-content-guestbook" class="hidden space-y-5">
+                    <form id="guestbook-form" class="space-y-2 text-xs" onsubmit="handleGuestbookSubmit(event)">
+                        <div class="flex gap-2">
+                            <input type="text" id="gb-name" required class="w-1/3 p-2.5 border border-stone-200 rounded-lg bg-white" placeholder="작성자">
+                            <input type="text" id="gb-msg" required class="w-2/3 p-2.5 border border-stone-200 rounded-lg bg-white" placeholder="축하 메세지">
+                        </div>
+                        <button type="submit" class="w-full py-2.5 bg-stone-700 text-white rounded-lg font-bold tracking-wide">등록하기</button>
+                    </form>
+                    <div id="guestbook-list-container" class="space-y-2.5 max-h-[340px] overflow-y-auto no-scrollbar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-panel" class="absolute inset-0 bg-black/60 z-50 flex items-end justify-center slide-up" onclick="closeSettingsIfBackdrop(event)">
+            <div class="bg-white w-full rounded-t-3xl max-h-[85%] flex flex-col" onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center px-6 py-5 border-b border-stone-100 flex-shrink-0">
+                    <span class="font-bold text-stone-800 text-xs">청첩장 종합 튜닝 패널</span>
+                    <button onclick="closeSettings()" class="text-stone-400 hover:text-stone-700 p-1 cursor-pointer transition">완료</button>
+                </div>
+                
+                <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 text-[11px] text-stone-600">
+                    
+                    <div class="space-y-4 border-b border-stone-100 pb-5">
+                        <h4 class="font-bold text-stone-800 text-xs">🌊 인트로 수면 투영 이미지 설정</h4>
+                        
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-3">
+                            <span class="font-bold text-[#8c7355]">Intro 1번 이미지 (첫 번째 멘트 시)</span>
+                            <input type="text" id="cfg-intro-1-url" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()">
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-intro-1-x" min="15" max="85" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-intro-1-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-intro-1-y" min="20" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-intro-1-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-3">
+                            <span class="font-bold text-[#8c7355]">Intro 2번 이미지 (두 번째 멘트 시)</span>
+                            <input type="text" id="cfg-intro-2-url" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()">
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-intro-2-x" min="15" max="85" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-intro-2-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-intro-2-y" min="20" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-intro-2-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-3">
+                            <span class="font-bold text-[#8c7355]">Intro 3번 이미지 (세 번째 멘트 시)</span>
+                            <input type="text" id="cfg-intro-3-url" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()">
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-intro-3-x" min="15" max="85" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-intro-3-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-intro-3-y" min="20" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-intro-3-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-stone-700">메인 커버 이미지 주소 (URL)</label>
+                        <input type="text" id="cfg-bg-url" class="w-full p-2.5 border border-stone-200 rounded-xl text-stone-800 outline-none bg-stone-50" onchange="updateInviteRealtime()">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-stone-700 mb-1">상단 이니셜(모노그램)</label>
+                            <input type="text" id="cfg-monogram" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-cinzel" oninput="updateInviteRealtime()">
+                        </div>
+                        <div class="col-span-2 grid grid-cols-2 gap-3 mt-2">
+                            <div>
+                                <label class="block font-bold text-stone-700 mb-1">신랑 성명</label>
+                                <input type="text" id="cfg-groom-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-stone-700 mb-1">신부 성명</label>
+                                <input type="text" id="cfg-bride-name" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-stone-700 mb-1">예식 위치 및 식장 홀</label>
+                        <input type="text" id="cfg-venue" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-stone-700 mb-1">예식 날짜 (디데이 카운트용)</label>
+                        <input type="text" id="cfg-date" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-mono" oninput="updateInviteRealtime()" placeholder="YYYY/MM/DD HH:MM">
+                    </div>
+
+                    <div class="space-y-4 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">메인화면 메뉴 버튼 위치조정 (%)</h4>
+                        
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-stone-700">✨ 초대의 글</span>
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-m1-x" min="0" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m1-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-m1-y" min="15" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m1-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-stone-700">📸 사진첩</span>
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-m2-x" min="0" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m2-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-m2-y" min="15" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m2-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-stone-700">📍 오시는 길</span>
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-m3-x" min="0" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m3-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-m3-y" min="15" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m3-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-stone-700">✉︎ 마음 전하실 곳</span>
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-m4-x" min="0" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m4-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-m4-y" min="15" max="80" class="flex-grow accent-[#8c7355]" oninput="updateInviteRealtime()">
+                                <span id="val-m4-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-stone-50 p-4 rounded-xl space-y-2">
+                            <span class="font-bold text-[#c5a059]">💌 방명록 & RSVP</span>
+                            <div class="flex items-center gap-3">
+                                <span>가로(X):</span>
+                                <input type="range" id="cfg-m5-x" min="0" max="80" class="flex-grow accent-[#c5a059]" oninput="updateInviteRealtime()">
+                                <span id="val-m5-x" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span>세로(Y):</span>
+                                <input type="range" id="cfg-m5-y" min="15" max="80" class="flex-grow accent-[#c5a059]" oninput="updateInviteRealtime()">
+                                <span id="val-m5-y" class="w-8 text-right font-mono">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="replaySplash()" class="w-full py-4 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl font-bold transition cursor-pointer shadow-sm mt-6">
+                        🌊 스플래시 인트로 다시 재생하기
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="lightbox-overlay" class="absolute inset-0 bg-black/95 z-[100] flex flex-col justify-between py-10 opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="w-full flex justify-between items-center px-6 text-white flex-shrink-0">
+                <span id="lightbox-index" class="font-serif text-[11px] tracking-widest text-white/70">1 / 4</span>
+                <button onclick="closeLightbox()" class="text-white/60 hover:text-white p-2 text-sm cursor-pointer font-bold">✕ CLOSE</button>
+            </div>
+            
+            <div class="flex-grow flex items-center justify-center relative w-full overflow-hidden" id="lightbox-swipe-area">
+                <button onclick="changeLightboxSlide(-1)" class="absolute left-4 bg-white/10 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/20 transition cursor-pointer z-10 text-xs">◀</button>
+                <img id="lightbox-img" src="" class="max-w-[90%] max-h-[80vh] object-contain rounded-md shadow-2xl select-none" alt="Wedding Snapshot">
+                <button onclick="changeLightboxSlide(1)" class="absolute right-4 bg-white/10 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/20 transition cursor-pointer z-10 text-xs">▶</button>
+            </div>
+
+            <div class="text-center text-white/50 text-[10px] tracking-wider flex-shrink-0 font-bold">
+                스와이프 또는 화살표 터치로 감상하실 수 있습니다.
+            </div>
+        </div>
+
+        <div id="custom-toast" class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-stone-800/95 text-white text-[10px] px-6 py-3 rounded-full opacity-0 pointer-events-none transition-all duration-300 z-[999] shadow-2xl select-none text-center min-w-[220px] tracking-widest font-bold">
+            알림
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. CONFIGURATION ---
+        const DEFAULT_CONFIG = {
+            bgUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200',
+            monogramText: 'M 🤍 J',
+            groomName: '이민우',
+            brideName: '김지현',
+            venue: '아펠가모 반포, LL층 그랜드볼룸',
+            weddingDate: '2026/10/24 13:00:00',
+            intro1Url: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
+            intro1Pos: { x: 30, y: 35 },
+            intro2Url: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600',
+            intro2Pos: { x: 70, y: 55 },
+            intro3Url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600',
+            intro3Pos: { x: 35, y: 68 },
+            menu1: { x: 8, y: 22 },
+            menu2: { x: 65, y: 35 },
+            menu3: { x: 10, y: 53 },
+            menu4: { x: 60, y: 68 },
+            menu5: { x: 15, y: 82 }
+        };
+
+        let activeConfig = {};
+        function mergeConfig(target, source) {
+            for (let key in source) {
+                if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                    target[key] = target[key] || {};
+                    mergeConfig(target[key], source[key]);
+                } else {
+                    if (target[key] === undefined) target[key] = source[key];
+                }
+            }
+        }
+
+        try {
+            // [FIX] 로컬 스토리지 키를 고정하여 위치 초기화 버그 해결
+            const loaded = JSON.parse(localStorage.getItem('wedding_final_config'));
+            if (loaded) activeConfig = loaded;
+        } catch(e) {}
+        mergeConfig(activeConfig, DEFAULT_CONFIG); 
+
+        const introTexts = [
+            "두 사람이 소중한 믿음으로<br>하나의 길을 딛습니다.",
+            "그대의 가장 찬란한 가을에,",
+            "서로의 햇살과 그늘이 되어 주기로<br>약속했습니다."
+        ];
+        let introIndex = 0;
+        let isIntroFinished = false;
+
+        const galleryImages = [
+            "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200",
+            "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200",
+            "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200",
+            "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1200"
+        ];
+        let lightboxCurrentIndex = 0;
+
+        const safeSetVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+        const safeGetVal = (id, fallback) => { const el = document.getElementById(id); return el ? el.value : fallback; };
+        const safeSetText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+
+        // --- 2. CANVAS ---
+        const canvas = document.getElementById('splash-canvas');
+        const ctx = canvas.getContext('2d', { alpha: true });
+        let animationFrameId;
+        let dpr = 1;
+
+        const preloadedImages = { intro1: new Image(), intro2: new Image(), intro3: new Image() };
+        function preloadIntroAssets() {
+            preloadedImages.intro1.src = activeConfig.intro1Url;
+            preloadedImages.intro2.src = activeConfig.intro2Url;
+            preloadedImages.intro3.src = activeConfig.intro3Url;
+        }
+
+        class Wave {
+            constructor(x, y, maxRadius, isTransition = false) {
+                this.x = x;
+                this.y = y;
+                this.radius = 0;
+                this.maxRadius = maxRadius;
+                this.speed = isTransition ? 2.8 : 1.8;
+                this.isTransition = isTransition;
+                this.alpha = 1.0;
+                this.waves = isTransition
+                    ? [
+                        { delay: 0, width: 22, color: 'rgba(212,175,55,' },
+                        { delay: -50, width: 14, color: 'rgba(255,255,255,' },
+                        { delay: -90, width: 8, color: 'rgba(212,175,55,' }
+                      ]
+                    : [
+                        { delay: 0, width: 12, color: 'rgba(197,160,89,' },
+                        { delay: -35, width: 8, color: 'rgba(255,255,255,' },
+                        { delay: -70, width: 4, color: 'rgba(197,160,89,' }
+                      ];
+            }
+            update() {
+                this.radius += this.speed;
+                if (this.radius > this.maxRadius * 0.8) {
+                    this.alpha -= 0.008;
+                }
+                return this.alpha > 0;
+            }
+            draw(c) {
+                this.waves.forEach(w => {
+                    let r = this.radius + w.delay;
+                    if (r > 0) {
+                        let dynamicAlpha = this.alpha * (1 - r / this.maxRadius);
+                        if (dynamicAlpha > 0) {
+                            c.beginPath();
+                            c.arc(this.x, this.y, r, 0, Math.PI * 2);
+                            c.strokeStyle = `${w.color}${dynamicAlpha * 0.85})`;
+                            c.lineWidth = w.width;
+                            c.stroke();
+                        }
+                    }
+                });
+            }
+        }
+
+        class WaterReflection {
+            constructor(x, y, imgObj) {
+                this.x = x;
+                this.y = y;
+                this.img = imgObj;
+                this.alpha = 0;
+                this.targetAlpha = 0.85; 
+                this.scale = 0.85; 
+                this.state = 'fadein';
+                this.timer = 0;
+                this.size = 360; 
+                this.offCanvas = null;
+            }
+            initOffCanvas() {
+                if (!this.img || !this.img.complete || this.img.naturalWidth === 0) return false;
+                this.offCanvas = document.createElement('canvas');
+                this.offCanvas.width = this.size;
+                this.offCanvas.height = this.size;
+                const offCtx = this.offCanvas.getContext('2d');
+                
+                const minDim = Math.min(this.img.naturalWidth, this.img.naturalHeight);
+                const sx = (this.img.naturalWidth - minDim) / 2;
+                const sy = (this.img.naturalHeight - minDim) / 2;
+                offCtx.drawImage(this.img, sx, sy, minDim, minDim, 0, 0, this.size, this.size);
+                
+                offCtx.globalCompositeOperation = 'destination-in';
+                const gradient = offCtx.createRadialGradient(
+                    this.size/2, this.size/2, this.size * 0.15,
+                    this.size/2, this.size/2, this.size/2
+                );
+                gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+                gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.7)');
+                gradient.addColorStop(0.8, 'rgba(0, 0, 0, 0.2)');
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                offCtx.fillStyle = gradient;
+                offCtx.fillRect(0, 0, this.size, this.size);
+                
+                offCtx.globalCompositeOperation = 'source-atop';
+                const shimmer = offCtx.createRadialGradient(
+                    this.size/2, this.size/2, 0,
+                    this.size/2, this.size/2, this.size/2
+                );
+                shimmer.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+                shimmer.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                offCtx.fillStyle = shimmer;
+                offCtx.fillRect(0, 0, this.size, this.size);
+
+                return true;
+            }
+            update() {
+                if (this.state === 'fadein') {
+                    this.alpha += 0.015;
+                    this.scale += 0.002;
+                    if (this.alpha >= this.targetAlpha) {
+                        this.alpha = this.targetAlpha;
+                        this.state = 'hold';
+                    }
+                } else if (this.state === 'hold') {
+                    this.timer++;
+                    this.scale += 0.0006; 
+                    if (this.timer > 150) this.state = 'fadeout';
+                } else if (this.state === 'fadeout') {
+                    this.alpha -= 0.01;
+                    this.scale += 0.002;
+                    if (this.alpha <= 0) return false;
+                }
+                return true;
+            }
+            draw(c) {
+                if (!this.offCanvas) {
+                    const isReady = this.initOffCanvas();
+                    if (!isReady) return;
+                }
+                c.save();
+                c.globalAlpha = this.alpha;
+                const currentSize = this.size * this.scale;
+                c.drawImage(this.offCanvas, this.x - currentSize / 2, this.y - currentSize / 2, currentSize, currentSize);
+                c.restore();
+            }
+        }
+
+        class GoldPetal {
+            constructor(x, y, scaleMult = 1.0) {
+                this.x = x;
+                this.y = y;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = scaleMult > 1.0 ? Math.random() * 3.5 + 1.5 : Math.random() * 2.0 + 0.8;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed - (scaleMult > 1.0 ? 2.5 : 1.2);
+                this.sizeW = (Math.random() * 8 + 5) * scaleMult;
+                this.sizeH = (Math.random() * 4 + 2) * scaleMult;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = Math.random() * 0.06 - 0.03;
+                this.alpha = 1.0;
+                this.decay = Math.random() * 0.004 + 0.002; 
+                this.color = Math.random() > 0.3 
+                    ? `rgba(${Math.floor(Math.random()*20+215)}, ${Math.floor(Math.random()*20+175)}, 65, ` 
+                    : `rgba(255, ${Math.floor(Math.random()*30+210)}, ${Math.floor(Math.random()*30+210)}, `;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.04; 
+                this.vx *= 0.98; 
+                this.rotation += this.rotSpeed;
+                this.alpha -= this.decay;
+                return this.alpha > 0;
+            }
+            draw(c) {
+                c.save();
+                c.translate(this.x, this.y);
+                c.rotate(this.rotation);
+                c.fillStyle = `${this.color}${this.alpha})`;
+                c.beginPath();
+                c.ellipse(0, 0, this.sizeW, this.sizeH, 0, 0, Math.PI * 2);
+                c.fill();
+                c.restore();
+            }
+        }
+
+        class AmbientSparkle {
+            constructor(w, h) {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.vx = Math.random() * 0.3 - 0.15;
+                this.vy = -(Math.random() * 0.4 + 0.1);
+                this.size = Math.random() * 1.5 + 0.5;
+                this.maxAlpha = Math.random() * 0.6 + 0.2;
+                this.alpha = this.maxAlpha;
+                this.freq = Math.random() * 0.02 + 0.01;
+                this.phase = Math.random() * Math.PI;
+            }
+            update(w, h) {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.phase += this.freq;
+                this.alpha = (Math.sin(this.phase) * 0.5 + 0.5) * this.maxAlpha;
+                if (this.y < -10 || this.x < -10 || this.x > w + 10) {
+                    this.y = h + 10;
+                    this.x = Math.random() * w;
+                }
+            }
+            draw(c) {
+                c.fillStyle = `rgba(197, 160, 89, ${this.alpha})`;
+                c.beginPath();
+                c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                c.fill();
+            }
+        }
+
+        let activeWaves = [], activePetals = [], activeReflections = [], ambientSparkles = [];
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.resetTransform();
+            ctx.scale(dpr, dpr);
+        }
+
+        function setupAmbient() {
+            ambientSparkles = [];
+            const rect = canvas.getBoundingClientRect();
+            for (let i = 0; i < 25; i++) {
+                ambientSparkles.push(new AmbientSparkle(rect.width, rect.height));
+            }
+        }
+
+        function drawLoop() {
+            const rect = canvas.getBoundingClientRect();
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            ambientSparkles.forEach(s => { s.update(rect.width, rect.height); s.draw(ctx); });
+            
+            activeReflections = activeReflections.filter(ref => {
+                let isAlive = ref.update();
+                if (isAlive) ref.draw(ctx);
+                return isAlive;
+            });
+            
+            activeWaves = activeWaves.filter(w => {
+                let isAlive = w.update();
+                if (isAlive) w.draw(ctx);
+                return isAlive;
+            });
+            
+            activePetals = activePetals.filter(p => {
+                let isAlive = p.update();
+                if (isAlive) p.draw(ctx);
+                return isAlive;
+            });
+
+            animationFrameId = requestAnimationFrame(drawLoop);
+        }
+
+        function triggerDropSequence(targetX, targetY, imgKey) {
+            emitImpactEnergy(targetX, targetY, false);
+            const imgObj = preloadedImages[imgKey];
+            activeReflections.push(new WaterReflection(targetX, targetY, imgObj));
+        }
+
+        function emitImpactEnergy(x, y, isTransition = false) {
+            const rect = canvas.getBoundingClientRect();
+            activeWaves.push(new Wave(x, y, Math.max(rect.width, rect.height) * 1.3, isTransition));
+            
+            const petalCount = isTransition ? 75 : 18;
+            for (let i = 0; i < petalCount; i++) {
+                activePetals.push(new GoldPetal(x, y, isTransition ? 1.6 : 1.0));
+            }
+        }
+
+        // --- 3. STATE & CINEMATIC CONTROLLER ---
+        let introSequenceTimeout;
+
+        function runIntroSequence() {
+            clearTimeout(introSequenceTimeout);
+            isIntroFinished = false;
+            introIndex = 0;
+            activeReflections = [];
+            activeWaves = [];
+            activePetals = [];
+
+            const splashLayer = document.getElementById('splash-layer');
+            const mainLayer = document.getElementById('main-layer');
+            
+            splashLayer.classList.remove('fade-out');
+            mainLayer.classList.remove('fade-in');
+            splashLayer.style.display = 'flex';
+            mainLayer.style.pointerEvents = 'none';
+
+            const textContainer = document.getElementById('intro-text-element');
+            textContainer.classList.remove('active', 'exit');
+            textContainer.innerHTML = ''; 
+            
+            document.getElementById('action-prompt-container').style.opacity = '0';
+            document.getElementById('action-prompt-container').style.pointerEvents = 'none';
+
+            const btn = document.getElementById('celebrate-btn');
+            if (btn) {
+                btn.style.pointerEvents = 'auto';
+                btn.style.opacity = '1';
+                btn.style.transform = 'scale(1)';
+            }
+
+            resizeCanvas();
+            setupAmbient();
+            cancelAnimationFrame(animationFrameId); 
+            drawLoop();
+
+            introSequenceTimeout = setTimeout(showNextIntroText, 600);
+        }
+
+        function showNextIntroText() {
+            const textContainer = document.getElementById('intro-text-element');
+            const rect = canvas.getBoundingClientRect();
+
+            if (introIndex < introTexts.length) {
+                
+                textContainer.classList.remove('active', 'exit');
+                textContainer.innerHTML = introTexts[introIndex];
+                
+                void textContainer.offsetWidth;
+                textContainer.classList.add('active');
+                
+                let targetX = rect.width / 2;
+                let targetY = rect.height / 2;
+                let imgKey = 'intro1';
+
+                if (introIndex === 0) {
+                    targetX = (activeConfig.intro1Pos.x / 100) * rect.width;
+                    targetY = (activeConfig.intro1Pos.y / 100) * rect.height;
+                    imgKey = 'intro1';
+                } else if (introIndex === 1) {
+                    targetX = (activeConfig.intro2Pos.x / 100) * rect.width;
+                    targetY = (activeConfig.intro2Pos.y / 100) * rect.height;
+                    imgKey = 'intro2';
+                } else if (introIndex === 2) {
+                    targetX = (activeConfig.intro3Pos.x / 100) * rect.width;
+                    targetY = (activeConfig.intro3Pos.y / 100) * rect.height;
+                    imgKey = 'intro3';
+                }
+
+                triggerDropSequence(targetX, targetY, imgKey);
+                introIndex++;
+
+                introSequenceTimeout = setTimeout(() => {
+                    textContainer.classList.remove('active');
+                    textContainer.classList.add('exit');
+                    
+                    introSequenceTimeout = setTimeout(showNextIntroText, 1200);
+                }, 2800); 
+                
+            } else {
+                isIntroFinished = true;
+                const actionBtn = document.getElementById('action-prompt-container');
+                actionBtn.style.opacity = '1';
+                actionBtn.style.pointerEvents = 'auto';
+            }
+        }
+
+        canvas.addEventListener('pointerdown', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            emitImpactEnergy(e.clientX - rect.left, e.clientY - rect.top, false);
+        });
+
+        document.getElementById('celebrate-btn').addEventListener('pointerdown', function(event) {
+            event.stopPropagation();
+            
+            const rect = canvas.getBoundingClientRect();
+            emitImpactEnergy(rect.width / 2, rect.height / 2, true);
+            
+            this.style.pointerEvents = 'none';
+            this.style.opacity = '0.3';
+            this.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                startCinematicTransition();
+            }, 1600); 
+        });
+
+        function startCinematicTransition() {
+            const splashLayer = document.getElementById('splash-layer');
+            const mainLayer = document.getElementById('main-layer');
+
+            splashLayer.classList.add('fade-out');
+            mainLayer.classList.add('fade-in');
+
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                splashLayer.style.display = 'none';
+            }, 3000);
+        }
+
+        function skipSplash() {
+            const splashLayer = document.getElementById('splash-layer');
+            const mainLayer = document.getElementById('main-layer');
+
+            splashLayer.classList.add('fade-out');
+            mainLayer.classList.add('fade-in');
+
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                splashLayer.style.display = 'none';
+            }, 3000);
+        }
+
+        function replaySplash() {
+            closeSettings();
+            runIntroSequence();
+        }
+
+        // --- 4. DATA SYNC & EDITOR ---
+        function loadConfigToInputs() {
+            safeSetVal('cfg-bg-url', activeConfig.bgUrl);
+            safeSetVal('cfg-monogram', activeConfig.monogramText);
+            safeSetVal('cfg-groom-name', activeConfig.groomName);
+            safeSetVal('cfg-bride-name', activeConfig.brideName);
+            safeSetVal('cfg-venue', activeConfig.venue);
+            safeSetVal('cfg-date', activeConfig.weddingDate);
+
+            safeSetVal('cfg-intro-1-url', activeConfig.intro1Url);
+            safeSetVal('cfg-intro-1-x', activeConfig.intro1Pos.x);
+            safeSetVal('cfg-intro-1-y', activeConfig.intro1Pos.y);
+            safeSetVal('cfg-intro-2-url', activeConfig.intro2Url);
+            safeSetVal('cfg-intro-2-x', activeConfig.intro2Pos.x);
+            safeSetVal('cfg-intro-2-y', activeConfig.intro2Pos.y);
+            safeSetVal('cfg-intro-3-url', activeConfig.intro3Url);
+            safeSetVal('cfg-intro-3-x', activeConfig.intro3Pos.x);
+            safeSetVal('cfg-intro-3-y', activeConfig.intro3Pos.y);
+
+            safeSetVal('cfg-m1-x', activeConfig.menu1.x);
+            safeSetVal('cfg-m1-y', activeConfig.menu1.y);
+            safeSetVal('cfg-m2-x', activeConfig.menu2.x);
+            safeSetVal('cfg-m2-y', activeConfig.menu2.y);
+            safeSetVal('cfg-m3-x', activeConfig.menu3.x);
+            safeSetVal('cfg-m3-y', activeConfig.menu3.y);
+            safeSetVal('cfg-m4-x', activeConfig.menu4.x);
+            safeSetVal('cfg-m4-y', activeConfig.menu4.y);
+            safeSetVal('cfg-m5-x', activeConfig.menu5.x);
+            safeSetVal('cfg-m5-y', activeConfig.menu5.y);
+        }
+
+        function updateInviteRealtime() {
+            activeConfig.bgUrl = safeGetVal('cfg-bg-url', activeConfig.bgUrl);
+            activeConfig.monogramText = safeGetVal('cfg-monogram', activeConfig.monogramText || 'M 🤍 J');
+            activeConfig.groomName = safeGetVal('cfg-groom-name', activeConfig.groomName);
+            activeConfig.brideName = safeGetVal('cfg-bride-name', activeConfig.brideName);
+            activeConfig.venue = safeGetVal('cfg-venue', activeConfig.venue);
+            activeConfig.weddingDate = safeGetVal('cfg-date', activeConfig.weddingDate);
+
+            activeConfig.intro1Url = safeGetVal('cfg-intro-1-url', activeConfig.intro1Url);
+            activeConfig.intro1Pos.x = parseInt(safeGetVal('cfg-intro-1-x', activeConfig.intro1Pos.x));
+            activeConfig.intro1Pos.y = parseInt(safeGetVal('cfg-intro-1-y', activeConfig.intro1Pos.y));
+            activeConfig.intro2Url = safeGetVal('cfg-intro-2-url', activeConfig.intro2Url);
+            activeConfig.intro2Pos.x = parseInt(safeGetVal('cfg-intro-2-x', activeConfig.intro2Pos.x));
+            activeConfig.intro2Pos.y = parseInt(safeGetVal('cfg-intro-2-y', activeConfig.intro2Pos.y));
+            activeConfig.intro3Url = safeGetVal('cfg-intro-3-url', activeConfig.intro3Url);
+            activeConfig.intro3Pos.x = parseInt(safeGetVal('cfg-intro-3-x', activeConfig.intro3Pos.x));
+            activeConfig.intro3Pos.y = parseInt(safeGetVal('cfg-intro-3-y', activeConfig.intro3Pos.y));
+
+            activeConfig.menu1.x = safeGetVal('cfg-m1-x', activeConfig.menu1.x);
+            activeConfig.menu1.y = safeGetVal('cfg-m1-y', activeConfig.menu1.y);
+            activeConfig.menu2.x = safeGetVal('cfg-m2-x', activeConfig.menu2.x);
+            activeConfig.menu2.y = safeGetVal('cfg-m2-y', activeConfig.menu2.y);
+            activeConfig.menu3.x = safeGetVal('cfg-m3-x', activeConfig.menu3.x);
+            activeConfig.menu3.y = safeGetVal('cfg-m3-y', activeConfig.menu3.y);
+            activeConfig.menu4.x = safeGetVal('cfg-m4-x', activeConfig.menu4.x);
+            activeConfig.menu4.y = safeGetVal('cfg-m4-y', activeConfig.menu4.y);
+            activeConfig.menu5.x = safeGetVal('cfg-m5-x', activeConfig.menu5.x);
+            activeConfig.menu5.y = safeGetVal('cfg-m5-y', activeConfig.menu5.y);
+
+            // [FIX] 버튼 위치 저장소 고정
+            localStorage.setItem('wedding_final_config', JSON.stringify(activeConfig));
+
+            preloadIntroAssets();
+
+            const mainBgLayer = document.getElementById('main-bg-image');
+            if (mainBgLayer) mainBgLayer.style.backgroundImage = `url('${activeConfig.bgUrl}')`;
+
+            safeSetText('view-monogram', activeConfig.monogramText);
+            safeSetText('view-couple-names', `${activeConfig.brideName} 🤍 ${activeConfig.groomName}`);
+            safeSetText('view-venue', activeConfig.venue);
+            
+            safeSetText('view-groom', activeConfig.groomName);
+            safeSetText('view-bride', activeConfig.brideName);
+            
+            const venueName = activeConfig.venue.split(',')[0];
+            const venueAddr = activeConfig.venue.split(',')[1] || activeConfig.venue;
+            safeSetText('map-venue-name', venueName);
+            safeSetText('map-venue-address', venueAddr);
+            
+            safeSetText('view-groom-holder', activeConfig.groomName);
+            safeSetText('view-bride-holder', activeConfig.brideName);
+
+            applyButtonPositions();
+            initCountdown();
+        }
+
+        function applyButtonPositions() {
+            const btns = ['btn-menu-1', 'btn-menu-2', 'btn-menu-3', 'btn-menu-4', 'btn-menu-5'];
+            const configs = [activeConfig.menu1, activeConfig.menu2, activeConfig.menu3, activeConfig.menu4, activeConfig.menu5];
+
+            btns.forEach((id, idx) => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.style.left = `${configs[idx].x}%`;
+                    btn.style.top = `${configs[idx].y}%`;
+                }
+                safeSetText(`val-m${idx+1}-x`, `${configs[idx].x}%`);
+                safeSetText(`val-m${idx+1}-y`, `${configs[idx].y}%`);
+            });
+
+            safeSetText('val-intro-1-x', `${activeConfig.intro1Pos.x}%`);
+            safeSetText('val-intro-1-y', `${activeConfig.intro1Pos.y}%`);
+            safeSetText('val-intro-2-x', `${activeConfig.intro2Pos.x}%`);
+            safeSetText('val-intro-2-y', `${activeConfig.intro2Pos.y}%`);
+            safeSetText('val-intro-3-x', `${activeConfig.intro3Pos.x}%`);
+            safeSetText('val-intro-3-y', `${activeConfig.intro3Pos.y}%`);
+        }
+
+        // --- 5. TIMER ---
+        let ddayInterval;
+        function initCountdown() {
+            clearInterval(ddayInterval);
+            const counterElement = document.getElementById('dday-count-element');
+            if (!counterElement) return;
+
+            const targetTime = new Date(activeConfig.weddingDate.replace(/-/g, '/')).getTime();
+
+            ddayInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const diff = targetTime - now;
+
+                if (diff <= 0) {
+                    counterElement.innerHTML = `저희들의 결혼을 함께 축복해 주셔서 감사합니다.`;
+                    clearInterval(ddayInterval);
+                    return;
+                }
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                counterElement.innerHTML = `본 예식까지 <span class="font-bold text-[#e0cfb3]">${d}일 ${h}시간</span> 남았습니다.`;
+            }, 1000);
+        }
+
+        // --- 6. RSVP & GUESTBOOK ---
+        function switchTab(tabId) {
+            const rsvpBtn = document.getElementById('tab-btn-rsvp');
+            const gbBtn = document.getElementById('tab-btn-guestbook');
+            const rsvpContent = document.getElementById('tab-content-rsvp');
+            const gbContent = document.getElementById('tab-content-guestbook');
+
+            if (tabId === 'rsvp') {
+                if (rsvpBtn) rsvpBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer bg-white text-[#8c7355] shadow-xs";
+                if (gbBtn) gbBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer text-stone-500";
+                if (rsvpContent) rsvpContent.classList.remove('hidden');
+                if (gbContent) gbContent.classList.add('hidden');
+            } else {
+                if (rsvpBtn) rsvpBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer text-stone-500";
+                if (gbBtn) gbBtn.className = "flex-1 text-center py-2.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer bg-white text-[#8c7355] shadow-xs";
+                if (rsvpContent) rsvpContent.classList.add('hidden');
+                if (gbContent) gbContent.classList.remove('hidden');
+                renderGuestbook();
+            }
+        }
+
+        function handleRSVPSubmit(e) {
+            e.preventDefault();
+            showCustomToast("참석 등록이 완료되었습니다. 🤍");
+            const rsvpForm = document.getElementById('rsvp-form');
+            if (rsvpForm) rsvpForm.reset();
+            resetRsvpStyles();
+        }
+
+        function highlightRsvLabel(type) {
+            const groomLbl = document.getElementById('lbl-groom-guest');
+            const brideLbl = document.getElementById('lbl-bride-guest');
+            if (type === 'groom') {
+                if (groomLbl) groomLbl.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
+                if (brideLbl) brideLbl.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
+            } else {
+                if (brideLbl) brideLbl.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
+                if (groomLbl) groomLbl.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
+            }
+        }
+
+        function highlightMealLabel(type) {
+            const mealY = document.getElementById('lbl-meal-y');
+            const mealN = document.getElementById('lbl-meal-n');
+            const mealU = document.getElementById('lbl-meal-u');
+
+            [mealY, mealN, mealU].forEach(l => {
+                if (l) l.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
+            });
+
+            if (type === 'yes' && mealY) mealY.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
+            else if (type === 'no' && mealN) mealN.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
+            else if (type === 'undecided' && mealU) mealU.className = "border border-[#8c7355] p-2.5 rounded-lg text-center cursor-pointer bg-amber-50/40 text-[#8c7355] font-bold";
+        }
+
+        function resetRsvpStyles() {
+            const ids = ['lbl-groom-guest', 'lbl-bride-guest', 'lbl-meal-y', 'lbl-meal-n', 'lbl-meal-u'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.className = "border border-stone-200 p-2.5 rounded-lg text-center cursor-pointer bg-white text-stone-600";
+            });
+        }
+
+        function getGuestbookData() {
+            const defaultMsgs = [
+                { name: "장선하", msg: "지현아 결혼 너무 축하해! 세상에서 가장 예쁜 신부가 될 거야 🤍", date: "2026.06.01" },
+                { name: "윤진우", msg: "민우 형님 드디어 장가가시는군요! 진심으로 축하드립니다!", date: "2026.05.29" }
+            ];
+            return JSON.parse(localStorage.getItem('wedding_guestbook')) || defaultMsgs;
+        }
+
+        function handleGuestbookSubmit(e) {
+            e.preventDefault();
+            const nameEl = document.getElementById('gb-name');
+            const msgEl = document.getElementById('gb-msg');
+            if (!nameEl || !msgEl) return;
+
+            const name = nameEl.value.trim();
+            const msg = msgEl.value.trim();
+            const date = new Date().toLocaleDateString('ko-KR').replace(/\. /g, '.').slice(0, -1);
+
+            const list = getGuestbookData();
+            list.unshift({ name, msg, date });
+            localStorage.setItem('wedding_guestbook', JSON.stringify(list));
+
+            const gbForm = document.getElementById('guestbook-form');
+            if (gbForm) gbForm.reset();
+            
+            renderGuestbook();
+            showCustomToast("축하 한마디가 공유되었습니다.");
+        }
+
+        function renderGuestbook() {
+            const container = document.getElementById('guestbook-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const list = getGuestbookData();
+
+            list.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-3.5 rounded-xl border border-stone-100 shadow-xs text-xs space-y-1.5 text-left";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <strong class="text-stone-700">${item.name}</strong>
+                        <span class="text-[9px] text-stone-400">${item.date}</span>
+                    </div>
+                    <p class="text-stone-500 font-light leading-relaxed">${item.msg}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- 7. CAROUSEL ---
+        function openLightbox(index) {
+            lightboxCurrentIndex = index;
+            const imgEl = document.getElementById('lightbox-img');
+            if (imgEl) imgEl.src = galleryImages[lightboxCurrentIndex];
+            safeSetText('lightbox-index', `${lightboxCurrentIndex + 1} / ${galleryImages.length}`);
+            
+            const overlay = document.getElementById('lightbox-overlay');
+            if (overlay) {
+                overlay.classList.remove('pointer-events-none');
+                overlay.style.opacity = '1';
+            }
+        }
+
+        function closeLightbox() {
+            const overlay = document.getElementById('lightbox-overlay');
+            if (overlay) {
+                overlay.classList.add('pointer-events-none');
+                overlay.style.opacity = '0';
+            }
+        }
+
+        function changeLightboxSlide(direction) {
+            lightboxCurrentIndex += direction;
+            if (lightboxCurrentIndex < 0) lightboxCurrentIndex = galleryImages.length - 1;
+            if (lightboxCurrentIndex >= galleryImages.length) lightboxCurrentIndex = 0;
+
+            const imgEl = document.getElementById('lightbox-img');
+            if (imgEl) imgEl.src = galleryImages[lightboxCurrentIndex];
+            safeSetText('lightbox-index', `${lightboxCurrentIndex + 1} / ${galleryImages.length}`);
+        }
+
+        let touchStartX = 0, touchEndX = 0;
+        const swipeArea = document.getElementById('lightbox-swipe-area');
+        if (swipeArea) {
+            swipeArea.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, { passive: true });
+            swipeArea.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                if (touchStartX - touchEndX > 50) changeLightboxSlide(1);
+                else if (touchEndX - touchStartX > 50) changeLightboxSlide(-1);
+            }, { passive: true });
+        }
+
+        // --- 8. UTILS ---
+        function copyAccount(accNo) {
+            const temp = document.createElement('input');
+            temp.value = accNo;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showCustomToast("계좌번호가 정상적으로 복사되었습니다. 💳");
+        }
+
+        function copyAddress() {
+            const temp = document.createElement('input');
+            temp.value = "서울특별시 서초구 반포대로 235";
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showCustomToast("식장 주소가 복사되었습니다. 🏰");
+        }
+
+        let toastTimeout;
+        function showCustomToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, -8px)';
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, 0px)';
+            }, 2500);
+        }
+
+        function openPage(id) { const el = document.getElementById(id); if (el) el.classList.add('open'); }
+        function closePage(id) { const el = document.getElementById(id); if (el) el.classList.remove('open'); }
+        function openSettings() { const el = document.getElementById('settings-panel'); if (el) el.classList.add('open'); }
+        function closeSettings() { const el = document.getElementById('settings-panel'); if (el) el.classList.remove('open'); }
+        function closeSettingsIfBackdrop(e) { if (e.target === document.getElementById('settings-panel')) closeSettings(); }
+
+        window.addEventListener('resize', () => { resizeCanvas(); setupAmbient(); });
+        window.onload = function() {
+            preloadIntroAssets();
+            loadConfigToInputs();
+            updateInviteRealtime();
+            runIntroSequence();
+        };
+    </script>
+</body>
+</html>
