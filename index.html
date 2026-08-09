@@ -434,10 +434,15 @@
                         <h1 id="view-couple-names" class="font-serif text-lg font-light tracking-widest title-shadow">정선애 🤍 고용건</h1>
                     </span>
                 </div>
+                <div class="flex items-center gap-2">
+                <button id="share-btn" onclick="shareKakao()" class="bg-black/30 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-black/50 border border-white/10 transition cursor-pointer shadow-lg relative z-20" aria-label="청첩장 공유하기">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342a3 3 0 100-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684zm0-12.632a3 3 0 105.368-2.684 3 3 0 00-5.368 2.684z" /></svg>
+                </button>
                 <!-- [FIX] 관리자 전용: ?admin=1 로 접속했을 때만 노출된다 -->
                 <button id="admin-gear" onclick="requestAdminAccess()" class="hidden bg-black/30 backdrop-blur-md text-white p-2.5 rounded-full hover:bg-black/50 border border-white/10 transition cursor-pointer shadow-lg relative z-20" aria-label="관리자 설정">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </button>
+                </div>
             </header>
 
             <div class="relative flex-grow w-full z-20">
@@ -769,6 +774,14 @@
                     </div>
 
                     <div class="space-y-3 border-t border-stone-100 pt-5">
+                        <h4 class="font-bold text-stone-800 text-xs">🔗 공유 설정</h4>
+                        <label class="block font-bold text-stone-700">배포 주소 (siteUrl)</label>
+                        <input type="text" id="cfg-site-url" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px] font-mono" onchange="updateInviteRealtime()">
+                        <label class="block font-bold text-stone-700">공유 썸네일 (2:1 권장)</label>
+                        <input type="text" id="cfg-share-image" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px] font-mono" onchange="updateInviteRealtime()">
+                    </div>
+
+                    <div class="space-y-3 border-t border-stone-100 pt-5">
                         <h4 class="font-bold text-stone-800 text-xs">📸 사진첩 대표사진 캡션 (비우면 숨김)</h4>
                         <input type="text" id="cfg-hero-caption" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px]" onchange="updateInviteRealtime()">
                     </div>
@@ -909,7 +922,7 @@
         // =====================================================================
         const DEFAULT_CONFIG = {
             // 배포본이 바뀔 때마다 올린다. 저장된 로컬 설정의 버전이 다르면 자동으로 폐기된다.
-            configVersion: '2026-08-09-g',
+            configVersion: '2026-08-09-k',
 
             // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f | g  (관리자 패널에서 전환)
             coverTextStyle: 'g',
@@ -919,8 +932,8 @@
             groomName: '고용건',
             brideName: '정선애',
             // TODO: 양가 혼주 성함 확정 후 입력 (비워두면 초대의 글에서 자동으로 숨겨짐)
-            groomParents: '',
-            brideParents: '',
+            groomParents: '고대관 · 박미경',
+            brideParents: '최효임',
             groomOrder: '아들',
             brideOrder: '딸',
 
@@ -941,6 +954,12 @@
             parkingName: '서소문역사공원 주차장',
             parkingAddress: '서울특별시 중구 칠패로 5',
             parkingBenefit: '2시간 무료 주차권 제공',
+
+            // 공유 설정. siteUrl 은 실제 배포 주소여야 카카오가 이미지를 가져갈 수 있다.
+            siteUrl: 'https://allenhyde2.github.io/wedd_inv/',
+            shareImage: 'assets/share-kakao.jpg',   // 카카오 피드 템플릿용 2:1
+            shareImageW: 1200,
+            shareImageH: 600,
 
             heroCaption: 'Milano, Duomo',
             thanksText: '보내주시는 마음 하나하나<br>깊이 새기겠습니다.',
@@ -970,6 +989,8 @@
             bgUrl: 'assets/photo-d-cover.jpg',
             gallery: [
                 'assets/photo-d-cover.jpg',
+                'assets/photo-j-cover.jpg',
+                'assets/photo-h-cover.jpg',
                 'assets/photo-a-cover.jpg',
                 'assets/photo-b-cover.jpg',
                 'assets/photo-c-cover.jpg'
@@ -1597,6 +1618,96 @@
             set('link-parking', `https://map.kakao.com/link/search/${pq}`);
         }
 
+        // --- 4-1. 카카오톡 공유 ---
+        let kakaoJsPromise = null;
+
+        function shareUrl() {
+            const base = (activeConfig.siteUrl || '').trim();
+            if (base) return base;
+            return location.origin + location.pathname;   // ?admin=1 은 떼고 공유한다
+        }
+
+        function absUrl(pathOrUrl) {
+            if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+            try { return new URL(pathOrUrl, shareUrl()).href; } catch (e) { return pathOrUrl; }
+        }
+
+        function loadKakaoJsSdk(key) {
+            if (kakaoJsPromise) return kakaoJsPromise;
+            kakaoJsPromise = new Promise((resolve, reject) => {
+                const init = () => {
+                    // 지도 SDK(window.kakao)와 공유 SDK(window.Kakao)는 별개다
+                    if (!window.Kakao) return reject(new Error('Kakao sdk missing'));
+                    if (!window.Kakao.isInitialized()) window.Kakao.init(key);
+                    resolve(window.Kakao);
+                };
+                if (window.Kakao && window.Kakao.Share) return init();
+                const sc = document.createElement('script');
+                sc.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+                sc.async = true;
+                sc.onload = () => { try { init(); } catch (e) { reject(e); } };
+                sc.onerror = () => reject(new Error('kakao js sdk load failed'));
+                document.head.appendChild(sc);
+            });
+            return kakaoJsPromise;
+        }
+
+        function shareTexts() {
+            const d = parseWeddingDate(activeConfig.weddingDate);
+            let when = '';
+            if (!isNaN(d.getTime())) {
+                const WD = ['일', '월', '화', '수', '목', '금', '토'];
+                const h24 = d.getHours();
+                const ampm = h24 < 12 ? '오전' : '오후';
+                const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+                when = `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${WD[d.getDay()]}요일 ${ampm} ${h12}시`;
+            }
+            return {
+                title: `${activeConfig.groomName} ♥ ${activeConfig.brideName} 결혼합니다`,
+                desc: [when, venueFullText()].filter(Boolean).join(' · '),
+            };
+        }
+
+        // 카카오 SDK를 못 쓰는 환경(PC·인앱 브라우저 등)에서의 대체 경로
+        function fallbackShare(url) {
+            const t = shareTexts();
+            if (navigator.share) {
+                navigator.share({ title: t.title, text: t.desc, url }).catch(() => {});
+                return;
+            }
+            copyText(url, '청첩장 주소가 복사되었습니다. 🤍');
+        }
+
+        function shareKakao() {
+            const url = shareUrl();
+            const key = (activeConfig.kakaoMapKey || '').trim();
+            if (!key) { fallbackShare(url); return; }
+
+            loadKakaoJsSdk(key)
+                .then((K) => {
+                    const t = shareTexts();
+                    K.Share.sendDefault({
+                        objectType: 'feed',
+                        content: {
+                            title: t.title,
+                            description: t.desc,
+                            imageUrl: absUrl(activeConfig.shareImage),
+                            // 피드 템플릿은 2:1 이 기본이라 실제 크기를 명시한다
+                            imageWidth: activeConfig.shareImageW,
+                            imageHeight: activeConfig.shareImageH,
+                            link: { mobileWebUrl: url, webUrl: url },
+                        },
+                        buttons: [
+                            { title: '청첩장 보기', link: { mobileWebUrl: url, webUrl: url } },
+                        ],
+                    });
+                })
+                .catch((e) => {
+                    console.warn('[share] 카카오 공유 실패:', e.message);
+                    fallbackShare(url);
+                });
+        }
+
         // --- 5-0. 캘린더 저장 (.ics) ---
         function pad2(n) { return String(n).padStart(2, '0'); }
 
@@ -1831,6 +1942,8 @@
             safeSetVal('cfg-parking-address', activeConfig.parkingAddress);
             safeSetVal('cfg-greeting', activeConfig.greetingText);
             safeSetVal('cfg-hero-caption', activeConfig.heroCaption);
+            safeSetVal('cfg-site-url', activeConfig.siteUrl);
+            safeSetVal('cfg-share-image', activeConfig.shareImage);
             safeSetVal('cfg-thanks', activeConfig.thanksText);
             safeSetVal('cfg-gallery', activeConfig.gallery.join('\n'));
             safeSetVal('cfg-intro-texts', activeConfig.introTexts.join('\n'));
@@ -1878,6 +1991,8 @@
             activeConfig.parkingAddress = safeGetVal('cfg-parking-address', activeConfig.parkingAddress);
             activeConfig.greetingText = safeGetVal('cfg-greeting', activeConfig.greetingText);
             activeConfig.heroCaption = safeGetVal('cfg-hero-caption', activeConfig.heroCaption);
+            activeConfig.siteUrl = safeGetVal('cfg-site-url', activeConfig.siteUrl);
+            activeConfig.shareImage = safeGetVal('cfg-share-image', activeConfig.shareImage);
             activeConfig.thanksText = safeGetVal('cfg-thanks', activeConfig.thanksText);
 
             const galleryRaw = safeGetVal('cfg-gallery', null);
@@ -1991,6 +2106,7 @@
             kakaoMapKey: '카카오맵 키', venueLat: '위도', venueLng: '경도',
             monogramText: '모노그램', greetingText: '초대의 글', introTexts: '인트로 멘트',
             heroCaption: '대표사진 캡션', thanksText: '감사 문구',
+            siteUrl: '배포 주소', shareImage: '공유 썸네일',
             accounts: '계좌', menu1: '버튼1 위치', menu2: '버튼2 위치',
             menu3: '버튼3 위치', menu4: '버튼4 위치',
             intro1Pos: '인트로1 위치', intro2Pos: '인트로2 위치', intro3Pos: '인트로3 위치',
@@ -2066,6 +2182,10 @@
                 parkingBenefit: activeConfig.parkingBenefit,
                 parkingAddress: activeConfig.parkingAddress,
                 greetingText: activeConfig.greetingText,
+                siteUrl: activeConfig.siteUrl,
+                shareImage: activeConfig.shareImage,
+                shareImageW: activeConfig.shareImageW,
+                shareImageH: activeConfig.shareImageH,
                 heroCaption: activeConfig.heroCaption,
                 thanksText: activeConfig.thanksText,
                 introTexts: activeConfig.introTexts,
