@@ -468,12 +468,17 @@
                     <h4 class="font-serif text-sm text-stone-800 font-bold" id="map-venue-name"></h4>
                     <p class="text-xs text-stone-500 mt-1.5" id="map-venue-address"></p>
                 </div>
-                <div class="w-full h-48 bg-sky-50/20 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center border border-stone-200/50 p-4">
-                    <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a059_1.5px,transparent_1.5px)] [background-size:20px_20px]"></div>
-                    <div class="z-10 text-center space-y-2">
-                        <span class="text-3xl filter drop-shadow-md">⛪</span>
-                        <div class="bg-white/90 backdrop-blur-md border border-[#c5a059]/30 rounded-xl py-1.5 px-3.5 shadow-md">
-                            <p class="text-[10px] font-bold text-[#8c7355] tracking-wide" id="map-pin-label"></p>
+                <div class="w-full h-60 bg-sky-50/20 rounded-2xl relative overflow-hidden border border-stone-200/50">
+                    <!-- 카카오맵 JavaScript 키가 설정되면 여기에 실제 지도가 그려진다 -->
+                    <div id="kakao-map" class="absolute inset-0 hidden"></div>
+                    <!-- 키가 없거나 로드 실패 시 폴백 -->
+                    <div id="map-placeholder" class="absolute inset-0 flex flex-col items-center justify-center p-4">
+                        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a059_1.5px,transparent_1.5px)] [background-size:20px_20px]"></div>
+                        <div class="z-10 text-center space-y-2">
+                            <span class="text-3xl filter drop-shadow-md">⛪</span>
+                            <div class="bg-white/90 backdrop-blur-md border border-[#c5a059]/30 rounded-xl py-1.5 px-3.5 shadow-md">
+                                <p class="text-[10px] font-bold text-[#8c7355] tracking-wide" id="map-pin-label"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -482,9 +487,10 @@
                         도로명 주소 복사하기
                     </button>
                     <!-- [FIX] 실제 지도 딥링크 (API 키 불필요) -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <a id="link-kakaomap" href="#" target="_blank" rel="noopener" class="bg-amber-100/80 hover:bg-amber-200/80 text-amber-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">카카오맵으로 보기</a>
-                        <a id="link-navermap" href="#" target="_blank" rel="noopener" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">네이버 지도로 보기</a>
+                    <div class="grid grid-cols-3 gap-2">
+                        <a id="link-kakaomap" href="#" target="_blank" rel="noopener" class="bg-amber-100/80 hover:bg-amber-200/80 text-amber-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">카카오맵</a>
+                        <a id="link-kakaonavi" href="#" target="_blank" rel="noopener" class="bg-[#8c7355] hover:bg-[#7a6448] text-white text-[11px] py-3.5 rounded-xl text-center font-bold block transition">길찾기</a>
+                        <a id="link-navermap" href="#" target="_blank" rel="noopener" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">네이버 지도</a>
                     </div>
                 </div>
                 <div class="space-y-4 pt-6 border-t border-stone-200/50 text-[11px] leading-relaxed text-stone-600 font-light">
@@ -663,6 +669,21 @@
                             <input type="text" id="cfg-venue-address" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
                         </div>
                         <div>
+                            <label class="block font-bold text-stone-700 mb-1">카카오맵 JavaScript 키</label>
+                            <input type="text" id="cfg-kakao-key" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-mono text-[10px]" onchange="updateInviteRealtime()" placeholder="비워두면 지도 대신 기본 그래픽 표시">
+                            <p class="text-[10px] text-stone-400 mt-1">developers.kakao.com &gt; 내 애플리케이션 &gt; 앱 키 &gt; <b>JavaScript 키</b>. 플랫폼에 배포 도메인을 반드시 등록하세요.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block font-bold text-stone-700 mb-1">위도 (선택)</label>
+                                <input type="text" id="cfg-venue-lat" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-mono" onchange="updateInviteRealtime()" placeholder="자동">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-stone-700 mb-1">경도 (선택)</label>
+                                <input type="text" id="cfg-venue-lng" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800 font-mono" onchange="updateInviteRealtime()" placeholder="자동">
+                            </div>
+                        </div>
+                        <div>
                             <label class="block font-bold text-stone-700 mb-1">지하철 안내</label>
                             <input type="text" id="cfg-transit" class="w-full p-2 border border-stone-200 rounded-lg text-stone-800" oninput="updateInviteRealtime()">
                         </div>
@@ -817,7 +838,7 @@
         // =====================================================================
         const DEFAULT_CONFIG = {
             // 배포본이 바뀔 때마다 올린다. 저장된 로컬 설정의 버전이 다르면 자동으로 폐기된다.
-            configVersion: '2026-08-09-a',
+            configVersion: '2026-08-09-c',
 
             // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f | g  (관리자 패널에서 전환)
             coverTextStyle: 'g',
@@ -834,6 +855,13 @@
 
             // D-day 계산과 푸터 표시 문구가 이 값 하나를 공유한다
             weddingDate: '2026/09/05 11:00:00',
+
+            // 카카오맵 JavaScript 키. 비워두면 지도 대신 폴백 그래픽이 표시된다.
+            // developers.kakao.com > 내 애플리케이션 > 앱 키 > JavaScript 키
+            kakaoMapKey: 'a2a53b927ee37f1b491065887a8ff432',
+            // 지오코딩이 부정확하면 여기에 직접 좌표를 넣는다 (없으면 주소로 자동 검색)
+            venueLat: null,
+            venueLng: null,
 
             venueName: '중림동 약현성당',
             venueHall: '',
@@ -1435,13 +1463,129 @@
             }).join('');
         }
 
+        // 지오코딩으로 확정된 좌표 (없으면 검색 기반 링크로 폴백)
+        let resolvedVenuePoint = null;
+
         function renderMapLinks() {
             const q = encodeURIComponent(`${activeConfig.venueName} ${activeConfig.venueAddress}`);
             const pq = encodeURIComponent(activeConfig.parkingAddress);
             const set = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
-            set('link-kakaomap', `https://map.kakao.com/link/search/${q}`);
-            set('link-navermap', `https://map.naver.com/p/search/${q}`);
+
+            const lat = Number.isFinite(activeConfig.venueLat) ? activeConfig.venueLat
+                      : (resolvedVenuePoint && resolvedVenuePoint.lat);
+            const lng = Number.isFinite(activeConfig.venueLng) ? activeConfig.venueLng
+                      : (resolvedVenuePoint && resolvedVenuePoint.lng);
+
+            if (Number.isFinite(lat) && Number.isFinite(lng)) {
+                // 좌표를 알면 정확한 핀과 길찾기로 바로 연결된다
+                const named = `${encodeURIComponent(activeConfig.venueName)},${lat},${lng}`;
+                set('link-kakaomap', `https://map.kakao.com/link/map/${named}`);
+                set('link-kakaonavi', `https://map.kakao.com/link/to/${named}`);
+                set('link-navermap', `https://map.naver.com/p/search/${q}`);
+            } else {
+                set('link-kakaomap', `https://map.kakao.com/link/search/${q}`);
+                set('link-kakaonavi', `https://map.kakao.com/link/search/${q}`);
+                set('link-navermap', `https://map.naver.com/p/search/${q}`);
+            }
             set('link-parking', `https://map.kakao.com/link/search/${pq}`);
+        }
+
+        // --- 5-1. 카카오맵 ---
+        // 키가 없으면 아무것도 하지 않고 폴백 그래픽을 그대로 둔다.
+        let kakaoSdkPromise = null;
+        let kakaoMapInstance = null;
+        let kakaoRenderedFor = '';
+
+        function loadKakaoSdk(key) {
+            if (kakaoSdkPromise) return kakaoSdkPromise;
+            kakaoSdkPromise = new Promise((resolve, reject) => {
+                if (window.kakao && window.kakao.maps) return resolve(window.kakao);
+                const sc = document.createElement('script');
+                // autoload=false + kakao.maps.load 로 초기화 시점을 통제한다
+                sc.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(key)}&libraries=services&autoload=false`;
+                sc.async = true;
+                sc.onload = () => {
+                    if (!window.kakao || !window.kakao.maps) return reject(new Error('kakao sdk missing'));
+                    window.kakao.maps.load(() => resolve(window.kakao));
+                };
+                sc.onerror = () => reject(new Error('kakao sdk load failed'));
+                document.head.appendChild(sc);
+            });
+            return kakaoSdkPromise;
+        }
+
+        function showMapFallback() {
+            const ph = document.getElementById('map-placeholder');
+            const mp = document.getElementById('kakao-map');
+            if (ph) ph.classList.remove('hidden');
+            if (mp) mp.classList.add('hidden');
+        }
+
+        function drawKakaoMap(kakao, lat, lng) {
+            const el = document.getElementById('kakao-map');
+            if (!el) return;
+            resolvedVenuePoint = { lat, lng };
+            renderMapLinks();   // 좌표 기반 길찾기 링크로 승격
+            el.classList.remove('hidden');
+            const ph = document.getElementById('map-placeholder');
+            if (ph) ph.classList.add('hidden');
+
+            const center = new kakao.maps.LatLng(lat, lng);
+            if (!kakaoMapInstance) {
+                kakaoMapInstance = new kakao.maps.Map(el, { center, level: 4 });
+                // 페이지 스크롤이 지도에 먹히지 않도록 휠 줌은 끈다 (드래그·더블탭 줌은 유지)
+                kakaoMapInstance.setZoomable(false);
+                new kakao.maps.ZoomControl && kakaoMapInstance.addControl(
+                    new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT
+                );
+            } else {
+                kakaoMapInstance.setCenter(center);
+            }
+            kakaoMapInstance.relayout();
+
+            new kakao.maps.Marker({ map: kakaoMapInstance, position: center });
+            new kakao.maps.CustomOverlay({
+                map: kakaoMapInstance,
+                position: center,
+                yAnchor: 2.3,
+                content:
+                    '<div style="padding:5px 11px;background:rgba(255,255,255,.94);border:1px solid rgba(197,160,89,.5);' +
+                    'border-radius:11px;font-size:11px;font-weight:700;color:#8c7355;white-space:nowrap;' +
+                    'box-shadow:0 3px 10px rgba(0,0,0,.16)">' + escapeHtml(venueFullText()) + '</div>',
+            });
+        }
+
+        function initKakaoMap() {
+            const key = (activeConfig.kakaoMapKey || '').trim();
+            if (!key) { showMapFallback(); return; }
+
+            // 같은 좌표/주소로 이미 그렸으면 다시 그리지 않는다
+            const sig = [key, activeConfig.venueLat, activeConfig.venueLng, activeConfig.venueAddress, venueFullText()].join('|');
+            if (sig === kakaoRenderedFor && kakaoMapInstance) return;
+
+            loadKakaoSdk(key)
+                .then((kakao) => {
+                    kakaoRenderedFor = sig;
+                    const lat = activeConfig.venueLat;
+                    const lng = activeConfig.venueLng;
+                    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+                        drawKakaoMap(kakao, lat, lng);
+                        return;
+                    }
+                    if (!kakao.maps.services) { showMapFallback(); return; }
+                    new kakao.maps.services.Geocoder().addressSearch(activeConfig.venueAddress, (res, status) => {
+                        if (status === kakao.maps.services.Status.OK && res && res[0]) {
+                            drawKakaoMap(kakao, parseFloat(res[0].y), parseFloat(res[0].x));
+                        } else {
+                            console.warn('[map] 주소 검색 실패:', activeConfig.venueAddress, status);
+                            showMapFallback();
+                        }
+                    });
+                })
+                .catch((e) => {
+                    console.warn('[map] 카카오맵 로드 실패:', e.message);
+                    showMapFallback();
+                });
         }
 
         // --- 6. DATA SYNC & EDITOR ---
@@ -1459,6 +1603,9 @@
             safeSetVal('cfg-venue-name', activeConfig.venueName);
             safeSetVal('cfg-venue-hall', activeConfig.venueHall);
             safeSetVal('cfg-venue-address', activeConfig.venueAddress);
+            safeSetVal('cfg-kakao-key', activeConfig.kakaoMapKey);
+            safeSetVal('cfg-venue-lat', activeConfig.venueLat == null ? '' : activeConfig.venueLat);
+            safeSetVal('cfg-venue-lng', activeConfig.venueLng == null ? '' : activeConfig.venueLng);
             safeSetVal('cfg-transit', activeConfig.transit);
             safeSetVal('cfg-parking-note', activeConfig.parkingNote);
             safeSetVal('cfg-parking-address', activeConfig.parkingAddress);
@@ -1498,6 +1645,11 @@
             activeConfig.venueName = safeGetVal('cfg-venue-name', activeConfig.venueName);
             activeConfig.venueHall = safeGetVal('cfg-venue-hall', activeConfig.venueHall);
             activeConfig.venueAddress = safeGetVal('cfg-venue-address', activeConfig.venueAddress);
+            activeConfig.kakaoMapKey = (safeGetVal('cfg-kakao-key', activeConfig.kakaoMapKey) || '').trim();
+            const latRaw = safeGetVal('cfg-venue-lat', activeConfig.venueLat);
+            const lngRaw = safeGetVal('cfg-venue-lng', activeConfig.venueLng);
+            activeConfig.venueLat = (latRaw === '' || latRaw == null) ? null : parseFloat(latRaw);
+            activeConfig.venueLng = (lngRaw === '' || lngRaw == null) ? null : parseFloat(lngRaw);
             activeConfig.transit = safeGetVal('cfg-transit', activeConfig.transit);
             activeConfig.parkingNote = safeGetVal('cfg-parking-note', activeConfig.parkingNote);
             activeConfig.parkingAddress = safeGetVal('cfg-parking-address', activeConfig.parkingAddress);
@@ -1583,6 +1735,7 @@
             renderGallery();
             renderAccounts();
             renderMapLinks();
+            initKakaoMap();
             applyButtonPositions();
             initCountdown();
             renderOverrideBanner();
@@ -1664,6 +1817,9 @@
                 venueName: activeConfig.venueName,
                 venueHall: activeConfig.venueHall,
                 venueAddress: activeConfig.venueAddress,
+                kakaoMapKey: activeConfig.kakaoMapKey,
+                venueLat: activeConfig.venueLat,
+                venueLng: activeConfig.venueLng,
                 transit: activeConfig.transit,
                 parkingNote: activeConfig.parkingNote,
                 parkingAddress: activeConfig.parkingAddress,
@@ -1888,7 +2044,14 @@
             showCustomToast('관리자 모드를 잠갔습니다. 🔒');
         }
 
-        function openPage(id) { const el = document.getElementById(id); if (el) el.classList.add('open'); }
+        function openPage(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('open');
+            // 숨겨진 상태에서 초기화된 지도는 크기를 다시 잡아줘야 회색으로 남지 않는다
+            if (id === 'modal-map' && kakaoMapInstance) {
+                setTimeout(() => kakaoMapInstance.relayout(), 650);
+            }
+        }
         function closePage(id) { const el = document.getElementById(id); if (el) el.classList.remove('open'); }
         function openSettings() { const el = document.getElementById('settings-panel'); if (el) el.classList.add('open'); }
         function closeSettings() { const el = document.getElementById('settings-panel'); if (el) el.classList.remove('open'); }
