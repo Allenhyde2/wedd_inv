@@ -525,6 +525,14 @@
 
                 <div class="flex-grow overflow-y-auto no-scrollbar p-6 space-y-6 pad-safe-bottom-sm text-[11px] text-stone-600">
 
+                    <div id="admin-override-banner" class="hidden bg-rose-50 border border-rose-300 rounded-xl p-4 space-y-2">
+                        <p class="text-[11px] font-bold text-rose-800">⚠️ 이 브라우저의 임시 설정이 배포본을 덮어쓰고 있습니다</p>
+                        <p id="admin-override-list" class="text-[10px] text-rose-700 leading-relaxed"></p>
+                        <button onclick="resetConfig()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[11px] font-bold transition cursor-pointer">
+                            최신 배포본으로 초기화
+                        </button>
+                    </div>
+
                     <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-[10px] leading-relaxed text-amber-900">
                         여기서 바꾼 값은 <b>이 브라우저에만</b> 저장됩니다. 하객에게 반영하려면 아래
                         <b>「설정값 내보내기」</b>로 복사한 뒤 <code>index.html</code>의 <code>DEFAULT_CONFIG</code>에 붙여넣고 커밋하세요.
@@ -808,7 +816,10 @@
         //    관리자 패널에서 조정한 뒤 「설정값 내보내기」로 이 객체를 갱신할 것.
         // =====================================================================
         const DEFAULT_CONFIG = {
-            // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f  (관리자 패널에서 전환)
+            // 배포본이 바뀔 때마다 올린다. 저장된 로컬 설정의 버전이 다르면 자동으로 폐기된다.
+            configVersion: '2026-08-09-a',
+
+            // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f | g  (관리자 패널에서 전환)
             coverTextStyle: 'g',
 
             monogramText: 'Y 🤍 S',
@@ -892,10 +903,20 @@
         }
 
         // 하객은 항상 DEFAULT_CONFIG 를 본다. 저장된 설정은 관리자 모드에서만 불러온다.
+        // [FIX] 배포본 버전이 바뀌면 오래된 로컬 설정은 폐기한다.
+        //       (그러지 않으면 관리자 화면에만 예전 설정이 계속 남아 새 배포가 안 보인다)
+        let staleConfigDiscarded = false;
         try {
             if (IS_ADMIN) {
                 const loaded = JSON.parse(localStorage.getItem(STORAGE_KEY));
-                if (loaded) activeConfig = loaded;
+                if (loaded) {
+                    if (loaded.configVersion === DEFAULT_CONFIG.configVersion) {
+                        activeConfig = loaded;
+                    } else {
+                        localStorage.removeItem(STORAGE_KEY);
+                        staleConfigDiscarded = true;
+                    }
+                }
             }
         } catch (e) {}
         mergeConfig(activeConfig, DEFAULT_CONFIG);
@@ -1521,12 +1542,17 @@
             }
         }
 
-        function updateInviteRealtime() {
+        // save=false 로 호출하면 저장하지 않는다.
+        // [FIX] 최초 렌더에서 저장해버리면 그 스냅샷이 고정되어 이후 배포가 관리자 화면에 반영되지 않는다.
+        function updateInviteRealtime(save = true) {
             readInputsIntoConfig();
 
-            // 하객 브라우저에는 아무것도 저장하지 않는다 (관리자 모드에서만 임시 저장)
-            if (IS_ADMIN) {
-                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(activeConfig)); } catch (e) {}
+            // 하객 브라우저에는 아무것도 저장하지 않는다 (관리자 모드에서 실제로 편집했을 때만 임시 저장)
+            if (IS_ADMIN && save === true) {
+                try {
+                    activeConfig.configVersion = DEFAULT_CONFIG.configVersion;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(activeConfig));
+                } catch (e) {}
             }
 
             introTexts = activeConfig.introTexts.slice();
@@ -1559,6 +1585,37 @@
             renderMapLinks();
             applyButtonPositions();
             initCountdown();
+            renderOverrideBanner();
+        }
+
+        // 로컬 임시 설정이 배포본과 다른 항목을 찾아 관리자에게 알린다
+        const OVERRIDE_LABELS = {
+            coverTextStyle: '가독성 처리', bgUrl: '메인 커버', gallery: '갤러리',
+            intro1Url: '인트로 1', intro2Url: '인트로 2', intro3Url: '인트로 3',
+            groomName: '신랑 성명', brideName: '신부 성명', groomParents: '신랑 혼주',
+            brideParents: '신부 혼주', weddingDate: '예식 일시', venueName: '식장명',
+            venueHall: '홀', venueAddress: '주소', transit: '지하철 안내',
+            parkingNote: '주차 안내', parkingAddress: '주차장 주소',
+            monogramText: '모노그램', greetingText: '초대의 글', introTexts: '인트로 멘트',
+            accounts: '계좌', menu1: '버튼1 위치', menu2: '버튼2 위치',
+            menu3: '버튼3 위치', menu4: '버튼4 위치',
+            intro1Pos: '인트로1 위치', intro2Pos: '인트로2 위치', intro3Pos: '인트로3 위치',
+        };
+
+        function renderOverrideBanner() {
+            const banner = document.getElementById('admin-override-banner');
+            if (!banner) return;
+            if (!IS_ADMIN) { banner.classList.add('hidden'); return; }
+
+            const diff = Object.keys(OVERRIDE_LABELS).filter((k) =>
+                JSON.stringify(activeConfig[k]) !== JSON.stringify(DEFAULT_CONFIG[k])
+            );
+            if (!diff.length) { banner.classList.add('hidden'); return; }
+
+            banner.classList.remove('hidden');
+            safeSetText('admin-override-list',
+                '다른 항목: ' + diff.map((k) => OVERRIDE_LABELS[k]).join(', ') +
+                ' — 지금 보시는 화면은 배포된 결과가 아닙니다.');
         }
 
         const COVER_FX = ['base', 'a', 'b', 'c', 'd', 'e', 'f', 'g'];
@@ -1594,6 +1651,7 @@
         function exportConfig() {
             readInputsIntoConfig();
             const ordered = {
+                configVersion: activeConfig.configVersion,
                 coverTextStyle: activeConfig.coverTextStyle,
                 monogramText: activeConfig.monogramText,
                 groomName: activeConfig.groomName,
@@ -1845,8 +1903,12 @@
             }
             preloadIntroAssets();
             loadConfigToInputs();
-            updateInviteRealtime();
+            updateInviteRealtime(false);   // [FIX] 최초 렌더에서는 저장하지 않는다
             runIntroSequence();
+
+            if (IS_ADMIN && staleConfigDiscarded) {
+                setTimeout(() => showCustomToast('배포본이 갱신되어 이전 임시 설정을 초기화했습니다.'), 1200);
+            }
         };
     </script>
 </body>
