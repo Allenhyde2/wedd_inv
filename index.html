@@ -487,10 +487,9 @@
                         도로명 주소 복사하기
                     </button>
                     <!-- [FIX] 실제 지도 딥링크 (API 키 불필요) -->
-                    <div class="grid grid-cols-3 gap-2">
-                        <a id="link-kakaomap" href="#" target="_blank" rel="noopener" class="bg-amber-100/80 hover:bg-amber-200/80 text-amber-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">카카오맵</a>
-                        <a id="link-kakaonavi" href="#" target="_blank" rel="noopener" class="bg-[#8c7355] hover:bg-[#7a6448] text-white text-[11px] py-3.5 rounded-xl text-center font-bold block transition">길찾기</a>
-                        <a id="link-navermap" href="#" target="_blank" rel="noopener" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[11px] py-3.5 rounded-xl text-center font-bold block transition">네이버 지도</a>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a id="link-kakaonavi" href="#" target="_blank" rel="noopener" class="bg-[#8c7355] hover:bg-[#7a6448] text-white text-[12px] py-4 rounded-xl text-center font-bold block transition">카카오맵 길찾기</a>
+                        <a id="link-navermap" href="#" target="_blank" rel="noopener" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-950 text-[12px] py-4 rounded-xl text-center font-bold block transition">네이버 지도</a>
                     </div>
                 </div>
                 <div class="space-y-4 pt-6 border-t border-stone-200/50 text-[11px] leading-relaxed text-stone-600 font-light">
@@ -838,7 +837,7 @@
         // =====================================================================
         const DEFAULT_CONFIG = {
             // 배포본이 바뀔 때마다 올린다. 저장된 로컬 설정의 버전이 다르면 자동으로 폐기된다.
-            configVersion: '2026-08-09-c',
+            configVersion: '2026-08-09-e',
 
             // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f | g  (관리자 패널에서 전환)
             coverTextStyle: 'g',
@@ -1476,17 +1475,16 @@
             const lng = Number.isFinite(activeConfig.venueLng) ? activeConfig.venueLng
                       : (resolvedVenuePoint && resolvedVenuePoint.lng);
 
+            // 카카오는 공식 문서화된 길찾기 URL(/link/to)이 있어 목적지가 채워진 채 바로 열린다.
+            // 네이버는 웹 길찾기 URL이 공식 제공되지 않아(앱 스킴 nmap:// 만 존재)
+            // 장소 페이지로 보낸다 — 거기서 '길찾기' 버튼이 한 번에 눌린다.
             if (Number.isFinite(lat) && Number.isFinite(lng)) {
-                // 좌표를 알면 정확한 핀과 길찾기로 바로 연결된다
                 const named = `${encodeURIComponent(activeConfig.venueName)},${lat},${lng}`;
-                set('link-kakaomap', `https://map.kakao.com/link/map/${named}`);
                 set('link-kakaonavi', `https://map.kakao.com/link/to/${named}`);
-                set('link-navermap', `https://map.naver.com/p/search/${q}`);
             } else {
-                set('link-kakaomap', `https://map.kakao.com/link/search/${q}`);
                 set('link-kakaonavi', `https://map.kakao.com/link/search/${q}`);
-                set('link-navermap', `https://map.naver.com/p/search/${q}`);
             }
+            set('link-navermap', `https://map.naver.com/p/search/${q}`);
             set('link-parking', `https://map.kakao.com/link/search/${pq}`);
         }
 
@@ -1573,14 +1571,31 @@
                         return;
                     }
                     if (!kakao.maps.services) { showMapFallback(); return; }
-                    new kakao.maps.services.Geocoder().addressSearch(activeConfig.venueAddress, (res, status) => {
-                        if (status === kakao.maps.services.Status.OK && res && res[0]) {
-                            drawKakaoMap(kakao, parseFloat(res[0].y), parseFloat(res[0].x));
-                        } else {
-                            console.warn('[map] 주소 검색 실패:', activeConfig.venueAddress, status);
-                            showMapFallback();
-                        }
-                    });
+
+                    const byAddress = () => {
+                        new kakao.maps.services.Geocoder().addressSearch(activeConfig.venueAddress, (res, status) => {
+                            if (status === kakao.maps.services.Status.OK && res && res[0]) {
+                                drawKakaoMap(kakao, parseFloat(res[0].y), parseFloat(res[0].x));
+                            } else {
+                                console.warn('[map] 주소 검색 실패:', activeConfig.venueAddress, status);
+                                showMapFallback();
+                            }
+                        });
+                    };
+
+                    // 도로명 주소는 건물 중심이 아니라 도로변 좌표가 나오는 경우가 있어
+                    // 장소명(POI) 검색을 먼저 시도한다.
+                    if (kakao.maps.services.Places) {
+                        new kakao.maps.services.Places().keywordSearch(activeConfig.venueName, (res, status) => {
+                            if (status === kakao.maps.services.Status.OK && res && res[0]) {
+                                drawKakaoMap(kakao, parseFloat(res[0].y), parseFloat(res[0].x));
+                            } else {
+                                byAddress();
+                            }
+                        });
+                    } else {
+                        byAddress();
+                    }
                 })
                 .catch((e) => {
                     console.warn('[map] 카카오맵 로드 실패:', e.message);
