@@ -211,6 +211,17 @@
             border-radius:15px; box-shadow:0 2px 10px rgba(0,0,0,.05);
         }
 
+        /* 계좌 그룹 카드(D안) — 양가를 카드 하나씩으로 묶고 안에서 행으로 나눈다 */
+        .acct-head { border-bottom:1px solid rgba(197,160,89,.3); }
+        .acct-row  { padding:11px 0; border-bottom:1px dashed rgba(214,211,203,.9); }
+        .acct-row.last { border-bottom:0; padding-bottom:2px; }
+        .acct-row:active { background:#FCF8EF; }
+        .acct-copy {
+            width:26px; height:26px; border-radius:8px; background:rgba(197,160,89,.14);
+            display:flex; align-items:center; justify-content:center;
+            font-size:11px; color:#8c7355;
+        }
+
         /* 오시는 길 — 주차/지하철 카드
            주차는 메인 커버의 이중 금선 프레임 모티프를 축소해 썼다(G3). */
         .parking-card { /* 하위호환 별칭 */ }
@@ -764,8 +775,9 @@
                     </div>
 
                     <div class="space-y-3 border-t border-stone-100 pt-5">
-                        <h4 class="font-bold text-stone-800 text-xs">✉︎ 계좌 (한 줄에 하나: 구분|은행|계좌번호|예금주)</h4>
-                        <textarea id="cfg-accounts" rows="3" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px] font-mono" onchange="updateInviteRealtime()"></textarea>
+                        <h4 class="font-bold text-stone-800 text-xs">✉︎ 계좌 (한 줄에 하나: 구분|관계|은행|계좌번호|예금주)</h4>
+                        <p class="text-[10px] text-stone-500 leading-relaxed">은행·계좌번호를 비워두면 그 줄은 화면에 나오지 않습니다. 나중에 채우면 그 자리에 나타납니다.</p>
+                        <textarea id="cfg-accounts" rows="6" class="w-full p-2 border border-stone-200 rounded-lg bg-white text-[10px] font-mono" onchange="updateInviteRealtime()"></textarea>
                     </div>
 
                     <div class="space-y-3 border-t border-stone-100 pt-5">
@@ -922,7 +934,7 @@
         // =====================================================================
         const DEFAULT_CONFIG = {
             // 배포본이 바뀔 때마다 올린다. 저장된 로컬 설정의 버전이 다르면 자동으로 폐기된다.
-            configVersion: '2026-08-09-l',
+            configVersion: '2026-08-10-a',
 
             // 커버 텍스트 가독성 처리: base | a | b | c | d | e | f | g  (관리자 패널에서 전환)
             coverTextStyle: 'g',
@@ -979,9 +991,14 @@
                 '서로의 햇살과 그늘이 되어 주기로<br>약속했습니다.'
             ],
 
+            // 은행·계좌번호가 비어 있으면 그 줄은 화면에 나오지 않는다.
+            // 부모님 계좌를 받는 대로 관리자 패널에서 채우면 그 자리에 나타난다.
             accounts: [
-                { side: '신랑측', bank: '국민은행', number: '506102-01-279842', holder: '고용건' },
-                { side: '신부측', bank: '하나은행', number: '620-22-1730-651', holder: '정선애' }
+                { side: '신부측', rel: '신부',   bank: '하나은행', number: '620-22-1730-651', holder: '정선애' },
+                { side: '신부측', rel: '어머니', bank: '',         number: '',                holder: '최효임' },
+                { side: '신랑측', rel: '신랑',   bank: '국민은행', number: '506102-01-279842', holder: '고용건' },
+                { side: '신랑측', rel: '아버지', bank: '',         number: '',                holder: '고대관' },
+                { side: '신랑측', rel: '어머니', bank: '국민은행', number: '208601-04-026056', holder: '박미경' }
             ],
 
             // TODO: 실제 웨딩 사진 확정 후 assets/ 경로로 교체
@@ -1542,39 +1559,82 @@
 
         const SIDE_EN = { '신랑측': 'GROOM', '신부측': 'BRIDE' };
 
+        /* 계좌 — 양가를 카드 하나씩으로 묶고 그 안에서 행으로 나눈다(D안).
+           은행·번호가 비어 있는 줄은 건너뛰고, 한 줄도 안 남은 그룹은 카드째 숨긴다.
+           덕분에 부모님 계좌를 아직 못 받아도 화면이 비어 보이지 않는다. */
+        const ACCOUNT_SIDE_ORDER = ['신부측', '신랑측'];
+
         function renderAccounts() {
             const wrap = document.getElementById('accounts-list');
             if (!wrap) return;
             wrap.innerHTML = '';
-            activeConfig.accounts.forEach((acc) => {
-                // 카드 전체가 복사 버튼 — 어디를 눌러도 계좌번호가 복사된다
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.className = 'card-gold block w-full text-left px-4 py-4 cursor-pointer';
-                card.addEventListener('click', () => copyAccount(acc.number.replace(/[^0-9]/g, '')));
+
+            const filled = activeConfig.accounts.filter((a) => a.bank && a.number);
+            const sides = [];
+            filled.forEach((a) => { if (!sides.includes(a.side)) sides.push(a.side); });
+            sides.sort((x, y) => {
+                const ix = ACCOUNT_SIDE_ORDER.indexOf(x), iy = ACCOUNT_SIDE_ORDER.indexOf(y);
+                return (ix < 0 ? 99 : ix) - (iy < 0 ? 99 : iy);
+            });
+
+            sides.forEach((side) => {
+                const rows = filled.filter((a) => a.side === side);
+
+                const group = document.createElement('div');
+                group.className = 'card-gold px-4 py-3.5';
+                group.dataset.side = side;
 
                 const head = document.createElement('div');
-                head.className = 'flex items-center justify-between gap-2';
-                const side = document.createElement('span');
-                side.className = 'eyebrow';
-                side.style.cssText = 'font-size:8.5px;text-align:left';
-                side.textContent = acc.side + (SIDE_EN[acc.side] ? '  ' + SIDE_EN[acc.side] : '');
-                const copy = document.createElement('span');
-                copy.className = 'text-[12px] font-bold text-[#8c7355] whitespace-nowrap';
-                copy.textContent = '복사 \u29c9';
-                head.append(side, copy);
+                head.className = 'acct-head flex items-center gap-2 pb-3';
+                const label = document.createElement('span');
+                label.className = 'text-[11px] font-bold text-stone-700';
+                label.textContent = side;
+                const en = document.createElement('span');
+                en.className = 'eyebrow';
+                en.style.cssText = 'font-size:8px;text-align:left';
+                en.textContent = SIDE_EN[side] || '';
+                head.append(label, en);
+                group.appendChild(head);
 
-                // 하객이 확인하는 건 "누구에게 보내는가" — 예금주를 가장 크게
-                const holder = document.createElement('p');
-                holder.className = 'font-serif text-[12.5px] font-semibold text-stone-800 mt-2';
-                holder.textContent = acc.holder;
+                rows.forEach((acc, i) => {
+                    // 행 전체가 복사 버튼 — 어디를 눌러도 계좌번호가 복사된다
+                    const row = document.createElement('button');
+                    row.type = 'button';
+                    row.className = 'acct-row flex items-center gap-3 w-full text-left cursor-pointer';
+                    if (i === rows.length - 1) row.classList.add('last');
+                    row.addEventListener('click', () => copyAccount(acc.number.replace(/[^0-9]/g, '')));
 
-                const line = document.createElement('p');
-                line.className = 'text-[11px] font-light text-stone-600 mt-0.5';
-                line.textContent = acc.bank + ' ' + acc.number;
+                    const who = document.createElement('span');
+                    who.className = 'flex-shrink-0';
+                    who.style.width = '58px';
+                    const rel = document.createElement('span');
+                    rel.className = 'block text-[9px] text-stone-400';
+                    rel.textContent = acc.rel || '';
+                    // 하객이 확인하는 건 "누구에게 보내는가" — 예금주를 가장 크게
+                    const holder = document.createElement('span');
+                    holder.className = 'block font-serif text-[12px] font-semibold text-stone-800';
+                    holder.textContent = acc.holder;
+                    who.append(rel, holder);
 
-                card.append(head, holder, line);
-                wrap.appendChild(card);
+                    const info = document.createElement('span');
+                    info.className = 'flex-1 text-[10.5px] font-light text-stone-600 leading-snug';
+                    const bank = document.createElement('span');
+                    bank.className = 'block';
+                    bank.textContent = acc.bank;
+                    const num = document.createElement('span');
+                    num.className = 'block';
+                    num.textContent = acc.number;
+                    info.append(bank, num);
+
+                    const cp = document.createElement('span');
+                    cp.className = 'acct-copy flex-shrink-0';
+                    cp.textContent = '\u29c9';
+
+                    row.append(who, info, cp);
+                    group.appendChild(row);
+                });
+
+                wrap.appendChild(group);
             });
         }
 
@@ -1949,7 +2009,7 @@
             safeSetVal('cfg-gallery', activeConfig.gallery.join('\n'));
             safeSetVal('cfg-intro-texts', activeConfig.introTexts.join('\n'));
             safeSetVal('cfg-accounts', activeConfig.accounts
-                .map((a) => `${a.side}|${a.bank}|${a.number}|${a.holder}`).join('\n'));
+                .map((a) => `${a.side}|${a.rel || ''}|${a.bank}|${a.number}|${a.holder}`).join('\n'));
 
             safeSetVal('cfg-intro-1-url', activeConfig.intro1Url);
             safeSetVal('cfg-intro-1-x', activeConfig.intro1Pos.x);
@@ -2012,10 +2072,12 @@
             if (accRaw !== null) {
                 const list = accRaw.split('\n').map((s) => s.trim()).filter(Boolean)
                     .map((line) => {
-                        const [side, bank, number, holder] = line.split('|').map((s) => (s || '').trim());
-                        return { side, bank, number, holder };
+                        const [side, rel, bank, number, holder] = line.split('|').map((s) => (s || '').trim());
+                        return { side, rel, bank, number, holder };
                     })
-                    .filter((a) => a.side && a.bank && a.number);
+                    // 은행·번호가 빈 줄도 보관한다 — 나중에 채워 넣을 자리이기 때문이다.
+                    // 화면에서 걸러내는 건 renderAccounts 가 담당한다.
+                    .filter((a) => a.side && a.holder);
                 if (list.length) activeConfig.accounts = list;
             }
 

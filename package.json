@@ -1,0 +1,16 @@
+{
+  "name": "wedd-inv",
+  "version": "1.0.0",
+  "private": true,
+  "description": "고용건 · 정선애 모바일 청첩장 — 단일 HTML 파일 + 테스트",
+  "scripts": {
+    "test": "playwright test",
+    "test:unit": "playwright test tests/unit.spec.js",
+    "test:e2e": "playwright test tests/e2e.spec.js",
+    "setup": "npm install && playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/browser": "^4.3.3"
+  }
+}
