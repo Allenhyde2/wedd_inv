@@ -1320,3 +1320,60 @@ test.describe('[NEW] 카카오톡 공유 버튼', () => {
     expect(og).toContain('assets/og-cover.jpg');
   });
 });
+
+test.describe('[NEW] 모바일 하단 잘림', () => {
+  // 100vh 는 "툴바가 전부 숨겨졌을 때"의 높이로 굳어, 툴바가 보이면 아래가 잘렸다.
+  // 카카오 인앱 700px, 모바일 크롬 745px 등 실제 가시 높이로 검증한다.
+  const VIEWPORTS = [
+    { name: 'iPhone 14 Pro · 툴바 없음', width: 393, height: 852 },
+    { name: 'iPhone 14 Pro · 크롬', width: 393, height: 745 },
+    { name: 'iPhone 14 Pro · 카카오 인앱', width: 393, height: 700 },
+    { name: 'iPhone SE · 크롬', width: 375, height: 667 },
+    { name: 'iPhone SE · 카카오 인앱', width: 375, height: 553 },
+    { name: 'Galaxy S20', width: 360, height: 640 },
+  ];
+
+  for (const v of VIEWPORTS) {
+    test(`E-78 ${v.name} — 예식 일시·장소가 화면 안에 들어온다`, async ({ page }) => {
+      await page.setViewportSize({ width: v.width, height: v.height });
+      await open(page);
+      await skipToMain(page);
+      const r = await page.evaluate(() => {
+        const date = document.getElementById('view-date').getBoundingClientRect();
+        const venue = document.getElementById('view-venue').getBoundingClientRect();
+        return {
+          inner: window.innerHeight,
+          dateBottom: Math.round(date.bottom),
+          venueBottom: Math.round(venue.bottom),
+          venueText: document.getElementById('view-venue').textContent.trim(),
+        };
+      });
+      expect(r.venueText, '장소 문구가 비어 있음').toBeTruthy();
+      expect(r.dateBottom, '예식 일시가 화면 밖으로 잘림').toBeLessThanOrEqual(r.inner);
+      expect(r.venueBottom, '예식 장소가 화면 밖으로 잘림').toBeLessThanOrEqual(r.inner);
+    });
+  }
+
+  test('E-79 [회귀] 프레임 높이가 svh 로 선언되어 있다', async ({ page }) => {
+    await open(page);
+    const css = await page.evaluate(() =>
+      [...document.querySelectorAll('style')].map((s) => s.textContent).join('\n')
+    );
+    const frameBlock = css.slice(css.indexOf('.phone-frame'), css.indexOf('.phone-frame') + 600);
+    expect(frameBlock, 'svh 선언이 사라지면 툴바 있는 화면에서 다시 잘린다').toContain('100svh');
+    expect(frameBlock, '구형 브라우저 폴백이 앞에 있어야 함').toContain('100vh');
+    expect(css).toContain('-webkit-fill-available');
+  });
+
+  test('E-80 글꼴을 130%로 키워도 일시·장소가 화면 안에 남는다', async ({ page }) => {
+    await page.setViewportSize({ width: 393, height: 700 });
+    await open(page);
+    await skipToMain(page);
+    const r = await page.evaluate(() => {
+      document.documentElement.style.fontSize = '130%';
+      const venue = document.getElementById('view-venue').getBoundingClientRect();
+      return { inner: window.innerHeight, venueBottom: Math.round(venue.bottom) };
+    });
+    expect(r.venueBottom, '글꼴 확대 시 장소가 잘림').toBeLessThanOrEqual(r.inner);
+  });
+});
