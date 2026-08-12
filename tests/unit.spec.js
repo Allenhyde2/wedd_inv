@@ -33,7 +33,7 @@ test.describe('설정(config) 로직', () => {
     expect(cfg.accounts[0]).toMatchObject({ side: '신부측', rel: '신부', bank: '하나은행', number: '620-22-1730-651', holder: '정선애' });
     expect(cfg.accounts[1]).toMatchObject({ side: '신부측', rel: '어머니', bank: '', number: '', holder: '최효임' });
     expect(cfg.accounts[2]).toMatchObject({ side: '신랑측', rel: '신랑', bank: '국민은행', number: '506102-01-279842', holder: '고용건' });
-    expect(cfg.accounts[3]).toMatchObject({ side: '신랑측', rel: '아버지', bank: '', number: '', holder: '고대관' });
+    expect(cfg.accounts[3]).toMatchObject({ side: '신랑측', rel: '아버지', bank: '국민은행', number: '204202-04-036928', holder: '고대관' });
     expect(cfg.accounts[4]).toMatchObject({ side: '신랑측', rel: '어머니', bank: '국민은행', number: '208601-04-026056', holder: '박미경' });
   });
 
@@ -193,12 +193,14 @@ test.describe('[FIX] 계좌 렌더링', () => {
       [...document.querySelectorAll('#accounts-list .acct-row')]
         .map((c) => c.textContent.replace(/\s+/g, ' ').trim())
     );
-    expect(rows).toHaveLength(3);
+    expect(rows).toHaveLength(4);
     expect(rows[0]).toContain('정선애');
     expect(rows[0]).toContain('하나은행');
     expect(rows[0]).toContain('620-22-1730-651');
-    expect(rows[2]).toContain('박미경');
-    expect(rows[2]).toContain('208601-04-026056');
+    expect(rows[2]).toContain('고대관');
+    expect(rows[2]).toContain('204202-04-036928');
+    expect(rows[3]).toContain('박미경');
+    expect(rows[3]).toContain('208601-04-026056');
 
     // 복사 버튼이 숫자만 남긴 값을 클립보드에 넣는지
     const copied = await page.evaluate(async () => {

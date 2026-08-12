@@ -1149,11 +1149,11 @@ test.describe('[NEW] 전체 디자인 통일', () => {
       cfgEmpty: activeConfig.accounts.filter((a) => !a.bank || !a.number).map((a) => a.holder),
     }));
     // 설정에는 남아 있지만(나중에 채울 자리) 화면에는 안 나온다
-    expect(r.cfgEmpty).toEqual(['최효임', '고대관']);
+    expect(r.cfgEmpty).toEqual(['최효임']);
     const joined = r.shown.join(' ');
     expect(joined).not.toContain('최효임');
-    expect(joined).not.toContain('고대관');
-    expect(r.shown).toHaveLength(3);
+    expect(r.shown).toHaveLength(4);
+    expect(joined).toContain('고대관');
     expect(joined).toContain('박미경');
   });
 
@@ -1184,7 +1184,7 @@ test.describe('[NEW] 전체 디자인 통일', () => {
       window.copyText = orig;
       return out;
     });
-    expect(copied).toEqual(['620221730651', '50610201279842', '20860104026056']);
+    expect(copied).toEqual(['620221730651', '50610201279842', '20420204036928', '20860104026056']);
   });
 
   test('E-69 캘린더 .ics 가 한국 시간으로 고정 생성됨', async ({ page }) => {
